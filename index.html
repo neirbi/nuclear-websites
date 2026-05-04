@@ -5,8 +5,8 @@
          CHARSET & VIEWPORT
          =========================================== -->
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
 
     <!-- ===========================================
          PRIMARY META TAGS
@@ -14,7 +14,6 @@
     <title>Site Title — Tagline Goes Here</title>
     <meta name="title" content="Site Title — Tagline Goes Here">
     <meta name="description" content="Replace this with a compelling 150–160 character description that summarizes the page for search engines and social previews.">
-    <meta name="keywords" content="keyword1, keyword2, keyword3">
     <meta name="author" content="Your Name or Company">
     <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#12B8C9">
@@ -53,13 +52,13 @@
     <!-- ===========================================
          FAVICONS & WEB CLIPS (Apple Touch Icons)
          =========================================== -->
-    <link rel="icon" type="image/x-icon" href="https://example.com/favicon.ico">
-    <link rel="icon" type="image/png" sizes="16x16" href="https://example.com/assets/favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="https://example.com/assets/favicon-32x32.png">
-    <link rel="icon" type="image/svg+xml" href="https://example.com/assets/favicon.svg">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://example.com/assets/apple-touch-icon.png">
-    <link rel="manifest" href="https://example.com/site.webmanifest">
-    <link rel="mask-icon" href="https://example.com/assets/safari-pinned-tab.svg" color="#12B8C9">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#12B8C9">
 
     <!-- ===========================================
          FONTS — Inter (preconnect + non-blocking load)
@@ -67,8 +66,7 @@
          =========================================== -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" onload="this.rel='stylesheet'">
     <noscript>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
     </noscript>
@@ -169,8 +167,11 @@
 
         html {
             font-size: 100%;        /* respects user's browser default */
-            scroll-behavior: smooth;
             -webkit-text-size-adjust: 100%;
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+            html { scroll-behavior: smooth; }
         }
 
         body {
@@ -201,6 +202,11 @@
         h3 { font-size: var(--text-lg); }
         h4 { font-size: var(--text-md); }
 
+        h1:first-child, h2:first-child, h3:first-child,
+        h4:first-child, h5:first-child, h6:first-child {
+            margin-top: 0;
+        }
+
         p { margin-bottom: var(--space-sm); }
 
         a {
@@ -209,6 +215,12 @@
             transition: color var(--transition-base);
         }
         a:hover { color: var(--color-accent-strong); }
+
+        :focus-visible {
+            outline: 2px solid var(--color-accent-primary);
+            outline-offset: 2px;
+            border-radius: var(--radius-sm);
+        }
 
         img, picture, svg, video {
             display: block;
@@ -244,6 +256,21 @@
             border: 0;
         }
 
+        /* Skip link — hidden until keyboard-focused */
+        .skip-link {
+            position: absolute;
+            top: var(--space-xs);
+            left: var(--space-xs);
+            padding: var(--space-xs) var(--space-sm);
+            background: var(--color-bg-surface);
+            color: var(--color-text-primary);
+            border-radius: var(--radius-sm);
+            transform: translateY(-200%);
+            transition: transform var(--transition-base);
+            z-index: 100;
+        }
+        .skip-link:focus { transform: translateY(0); }
+
         /* ===========================================
            BREAKPOINT — Tablet (768px)
            =========================================== */
@@ -264,6 +291,8 @@
     </style>
 </head>
 <body>
+
+    <a class="skip-link" href="#main-content">Skip to main content</a>
 
     <!-- ===========================================
          HEADER
@@ -293,19 +322,6 @@
             <!-- Footer content goes here -->
         </div>
     </footer>
-
-    <!-- ===========================================
-         SCRIPTS — at bottom for performance
-         =========================================== -->
-    <script>
-        /**
-         * Initialize the page once DOM is fully loaded.
-         * Wire up event listeners here as the site grows.
-         */
-        document.addEventListener('DOMContentLoaded', function () {
-            // Future event listeners go here
-        });
-    </script>
 
 </body>
 </html>
