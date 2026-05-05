@@ -405,7 +405,9 @@
            that matches the nav's rendered appearance. Light mode is
            untouched (nav and panel already render near-identically). */
         :root[data-theme="dark"] .nav-dropdown {
-            background-color: var(--color-bg-surface-strong);
+            /* Opaque equivalent of rgba(29,29,31,0.72) over body
+               #0A0A0C — matches what the nav strip alpha-composites to. */
+            background-color: #181819;
             -webkit-backdrop-filter: none;
             backdrop-filter: none;
         }
