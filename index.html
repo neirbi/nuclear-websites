@@ -376,7 +376,9 @@
         .nav-dropdown {
             position: fixed;
             inset: var(--nav-height) 0 auto 0;
-            background-color: var(--color-bg-primary);
+            background-color: var(--frost-bg);
+            -webkit-backdrop-filter: var(--frost-filter);
+            backdrop-filter: var(--frost-filter);
             visibility: hidden;
             transition: visibility 0s linear 350ms;
         }
