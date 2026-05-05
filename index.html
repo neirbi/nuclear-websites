@@ -616,25 +616,6 @@
             color: var(--color-on-accent);
         }
 
-        /* Solid variant — inverse of the default (filled by default, outline on hover) */
-        .btn-pill--solid {
-            background-color: var(--color-green-500);
-            color: var(--color-on-accent);
-        }
-        .btn-pill--solid:hover,
-        .btn-pill--solid:focus-visible {
-            background-color: transparent;
-            color: var(--color-green-500);
-        }
-
-        /* Group of CTAs, wraps on small screens */
-        .hero__actions {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: var(--space-sm);
-        }
-
         /* Skip link — hidden until keyboard-focused */
         .skip-link {
             position: absolute;
@@ -757,10 +738,7 @@
                 <div class="hero__inner">
                     <h1 id="hero-title" class="hero__title">Your website should <span class="gradient-text">make you money</span>. Most don&rsquo;t.</h1>
                     <p class="hero__subtitle">We build websites engineered to convert visitors into customers. Using the same battle-tested principles behind the book Nuclear Websites.</p>
-                    <div class="hero__actions">
-                        <a class="btn-pill btn-pill--solid" href="#learn">Learn more</a>
-                        <a class="btn-pill" href="#contact">Get a site that pays for itself</a>
-                    </div>
+                    <a class="btn-pill" href="#contact">Get a site that pays for itself</a>
                 </div>
             </div>
         </section>
