@@ -340,6 +340,86 @@
         :root[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
         :root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
 
+        /* ===========================================
+           RIBBON — promo bar (independent section)
+           =========================================== */
+        .ribbon {
+            --ribbon-bg:            rgb(245, 245, 247);
+            --ribbon-color:         rgb(29, 29, 31);
+            --ribbon-link-color:    rgb(0, 102, 204);
+
+            --ribbon-bg-initial:    rgb(0, 113, 227);
+            --ribbon-color-initial: rgb(245, 245, 247);
+            --ribbon-link-initial:  rgb(245, 245, 247);
+
+            font-size: 14px;
+            overflow: hidden;
+        }
+
+        .ribbon__inner {
+            width: 100%;
+            padding: 16px 0;
+            background-color: var(--ribbon-bg);
+            text-align: center;
+            color: var(--ribbon-color);
+        }
+
+        .ribbon__link {
+            color: var(--ribbon-link-color);
+            margin-left: 3px;
+        }
+
+        @keyframes ribbon-drop {
+            from { transform: translateY(-100%); }
+            to   { transform: translateY(0); }
+        }
+        @keyframes ribbon-bg-to-default {
+            from {
+                background-color: var(--ribbon-bg-initial);
+                color:            var(--ribbon-color-initial);
+            }
+            to {
+                background-color: var(--ribbon-bg);
+                color:            var(--ribbon-color);
+            }
+        }
+        @keyframes ribbon-link-to-default {
+            from { color: var(--ribbon-link-initial); }
+            to   { color: var(--ribbon-link-color); }
+        }
+
+        .ribbon--animate .ribbon__inner {
+            animation:
+                ribbon-drop          0.8s ease-in-out 0s   1 both,
+                ribbon-bg-to-default 1s   ease-in-out 1.8s 1 both;
+        }
+        .ribbon--animate .ribbon__link {
+            animation: ribbon-link-to-default 1s ease-in-out 1.8s 1 both;
+        }
+
+        .ribbon--blue {
+            --ribbon-bg:         rgb(0, 113, 227);
+            --ribbon-color:      rgb(245, 245, 247);
+            --ribbon-link-color: rgb(245, 245, 247);
+        }
+        .ribbon--blue.ribbon--animate .ribbon__inner {
+            animation: ribbon-drop 0.8s ease-in-out 0s 1 both;
+        }
+        .ribbon--blue.ribbon--animate .ribbon__link { animation: none; }
+
+        :root[data-theme="dark"] .ribbon--neutral {
+            --ribbon-bg:         rgb(29, 29, 31);
+            --ribbon-color:      rgb(255, 255, 255);
+            --ribbon-link-color: rgb(41, 151, 255);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .ribbon--animate .ribbon__inner,
+            .ribbon--animate .ribbon__link {
+                animation: none;
+            }
+        }
+
         /* Skip link — hidden until keyboard-focused */
         .skip-link {
             position: absolute;
@@ -417,6 +497,17 @@
             });
         })();
     </script>
+
+    <!-- ===========================================
+         RIBBON SLOT — move this section anywhere in the page
+         =========================================== -->
+    <section id="ribbon-slot">
+        <div class="ribbon ribbon--animate ribbon--neutral" id="promo-bar">
+            <div class="ribbon__inner">
+                <p>Summer Sale is here. <a href="/shop" class="ribbon__link">Shop now</a></p>
+            </div>
+        </div>
+    </section>
 
     <!-- ===========================================
          MAIN CONTENT
