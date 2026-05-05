@@ -410,11 +410,14 @@
             }
 
             /* Mobile menu — block layout (canonical stacked-list pattern).
-               Pinned to viewport so no parent grid/flex context can influence it. */
+               justify-self override is required: per CSS Grid spec, abspos grid items
+               honor justify-self, so desktop's `justify-self: center` would shrink
+               and center this element even though it's position: fixed. */
             .site-nav__links {
                 display: block;
                 position: fixed;
                 inset: calc(var(--nav-height) + 0.375rem) 0 0 0;
+                justify-self: stretch;
                 overflow-y: auto;
                 opacity: 0;
                 visibility: hidden;
