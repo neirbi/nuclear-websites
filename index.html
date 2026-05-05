@@ -373,9 +373,12 @@
             height: 22rem;
         }
 
+        /* Panel extends to viewport bottom so the curtain area is fully
+           filled by the panel (no header-bg seam below the content).
+           overflow:hidden on the header clips the panel to the curtain. */
         .nav-dropdown {
             position: fixed;
-            inset: var(--nav-height) 0 auto 0;
+            inset: var(--nav-height) 0 0 0;
             background-color: var(--frost-bg);
             -webkit-backdrop-filter: var(--frost-filter);
             backdrop-filter: var(--frost-filter);
@@ -421,6 +424,30 @@
             color: var(--color-text-secondary);
         }
         .nav-dropdown__caption a:hover { color: var(--color-text-primary); }
+
+        /* Scrim — frosts the rest of the visible page below the open
+           curtain. Sits behind the header (which is z-index 50), uses
+           the same frost tokens so it visually unifies with the panel.
+           pointer-events:none so cursor leaving the trigger drops hover
+           and the scrim/curtain both close together. */
+        .nav-scrim {
+            position: fixed;
+            inset: var(--nav-height) 0 0 0;
+            z-index: 49;
+            background-color: var(--frost-bg);
+            -webkit-backdrop-filter: var(--frost-filter);
+            backdrop-filter: var(--frost-filter);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 350ms ease, visibility 0s linear 350ms;
+        }
+        body:has(.site-nav__item--has-dropdown:hover) .nav-scrim,
+        body:has(.site-nav__item--has-dropdown:focus-within) .nav-scrim {
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 350ms ease, visibility 0s linear 0s;
+        }
 
         /* Shared icon button — base for theme + nav toggles */
         .icon-btn {
@@ -529,8 +556,9 @@
             /* Mobile-only CTA link — shown only in the open drawer */
             .site-nav__item--mobile-cta { display: block; }
 
-            /* Desktop dropdowns are hidden on mobile */
-            .nav-dropdown { display: none; }
+            /* Desktop dropdowns + scrim are hidden on mobile */
+            .nav-dropdown,
+            .nav-scrim { display: none; }
         }
 
         /* ===========================================
@@ -810,6 +838,8 @@
             </nav>
         </div>
     </header>
+
+    <div class="nav-scrim" aria-hidden="true"></div>
 
     <script>
         (() => {
