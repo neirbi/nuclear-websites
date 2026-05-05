@@ -371,6 +371,13 @@
         .ribbon__link {
             color: var(--ribbon-link-color);
             margin-left: 3px;
+            opacity: 0.8;
+            transition: none;
+        }
+        .ribbon__link:hover,
+        .ribbon__link:active {
+            opacity: 1;
+            color: var(--ribbon-link-color);
         }
 
         @keyframes ribbon-drop {
