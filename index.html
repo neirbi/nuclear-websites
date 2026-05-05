@@ -343,6 +343,71 @@
             gap: var(--space-xs);
         }
 
+        /* ===========================================
+           NAV DROPDOWN — Apple-style frosted panel
+           Position: fixed children are contained by .site-header
+           because backdrop-filter creates a containing block.
+           Hover/focus on the parent <li> reveals the panel; the
+           panel is a DOM child of the <li>, so cursor moving
+           between the link and panel keeps :hover active.
+           =========================================== */
+        .site-nav__item--has-dropdown { position: relative; }
+
+        .nav-dropdown {
+            position: fixed;
+            inset: var(--nav-height) 0 auto 0;
+            background-color: var(--frost-bg);
+            -webkit-backdrop-filter: var(--frost-filter);
+            backdrop-filter: var(--frost-filter);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-4px);
+            pointer-events: none;
+            transition: opacity 200ms ease, transform 200ms ease, visibility 0s linear 200ms;
+        }
+        .site-nav__item--has-dropdown:hover .nav-dropdown,
+        .site-nav__item--has-dropdown:focus-within .nav-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            pointer-events: auto;
+            transition: opacity 250ms ease, transform 250ms ease, visibility 0s linear 0s;
+        }
+
+        .nav-dropdown .container {
+            padding-block: var(--space-lg);
+        }
+        .nav-dropdown__eyebrow {
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+            font-weight: var(--weight-regular);
+            margin: 0 0 var(--space-md);
+        }
+        .nav-dropdown__list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xs);
+            margin-bottom: var(--space-md);
+        }
+        .nav-dropdown__link {
+            color: var(--color-text-primary);
+            font-size: 1.5rem;
+            font-weight: var(--weight-semibold);
+            opacity: 0.9;
+        }
+        .nav-dropdown__link:hover {
+            color: var(--color-text-primary);
+            opacity: 1;
+        }
+        .nav-dropdown__caption {
+            font-size: var(--text-sm);
+            margin: 0;
+        }
+        .nav-dropdown__caption a {
+            color: var(--color-text-secondary);
+        }
+        .nav-dropdown__caption a:hover { color: var(--color-text-primary); }
+
         /* Shared icon button — base for theme + nav toggles */
         .icon-btn {
             display: inline-flex;
@@ -453,6 +518,9 @@
 
             /* Mobile-only CTA link — shown only in the open drawer */
             .site-nav__item--mobile-cta { display: block; }
+
+            /* Desktop dropdowns are hidden on mobile */
+            .nav-dropdown { display: none; }
         }
 
         /* ===========================================
@@ -669,11 +737,49 @@
                     <li><a class="site-nav__link" href="#why">Why</a></li>
                     <li><a class="site-nav__link" href="#how">How</a></li>
                     <li><a class="site-nav__link" href="#what">What</a></li>
-                    <li><a class="site-nav__link" href="#websites">Websites</a></li>
-                    <li><a class="site-nav__link" href="#apps">Apps</a></li>
+                    <li class="site-nav__item--has-dropdown">
+                        <a class="site-nav__link" href="#websites">Websites</a>
+                        <div class="nav-dropdown" aria-hidden="true">
+                            <div class="container">
+                                <p class="nav-dropdown__eyebrow">Explore Websites</p>
+                                <ul class="nav-dropdown__list">
+                                    <li><a class="nav-dropdown__link" href="#standard">Standard</a></li>
+                                    <li><a class="nav-dropdown__link" href="#premium">Premium</a></li>
+                                    <li><a class="nav-dropdown__link" href="#performance">Performance</a></li>
+                                </ul>
+                                <p class="nav-dropdown__caption"><a href="#compare-websites">Compare websites</a></p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="site-nav__item--has-dropdown">
+                        <a class="site-nav__link" href="#apps">Apps</a>
+                        <div class="nav-dropdown" aria-hidden="true">
+                            <div class="container">
+                                <p class="nav-dropdown__eyebrow">Explore Apps</p>
+                                <ul class="nav-dropdown__list">
+                                    <li><a class="nav-dropdown__link" href="#web-apps">Web Apps</a></li>
+                                    <li><a class="nav-dropdown__link" href="#mobile-apps">Mobile Apps</a></li>
+                                    <li><a class="nav-dropdown__link" href="#multi-platform-apps">Multi-Platform Apps</a></li>
+                                </ul>
+                                <p class="nav-dropdown__caption"><a href="#compare-apps">Compare Apps</a></p>
+                            </div>
+                        </div>
+                    </li>
                     <li><a class="site-nav__link" href="#book">Our Book</a></li>
                     <li><a class="site-nav__link" href="#about">About</a></li>
-                    <li><a class="site-nav__link" href="#support">Support</a></li>
+                    <li class="site-nav__item--has-dropdown">
+                        <a class="site-nav__link" href="#support">Support</a>
+                        <div class="nav-dropdown" aria-hidden="true">
+                            <div class="container">
+                                <p class="nav-dropdown__eyebrow">Explore Support</p>
+                                <ul class="nav-dropdown__list">
+                                    <li><a class="nav-dropdown__link" href="#support-websites">Websites</a></li>
+                                    <li><a class="nav-dropdown__link" href="#support-apps">Apps</a></li>
+                                    <li><a class="nav-dropdown__link" href="#support-books">Books</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
                     <li class="site-nav__item--mobile-cta"><a class="site-nav__link" href="#contact"><span class="gradient-text">I'm Ready For a Nuclear Website &rarr;</span></a></li>
                 </ul>
                 <div class="nav-actions">
