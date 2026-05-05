@@ -434,6 +434,72 @@
             }
         }
 
+        /* ===========================================
+           HERO — radial gradient blob + centered content
+           =========================================== */
+        .hero {
+            position: relative;
+            overflow: hidden;
+            min-height: calc(100vh - 44px - 52px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 60% 55% at 30% 35%,
+                    rgba(47, 174, 111, 0.22) 0%,
+                    transparent 65%),
+                radial-gradient(ellipse 55% 50% at 75% 70%,
+                    rgba(47, 174, 111, 0.14) 0%,
+                    transparent 65%);
+            pointer-events: none;
+        }
+
+        .hero__inner {
+            position: relative;
+            max-width: 52rem;
+            padding-block: var(--space-xl);
+        }
+
+        .hero__title {
+            font-size: clamp(2.25rem, 5vw, 3.75rem);
+            font-weight: var(--weight-bold);
+            letter-spacing: -0.02em;
+            margin: 0 0 var(--space-md);
+        }
+
+        .hero__subtitle {
+            font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
+            color: var(--color-text-secondary);
+            line-height: 1.5;
+            margin: 0 auto var(--space-lg);
+            max-width: 38rem;
+        }
+
+        .btn-pill {
+            display: inline-block;
+            padding: 0.875rem 1.75rem;
+            border-radius: 999px;
+            border: 1.5px solid var(--color-green-500);
+            color: var(--color-green-500);
+            background: transparent;
+            font-size: 1rem;
+            font-weight: var(--weight-medium);
+            text-decoration: none;
+            transition: background-color var(--transition-base), color var(--transition-base);
+        }
+        .btn-pill:hover,
+        .btn-pill:focus-visible {
+            background-color: var(--color-green-500);
+            color: #FFFFFF;
+        }
+
         /* Skip link — hidden until keyboard-focused */
         .skip-link {
             position: absolute;
@@ -531,9 +597,15 @@
          MAIN CONTENT
          =========================================== -->
     <main id="main-content">
-        <div class="container">
-            <!-- Page sections will be added here -->
-        </div>
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="container">
+                <div class="hero__inner">
+                    <h1 id="hero-title" class="hero__title">Your website should make you money. Most don&rsquo;t.</h1>
+                    <p class="hero__subtitle">We build websites engineered to convert visitors into customers. Using the same battle-tested principles behind the book Nuclear Websites.</p>
+                    <a class="btn-pill" href="#contact">Get a site that pays for itself</a>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- ===========================================
