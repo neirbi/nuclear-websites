@@ -400,29 +400,47 @@
         }
 
         /* Each group fills the panel and stacks via position:absolute.
-           Opacity decides which is visible. The 100ms hide-delay lets
-           the outgoing group cross-fade with the incoming one during
-           a sibling switch instead of disappearing first. */
+           Active group is set via the panel's data-active attribute
+           (managed by JS). The group itself controls pointer-events;
+           the visual reveal happens on the children below. */
         .nav-dropdown__group {
             position: absolute;
             inset: 0;
-            opacity: 0;
             pointer-events: none;
-            transition: opacity 200ms ease;
         }
-        /* Active group is driven by the panel's data-active attribute,
-           set/cleared by a tiny JS controller (see end of body). CSS-only
-           :hover can't persist the active group when the cursor moves
-           from trigger to panel — the group's pointer-events would flip
-           to none and break its own :hover. data-active sidesteps that. */
         .nav-dropdown[data-active="websites"] .nav-dropdown__group[data-group="websites"],
         .nav-dropdown[data-active="apps"] .nav-dropdown__group[data-group="apps"],
         .nav-dropdown[data-active="support"] .nav-dropdown__group[data-group="support"],
         .nav-dropdown__group:focus-within {
-            opacity: 1;
             pointer-events: auto;
-            transition: opacity 200ms ease 0s;
         }
+
+        /* Children: faded down by default. When their group becomes
+           active they slide up + fade in, staggered by --i. Stagger
+           applies only on the active path; closing has no delay so
+           children fade out together. */
+        .nav-dropdown__group .nav-dropdown__eyebrow,
+        .nav-dropdown__group .nav-dropdown__list > li,
+        .nav-dropdown__group .nav-dropdown__caption {
+            opacity: 0;
+            transform: translateY(6px);
+            transition: opacity 250ms ease, transform 250ms ease;
+        }
+        .nav-dropdown[data-active="websites"] .nav-dropdown__group[data-group="websites"] :is(.nav-dropdown__eyebrow, .nav-dropdown__list > li, .nav-dropdown__caption),
+        .nav-dropdown[data-active="apps"] .nav-dropdown__group[data-group="apps"] :is(.nav-dropdown__eyebrow, .nav-dropdown__list > li, .nav-dropdown__caption),
+        .nav-dropdown[data-active="support"] .nav-dropdown__group[data-group="support"] :is(.nav-dropdown__eyebrow, .nav-dropdown__list > li, .nav-dropdown__caption),
+        .nav-dropdown__group:focus-within :is(.nav-dropdown__eyebrow, .nav-dropdown__list > li, .nav-dropdown__caption) {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: calc(var(--i, 0) * 40ms);
+        }
+
+        /* Stagger order: eyebrow -> list items -> caption */
+        .nav-dropdown__group .nav-dropdown__eyebrow { --i: 1; }
+        .nav-dropdown__group .nav-dropdown__list > li:nth-child(1) { --i: 2; }
+        .nav-dropdown__group .nav-dropdown__list > li:nth-child(2) { --i: 3; }
+        .nav-dropdown__group .nav-dropdown__list > li:nth-child(3) { --i: 4; }
+        .nav-dropdown__group .nav-dropdown__caption { --i: 5; }
 
         .nav-dropdown .container {
             padding-block: var(--space-lg);
