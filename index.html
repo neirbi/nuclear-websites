@@ -367,10 +367,11 @@
            transitions out between adjacent triggers.
            =========================================== */
 
-        /* Header curtain expands when any trigger (or the panel itself)
+        /* Header curtain expands when any trigger or the panel itself
            has hover/focus. */
         .site-header:has(.site-nav__item--has-dropdown:hover),
         .site-header:has(.site-nav__item--has-dropdown:focus-within),
+        .site-header:has(.nav-dropdown:hover),
         .site-header:has(.nav-dropdown:focus-within) {
             transition-delay: 0s;
             height: 22rem;
@@ -390,6 +391,7 @@
         }
         .site-header:has(.site-nav__item--has-dropdown:hover) .nav-dropdown,
         .site-header:has(.site-nav__item--has-dropdown:focus-within) .nav-dropdown,
+        .site-header:has(.nav-dropdown:hover) .nav-dropdown,
         .site-header:has(.nav-dropdown:focus-within) .nav-dropdown {
             visibility: visible;
             transition: visibility 0s linear 0s;
@@ -409,6 +411,7 @@
         .site-header:has(.site-nav__item--has-dropdown[data-dropdown="websites"]:hover) .nav-dropdown__group[data-group="websites"],
         .site-header:has(.site-nav__item--has-dropdown[data-dropdown="apps"]:hover) .nav-dropdown__group[data-group="apps"],
         .site-header:has(.site-nav__item--has-dropdown[data-dropdown="support"]:hover) .nav-dropdown__group[data-group="support"],
+        .nav-dropdown__group:hover,
         .nav-dropdown__group:focus-within {
             opacity: 1;
             pointer-events: auto;
@@ -467,7 +470,9 @@
             transition: opacity 350ms ease, visibility 0s linear 350ms;
         }
         body:has(.site-nav__item--has-dropdown:hover) .nav-scrim,
-        body:has(.site-nav__item--has-dropdown:focus-within) .nav-scrim {
+        body:has(.site-nav__item--has-dropdown:focus-within) .nav-scrim,
+        body:has(.nav-dropdown:hover) .nav-scrim,
+        body:has(.nav-dropdown:focus-within) .nav-scrim {
             opacity: 1;
             visibility: visible;
             transition: opacity 350ms ease 0s, visibility 0s linear 0s;
