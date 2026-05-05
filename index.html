@@ -251,6 +251,91 @@
             border: 0;
         }
 
+        /* ===========================================
+           SITE HEADER — Apple-style frosted nav
+           =========================================== */
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background-color: rgba(255, 255, 255, 0.72);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            backdrop-filter: saturate(180%) blur(20px);
+        }
+
+        .site-header .container {
+            max-width: 1400px;
+            padding-block: 0;
+        }
+
+        .site-nav {
+            display: flex;
+            align-items: center;
+            gap: var(--space-lg);
+            height: 44px;
+        }
+
+        .site-nav__logo {
+            font-weight: var(--weight-semibold);
+            font-size: 1.0625rem;
+            color: var(--color-text-primary);
+            margin-right: auto;
+        }
+        .site-nav__logo:hover { color: var(--color-text-primary); }
+
+        .site-nav__links {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            list-style: none;
+        }
+
+        .site-nav__link {
+            color: var(--color-text-primary);
+            font-size: 0.875rem;
+            font-weight: var(--weight-regular);
+            opacity: 0.8;
+            transition: none;
+        }
+        .site-nav__link:hover {
+            opacity: 1;
+            color: var(--color-text-primary);
+        }
+
+        .theme-toggle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: transparent;
+            border: 0;
+            padding: 0;
+            cursor: pointer;
+            color: var(--color-text-primary);
+            opacity: 0.8;
+        }
+        .theme-toggle:hover { opacity: 1; }
+        .theme-toggle svg { width: 18px; height: 18px; }
+        .theme-toggle .icon-sun { display: none; }
+        .theme-toggle .icon-moon { display: block; }
+
+        /* ===========================================
+           DARK MODE
+           =========================================== */
+        :root[data-theme="dark"] {
+            --color-text-primary: #F5F5F7;
+            --color-text-secondary: #A1A1A6;
+            --color-bg-primary: #000000;
+            --color-bg-surface: #1D1D1F;
+            --color-bg-surface-strong: #161618;
+        }
+        :root[data-theme="dark"] .site-header {
+            background-color: rgba(29, 29, 31, 0.72);
+        }
+        :root[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+        :root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
         /* Skip link — hidden until keyboard-focused */
         .skip-link {
             position: absolute;
@@ -295,10 +380,39 @@
     <header id="site-header" class="site-header">
         <div class="container">
             <nav id="primary-nav" class="site-nav" aria-label="Primary navigation">
-                <!-- Navigation goes here -->
+                <a href="/" class="site-nav__logo">Nuclear</a>
+                <ul class="site-nav__links">
+                    <li><a class="site-nav__link" href="#work">Work</a></li>
+                    <li><a class="site-nav__link" href="#about">About</a></li>
+                    <li><a class="site-nav__link" href="#services">Services</a></li>
+                    <li><a class="site-nav__link" href="#contact">Contact</a></li>
+                </ul>
+                <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle light and dark mode">
+                    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                    </svg>
+                    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="4"/>
+                        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+                    </svg>
+                </button>
             </nav>
         </div>
     </header>
+
+    <script>
+        (function () {
+            var root = document.documentElement;
+            var stored = localStorage.getItem('theme');
+            var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            root.setAttribute('data-theme', stored || (prefersDark ? 'dark' : 'light'));
+            document.getElementById('theme-toggle').addEventListener('click', function () {
+                var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                root.setAttribute('data-theme', next);
+                localStorage.setItem('theme', next);
+            });
+        })();
+    </script>
 
     <!-- ===========================================
          MAIN CONTENT
