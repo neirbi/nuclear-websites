@@ -399,6 +399,17 @@
             transition: visibility 0s linear 0s;
         }
 
+        /* Dark mode: the nav's frost-over-body renders ~5 points darker
+           than the panel's stacked frost-over-content, which the eye
+           picks up at the dark end. Override the panel to a solid color
+           that matches the nav's rendered appearance. Light mode is
+           untouched (nav and panel already render near-identically). */
+        :root[data-theme="dark"] .nav-dropdown {
+            background-color: var(--color-bg-surface-strong);
+            -webkit-backdrop-filter: none;
+            backdrop-filter: none;
+        }
+
         /* Group-level opacity drives the cross-fade between siblings
            (Websites <-> Apps). Pointer-events follow the same state. */
         .nav-dropdown__group {
