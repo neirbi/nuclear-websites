@@ -322,8 +322,14 @@
         .site-nav__links {
             justify-self: center;
             display: flex;
-            align-items: center;
+            align-items: stretch;
             gap: var(--space-md);
+        }
+        /* <li>s stretch to full nav height so there's no hover gap
+           between the trigger and the dropdown panel below. */
+        .site-nav__links > li {
+            display: flex;
+            align-items: center;
         }
 
         .site-nav__link {
@@ -745,7 +751,7 @@
                                 <ul class="nav-dropdown__list">
                                     <li><a class="nav-dropdown__link" href="#standard">Standard</a></li>
                                     <li><a class="nav-dropdown__link" href="#premium">Premium</a></li>
-                                    <li><a class="nav-dropdown__link" href="#performance">Performance</a></li>
+                                    <li><a class="nav-dropdown__link" href="#enterprise">Enterprise</a></li>
                                 </ul>
                                 <p class="nav-dropdown__caption"><a href="#compare-websites">Compare websites</a></p>
                             </div>
