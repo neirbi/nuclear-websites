@@ -380,13 +380,12 @@
 
         /* Panel extends to viewport bottom so the curtain area is fully
            filled (no header-bg seam below the content). overflow:hidden
-           on the header clips the panel to the curtain. */
+           on the header clips the panel to the curtain. Solid bg so the
+           ribbon and other page content can't show through the panel. */
         .nav-dropdown {
             position: fixed;
             inset: var(--nav-height) 0 0 0;
-            background-color: var(--frost-bg);
-            -webkit-backdrop-filter: var(--frost-filter);
-            backdrop-filter: var(--frost-filter);
+            background-color: var(--color-bg-primary);
             visibility: hidden;
             transition: visibility 0s linear 350ms;
         }
