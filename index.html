@@ -307,8 +307,47 @@
             color: var(--color-text-primary);
         }
 
-        .theme-toggle {
+        .nav-toggle {
+            display: none;
+            width: 32px;
+            height: 32px;
+            background: transparent;
+            border: 0;
+            padding: 0;
+            cursor: pointer;
+            color: var(--color-text-primary);
+            opacity: 0.8;
+            position: relative;
+        }
+        .nav-toggle:hover { opacity: 1; }
+        .nav-toggle__bar {
+            position: absolute;
+            left: 7px;
+            right: 7px;
+            height: 1.5px;
+            background: currentColor;
+            border-radius: 2px;
+            transition: transform 250ms ease, top 250ms ease, opacity 200ms ease;
+        }
+        .nav-toggle__bar:nth-child(1) { top: 12px; }
+        .nav-toggle__bar:nth-child(2) { top: 19px; }
+        .site-nav[data-open="true"] .nav-toggle__bar:nth-child(1) {
+            top: 15.5px;
+            transform: rotate(45deg);
+        }
+        .site-nav[data-open="true"] .nav-toggle__bar:nth-child(2) {
+            top: 15.5px;
+            transform: rotate(-45deg);
+        }
+
+        .nav-actions {
             justify-self: end;
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+
+        .theme-toggle {
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -325,6 +364,43 @@
         .theme-toggle svg { width: 18px; height: 18px; }
         .theme-toggle .icon-sun { display: none; }
         .theme-toggle .icon-moon { display: block; }
+
+        /* ===========================================
+           NAV — Mobile (< 768px)
+           =========================================== */
+        @media (max-width: 47.99em) {
+            .site-nav {
+                grid-template-columns: 1fr auto;
+            }
+            .nav-toggle { display: inline-block; }
+            .site-nav__links {
+                position: absolute;
+                top: 44px;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: var(--space-sm) 0;
+                background-color: rgba(255, 255, 255, 0.85);
+                -webkit-backdrop-filter: saturate(180%) blur(20px);
+                backdrop-filter: saturate(180%) blur(20px);
+                border-top: 1px solid var(--color-fill-subtle);
+                display: none;
+            }
+            .site-nav[data-open="true"] .site-nav__links { display: flex; }
+            .site-nav__links li {
+                padding: var(--space-xs) var(--container-padding);
+            }
+            .site-nav__link {
+                display: block;
+                font-size: 1rem;
+                padding-block: var(--space-xs);
+            }
+        }
+        :root[data-theme="dark"] .site-nav__links {
+            background-color: rgba(29, 29, 31, 0.85);
+        }
 
         /* ===========================================
            DARK MODE
@@ -551,6 +627,7 @@
                     <li><a class="site-nav__link" href="#about">About</a></li>
                     <li><a class="site-nav__link" href="#support">Support</a></li>
                 </ul>
+                <div class="nav-actions">
                 <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle light and dark mode">
                     <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
@@ -560,6 +637,11 @@
                         <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
                     </svg>
                 </button>
+                <button type="button" class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="primary-nav">
+                    <span class="nav-toggle__bar"></span>
+                    <span class="nav-toggle__bar"></span>
+                </button>
+                </div>
             </nav>
         </div>
     </header>
@@ -574,6 +656,20 @@
                 var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
                 root.setAttribute('data-theme', next);
                 localStorage.setItem('theme', next);
+            });
+
+            var nav = document.getElementById('primary-nav');
+            var navToggle = document.getElementById('nav-toggle');
+            navToggle.addEventListener('click', function () {
+                var open = nav.getAttribute('data-open') === 'true';
+                nav.setAttribute('data-open', String(!open));
+                navToggle.setAttribute('aria-expanded', String(!open));
+            });
+            nav.querySelectorAll('.site-nav__link').forEach(function (a) {
+                a.addEventListener('click', function () {
+                    nav.setAttribute('data-open', 'false');
+                    navToggle.setAttribute('aria-expanded', 'false');
+                });
             });
         })();
     </script>
