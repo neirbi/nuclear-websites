@@ -399,40 +399,37 @@
             transition: visibility 0s linear 0s;
         }
 
-        /* Each group fills the panel and stacks via position:absolute.
-           Active group is set via the panel's data-active attribute
-           (managed by JS). The group itself controls pointer-events;
-           the visual reveal happens on the children below. */
+        /* Group-level opacity drives the cross-fade between siblings
+           (Websites <-> Apps). Pointer-events follow the same state. */
         .nav-dropdown__group {
             position: absolute;
             inset: 0;
+            opacity: 0;
             pointer-events: none;
+            transition: opacity 200ms ease;
         }
         .nav-dropdown[data-active="websites"] .nav-dropdown__group[data-group="websites"],
         .nav-dropdown[data-active="apps"] .nav-dropdown__group[data-group="apps"],
         .nav-dropdown[data-active="support"] .nav-dropdown__group[data-group="support"],
         .nav-dropdown__group:focus-within {
+            opacity: 1;
             pointer-events: auto;
         }
 
-        /* Children: faded down by default. When their group becomes
-           active they slide up + fade in, staggered by --i. Stagger
-           applies only on the active path; closing has no delay so
-           children fade out together. */
-        .nav-dropdown__group .nav-dropdown__eyebrow,
-        .nav-dropdown__group .nav-dropdown__list > li,
-        .nav-dropdown__group .nav-dropdown__caption {
-            opacity: 0;
-            transform: translateY(6px);
-            transition: opacity 250ms ease, transform 250ms ease;
+        /* Staggered child reveal — runs only on cold-open (closed -> open).
+           JS toggles .is-opening on the panel: added when transitioning
+           from no active group to having one, removed on sibling switch
+           and close. So switches use the group cross-fade above without
+           re-staggering, and cold opens get the polished sequential
+           reveal. --i drives each child's animation-delay. */
+        @keyframes nav-dropdown-stagger-in {
+            from { opacity: 0; transform: translateY(6px); }
         }
-        .nav-dropdown[data-active="websites"] .nav-dropdown__group[data-group="websites"] :is(.nav-dropdown__eyebrow, .nav-dropdown__list > li, .nav-dropdown__caption),
-        .nav-dropdown[data-active="apps"] .nav-dropdown__group[data-group="apps"] :is(.nav-dropdown__eyebrow, .nav-dropdown__list > li, .nav-dropdown__caption),
-        .nav-dropdown[data-active="support"] .nav-dropdown__group[data-group="support"] :is(.nav-dropdown__eyebrow, .nav-dropdown__list > li, .nav-dropdown__caption),
-        .nav-dropdown__group:focus-within :is(.nav-dropdown__eyebrow, .nav-dropdown__list > li, .nav-dropdown__caption) {
-            opacity: 1;
-            transform: translateY(0);
-            transition-delay: calc(var(--i, 0) * 40ms);
+        .nav-dropdown.is-opening[data-active="websites"] .nav-dropdown__group[data-group="websites"] :is(.nav-dropdown__eyebrow, .nav-dropdown__list > li, .nav-dropdown__caption),
+        .nav-dropdown.is-opening[data-active="apps"] .nav-dropdown__group[data-group="apps"] :is(.nav-dropdown__eyebrow, .nav-dropdown__list > li, .nav-dropdown__caption),
+        .nav-dropdown.is-opening[data-active="support"] .nav-dropdown__group[data-group="support"] :is(.nav-dropdown__eyebrow, .nav-dropdown__list > li, .nav-dropdown__caption) {
+            animation: nav-dropdown-stagger-in 250ms ease backwards;
+            animation-delay: calc(var(--i, 0) * 40ms);
         }
 
         /* Stagger order: eyebrow -> list items -> caption */
@@ -923,24 +920,39 @@
             });
 
             // Persist the active dropdown group while the cursor is in
-            // the header. Set on mouseenter of a dropdown trigger; cleared
-            // when the cursor enters a non-dropdown trigger or leaves the
-            // header. Stays set when the cursor crosses the inter-trigger
-            // gap or hovers the panel, so the curtain doesn't flicker.
+            // the header. The .is-opening class triggers the staggered
+            // child reveal; it's added only on cold-open (closed -> open)
+            // and removed on sibling switches and close so switches use
+            // the group cross-fade without re-staggering.
             const header = document.getElementById('site-header');
             const dropdown = header.querySelector('.nav-dropdown');
             if (dropdown) {
                 nav.querySelectorAll('.site-nav__links > li').forEach((item) => {
                     item.addEventListener('mouseenter', () => {
-                        if (item.dataset.dropdown) {
-                            dropdown.dataset.active = item.dataset.dropdown;
-                        } else {
+                        const target = item.dataset.dropdown;
+                        if (!target) {
                             delete dropdown.dataset.active;
+                            dropdown.classList.remove('is-opening');
+                            return;
                         }
+                        const wasInactive = !dropdown.dataset.active;
+                        if (wasInactive) {
+                            // Cold open — restart the stagger animation
+                            dropdown.classList.remove('is-opening');
+                            // Force reflow so the animation re-triggers if
+                            // the class was already on a moment ago.
+                            void dropdown.offsetWidth;
+                            dropdown.classList.add('is-opening');
+                        } else if (dropdown.dataset.active !== target) {
+                            // Sibling switch — group cross-fade only
+                            dropdown.classList.remove('is-opening');
+                        }
+                        dropdown.dataset.active = target;
                     });
                 });
                 header.addEventListener('mouseleave', () => {
                     delete dropdown.dataset.active;
+                    dropdown.classList.remove('is-opening');
                 });
             }
         })();
