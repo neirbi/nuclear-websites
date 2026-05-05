@@ -374,9 +374,20 @@
             }
             .nav-toggle { display: inline-block; }
 
-            /* Full-viewport frosted curtain (drops from under the nav) */
+            /* The header bar itself grows to full viewport */
+            .site-header {
+                height: 44px;
+                overflow: hidden;
+                transition: height 500ms cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .site-header:has(.site-nav[data-open="true"]) {
+                height: 100vh;
+                height: 100dvh;
+            }
+
+            /* Links live inside the (now-tall) header, below the nav row */
             .site-nav__links {
-                position: fixed;
+                position: absolute;
                 top: 44px;
                 left: 0;
                 right: 0;
@@ -385,19 +396,16 @@
                 align-items: stretch;
                 gap: 0;
                 padding: var(--space-md) 0;
-                background-color: rgba(255, 255, 255, 0.72);
-                -webkit-backdrop-filter: saturate(180%) blur(20px);
-                backdrop-filter: saturate(180%) blur(20px);
                 overflow-y: auto;
-                transform: translateY(-100%);
+                opacity: 0;
                 visibility: hidden;
-                transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1),
-                            visibility 0s linear 400ms;
+                transition: opacity 200ms ease,
+                            visibility 0s linear 200ms;
             }
             .site-nav[data-open="true"] .site-nav__links {
-                transform: translateY(0);
+                opacity: 1;
                 visibility: visible;
-                transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1),
+                transition: opacity 250ms ease 250ms,
                             visibility 0s linear 0s;
             }
             .site-nav__links li {
@@ -411,7 +419,7 @@
                 opacity: 1;
             }
 
-            /* Hide logo + theme toggle when menu is open */
+            /* Hide logo + theme toggle when menu is open (keep grid slots) */
             .site-nav[data-open="true"] .site-nav__logo,
             .site-nav[data-open="true"] .theme-toggle {
                 visibility: hidden;
@@ -421,9 +429,6 @@
             body:has(.site-nav[data-open="true"]) {
                 overflow: hidden;
             }
-        }
-        :root[data-theme="dark"] .site-nav__links {
-            background-color: rgba(29, 29, 31, 0.72);
         }
 
         /* ===========================================
