@@ -635,9 +635,6 @@
         }
         .skip-link:focus { transform: translateY(0); }
 
-        /* Mobile-only CTA nav item — hidden on desktop */
-        .site-nav__item--mobile-cta { display: none; }
-
         /* ===========================================
            BREAKPOINT — Tablet (768px)
            =========================================== */
@@ -645,6 +642,7 @@
             :root {
                 --container-padding: var(--space-lg);
             }
+            .site-nav__item--mobile-cta { display: none; }
         }
 
         /* ===========================================
