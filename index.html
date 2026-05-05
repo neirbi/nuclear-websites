@@ -408,10 +408,14 @@
             pointer-events: none;
             transition: opacity 200ms ease 100ms;
         }
-        .site-header:has(.site-nav__item--has-dropdown[data-dropdown="websites"]:hover) .nav-dropdown__group[data-group="websites"],
-        .site-header:has(.site-nav__item--has-dropdown[data-dropdown="apps"]:hover) .nav-dropdown__group[data-group="apps"],
-        .site-header:has(.site-nav__item--has-dropdown[data-dropdown="support"]:hover) .nav-dropdown__group[data-group="support"],
-        .nav-dropdown__group:hover,
+        /* Active group is driven by the panel's data-active attribute,
+           set/cleared by a tiny JS controller (see end of body). CSS-only
+           :hover can't persist the active group when the cursor moves
+           from trigger to panel — the group's pointer-events would flip
+           to none and break its own :hover. data-active sidesteps that. */
+        .nav-dropdown[data-active="websites"] .nav-dropdown__group[data-group="websites"],
+        .nav-dropdown[data-active="apps"] .nav-dropdown__group[data-group="apps"],
+        .nav-dropdown[data-active="support"] .nav-dropdown__group[data-group="support"],
         .nav-dropdown__group:focus-within {
             opacity: 1;
             pointer-events: auto;
@@ -896,6 +900,22 @@
             nav.querySelectorAll('.site-nav__link').forEach((a) => {
                 a.addEventListener('click', () => setNavOpen(false));
             });
+
+            // Persist the active dropdown group while the cursor is in
+            // the header. Cleared on header mouseleave so groups fade
+            // out together with the curtain.
+            const header = document.getElementById('site-header');
+            const dropdown = header.querySelector('.nav-dropdown');
+            if (dropdown) {
+                header.querySelectorAll('.site-nav__item--has-dropdown').forEach((item) => {
+                    item.addEventListener('mouseenter', () => {
+                        dropdown.dataset.active = item.dataset.dropdown;
+                    });
+                });
+                header.addEventListener('mouseleave', () => {
+                    delete dropdown.dataset.active;
+                });
+            }
         })();
     </script>
 
