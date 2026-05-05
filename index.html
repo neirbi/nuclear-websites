@@ -367,9 +367,13 @@
         .site-nav__item--has-dropdown { position: relative; }
 
         /* Header expands to reveal the dropdown via curtain pull (same
-           mechanic as mobile). Set tall enough to fit the largest panel. */
+           mechanic as mobile). Set tall enough to fit the largest panel.
+           Close-delay (set in the desktop media query below) bridges the
+           cursor's brief gap between adjacent triggers so sweeping from
+           Websites to Apps keeps the curtain open. */
         .site-header:has(.site-nav__item--has-dropdown:hover),
         .site-header:has(.site-nav__item--has-dropdown:focus-within) {
+            transition-delay: 0s;
             height: 22rem;
         }
 
@@ -446,7 +450,7 @@
         body:has(.site-nav__item--has-dropdown:focus-within) .nav-scrim {
             opacity: 1;
             visibility: visible;
-            transition: opacity 350ms ease, visibility 0s linear 0s;
+            transition: opacity 350ms ease 0s, visibility 0s linear 0s;
         }
 
         /* Shared icon button — base for theme + nav toggles */
@@ -748,6 +752,11 @@
                 --container-padding: var(--space-lg);
             }
             .site-nav__links > li.site-nav__item--mobile-cta { display: none; }
+            /* Close-delay bridges cursor sweeps between adjacent dropdown
+               triggers (e.g. Websites -> Apps). Open state overrides this
+               back to 0s so re-entering snaps the curtain wide again. */
+            .site-header { transition-delay: 100ms; }
+            .nav-scrim { transition: opacity 350ms ease 100ms, visibility 0s linear 450ms; }
         }
 
         /* ===========================================
