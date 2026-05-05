@@ -300,6 +300,13 @@
             background-color: var(--frost-bg);
             -webkit-backdrop-filter: var(--frost-filter);
             backdrop-filter: var(--frost-filter);
+            /* Curtain reveal: header height transitions; position:fixed
+               descendants (mobile menu, desktop dropdowns) are clipped
+               by overflow:hidden because backdrop-filter on this element
+               makes it the containing block for fixed children. */
+            height: var(--nav-height);
+            overflow: hidden;
+            transition: height 350ms cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         body { padding-top: var(--nav-height); }
@@ -359,25 +366,24 @@
            =========================================== */
         .site-nav__item--has-dropdown { position: relative; }
 
+        /* Header expands to reveal the dropdown via curtain pull (same
+           mechanic as mobile). Set tall enough to fit the largest panel. */
+        .site-header:has(.site-nav__item--has-dropdown:hover),
+        .site-header:has(.site-nav__item--has-dropdown:focus-within) {
+            height: 22rem;
+        }
+
         .nav-dropdown {
             position: fixed;
             inset: var(--nav-height) 0 auto 0;
-            background-color: var(--frost-bg);
-            -webkit-backdrop-filter: var(--frost-filter);
-            backdrop-filter: var(--frost-filter);
-            opacity: 0;
+            background-color: var(--color-bg-primary);
             visibility: hidden;
-            transform: translateY(-4px);
-            pointer-events: none;
-            transition: opacity 200ms ease, transform 200ms ease, visibility 0s linear 200ms;
+            transition: visibility 0s linear 350ms;
         }
         .site-nav__item--has-dropdown:hover .nav-dropdown,
         .site-nav__item--has-dropdown:focus-within .nav-dropdown {
-            opacity: 1;
             visibility: visible;
-            transform: translateY(0);
-            pointer-events: auto;
-            transition: opacity 250ms ease, transform 250ms ease, visibility 0s linear 0s;
+            transition: visibility 0s linear 0s;
         }
 
         .nav-dropdown .container {
@@ -469,12 +475,8 @@
             .site-nav { grid-template-columns: 1fr auto; }
             .nav-toggle { display: inline-flex; }
 
-            /* Bar grows from nav height to full viewport when menu opens */
-            .site-header {
-                height: var(--nav-height);
-                overflow: hidden;
-                transition: height 500ms cubic-bezier(0.4, 0, 0.2, 1);
-            }
+            /* Mobile uses the longer curtain pull for the full-viewport menu */
+            .site-header { transition-duration: 500ms; }
             .site-header:has(.site-nav[data-open="true"]) {
                 height: 100vh;
                 height: 100dvh;
