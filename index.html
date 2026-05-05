@@ -268,6 +268,16 @@
            =========================================== */
         .is-hidden { display: none !important; }
 
+        /* Gradient text — clips background gradient to text glyphs.
+           Apply to a span around the words to highlight. */
+        .gradient-text {
+            background-image: var(--gradient-primary);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+        }
+
         .visually-hidden {
             position: absolute;
             width: 1px;
@@ -723,7 +733,7 @@
         <section class="hero" aria-labelledby="hero-title">
             <div class="container">
                 <div class="hero__inner">
-                    <h1 id="hero-title" class="hero__title">Your website should make you money. Most don&rsquo;t.</h1>
+                    <h1 id="hero-title" class="hero__title">Your website should <span class="gradient-text">make you money</span>. Most don&rsquo;t.</h1>
                     <p class="hero__subtitle">We build websites engineered to convert visitors into customers. Using the same battle-tested principles behind the book Nuclear Websites.</p>
                     <a class="btn-pill" href="#contact">Get a site that pays for itself</a>
                 </div>
