@@ -369,6 +369,7 @@
 
         /* Header curtain expands when any trigger or the panel itself
            has hover/focus. */
+        .site-header:has(.nav-dropdown[data-active]),
         .site-header:has(.site-nav__item--has-dropdown:hover),
         .site-header:has(.site-nav__item--has-dropdown:focus-within),
         .site-header:has(.nav-dropdown:hover),
@@ -389,6 +390,7 @@
             visibility: hidden;
             transition: visibility 0s linear 350ms;
         }
+        .nav-dropdown[data-active],
         .site-header:has(.site-nav__item--has-dropdown:hover) .nav-dropdown,
         .site-header:has(.site-nav__item--has-dropdown:focus-within) .nav-dropdown,
         .site-header:has(.nav-dropdown:hover) .nav-dropdown,
@@ -473,6 +475,7 @@
             pointer-events: none;
             transition: opacity 350ms ease, visibility 0s linear 350ms;
         }
+        body:has(.nav-dropdown[data-active]) .nav-scrim,
         body:has(.site-nav__item--has-dropdown:hover) .nav-scrim,
         body:has(.site-nav__item--has-dropdown:focus-within) .nav-scrim,
         body:has(.nav-dropdown:hover) .nav-scrim,
@@ -902,14 +905,20 @@
             });
 
             // Persist the active dropdown group while the cursor is in
-            // the header. Cleared on header mouseleave so groups fade
-            // out together with the curtain.
+            // the header. Set on mouseenter of a dropdown trigger; cleared
+            // when the cursor enters a non-dropdown trigger or leaves the
+            // header. Stays set when the cursor crosses the inter-trigger
+            // gap or hovers the panel, so the curtain doesn't flicker.
             const header = document.getElementById('site-header');
             const dropdown = header.querySelector('.nav-dropdown');
             if (dropdown) {
-                header.querySelectorAll('.site-nav__item--has-dropdown').forEach((item) => {
+                nav.querySelectorAll('.site-nav__links > li').forEach((item) => {
                     item.addEventListener('mouseenter', () => {
-                        dropdown.dataset.active = item.dataset.dropdown;
+                        if (item.dataset.dropdown) {
+                            dropdown.dataset.active = item.dataset.dropdown;
+                        } else {
+                            delete dropdown.dataset.active;
+                        }
                     });
                 });
                 header.addEventListener('mouseleave', () => {
