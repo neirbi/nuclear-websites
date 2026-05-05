@@ -388,21 +388,23 @@
             /* Links — fixed to viewport so no parent grid/container interferes */
             .site-nav__links {
                 position: fixed;
-                top: 50px;
-                left: 0;
-                right: 0;
-                bottom: 0;
+                inset: 50px 0 0 0;
+                margin: 0;
                 flex-direction: column;
                 align-items: flex-start;
                 justify-content: flex-start;
                 justify-self: stretch;
+                align-self: stretch;
                 gap: 0;
-                padding-top: 0;
+                padding: 0;
                 overflow-y: auto;
                 opacity: 0;
                 visibility: hidden;
                 transition: opacity 200ms ease,
                             visibility 0s linear 200ms;
+            }
+            .site-nav__links > li:first-child > .site-nav__link {
+                padding-top: 0;
             }
             .site-nav[data-open="true"] .site-nav__links {
                 opacity: 1;
