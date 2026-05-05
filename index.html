@@ -958,6 +958,19 @@
                         dropdown.dataset.active = target;
                     });
                 });
+                // Cursor leaving the trigger row closes the menu — unless
+                // it's heading into the panel (going down to interact with
+                // content). Catches the empty space to the right of the
+                // last trigger that no element handler can cover.
+                const navLinks = nav.querySelector('.site-nav__links');
+                if (navLinks) {
+                    navLinks.addEventListener('mouseleave', (e) => {
+                        if (!dropdown.contains(e.relatedTarget)) {
+                            delete dropdown.dataset.active;
+                            dropdown.classList.remove('is-opening');
+                        }
+                    });
+                }
                 header.addEventListener('mouseleave', () => {
                     delete dropdown.dataset.active;
                     dropdown.classList.remove('is-opening');
