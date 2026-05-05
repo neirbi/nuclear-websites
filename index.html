@@ -330,7 +330,6 @@
             justify-self: center;
             display: flex;
             align-items: stretch;
-            gap: var(--space-md);
         }
         /* <li>s stretch to full nav height so there's no hover gap
            between the trigger and the dropdown panel below. */
@@ -339,10 +338,15 @@
             align-items: center;
         }
 
+        /* Apple pattern: items sit flush. Visible spacing comes from
+           per-link horizontal padding instead of a flex `gap`, so the
+           cursor sweeping between adjacent triggers never lands in dead
+           space — the gap-flash between Websites and Apps is gone. */
         .site-nav__link {
             color: var(--color-text-primary);
             font-size: var(--text-sm);
             opacity: 0.8;
+            padding-inline: calc(var(--space-md) / 2);
         }
         .site-nav__link:hover {
             color: var(--color-text-primary);
@@ -387,7 +391,10 @@
             -webkit-backdrop-filter: var(--frost-filter);
             backdrop-filter: var(--frost-filter);
             visibility: hidden;
-            transition: visibility 0s linear 350ms;
+            /* Hide-delay = curtain close-delay (200ms) + curtain duration
+               (350ms). Content stays present until the curtain fully
+               retracts so it never blanks out mid-animation. */
+            transition: visibility 0s linear 550ms;
         }
         .site-nav__item--has-dropdown:hover .nav-dropdown,
         .site-nav__item--has-dropdown:focus-within .nav-dropdown {
@@ -752,11 +759,12 @@
                 --container-padding: var(--space-lg);
             }
             .site-nav__links > li.site-nav__item--mobile-cta { display: none; }
-            /* Close-delay bridges cursor sweeps between adjacent dropdown
-               triggers (e.g. Websites -> Apps). Open state overrides this
-               back to 0s so re-entering snaps the curtain wide again. */
-            .site-header { transition-delay: 100ms; }
-            .nav-scrim { transition: opacity 350ms ease 100ms, visibility 0s linear 450ms; }
+            /* Apple uses ~200ms close-delay on its globalnav curtain.
+               With items now flush, this is mostly belt-and-suspenders
+               for slow sweeps and brief focus moves. Open state overrides
+               delay back to 0 so re-entering snaps the curtain wide again. */
+            .site-header { transition-delay: 200ms; }
+            .nav-scrim { transition: opacity 350ms ease 200ms, visibility 0s linear 550ms; }
         }
 
         /* ===========================================
