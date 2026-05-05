@@ -450,6 +450,10 @@
 
             /* Lock body scroll while menu is open */
             body:has(.site-nav[data-open="true"]) { overflow: hidden; }
+
+            /* Mobile-only CTA link — shown only in the open drawer */
+            .site-nav__item--mobile-cta { display: block; }
+            .site-nav__link--cta { margin-top: var(--space-sm); }
         }
 
         /* ===========================================
@@ -631,6 +635,9 @@
         }
         .skip-link:focus { transform: translateY(0); }
 
+        /* Mobile-only CTA nav item — hidden on desktop */
+        .site-nav__item--mobile-cta { display: none; }
+
         /* ===========================================
            BREAKPOINT — Tablet (768px)
            =========================================== */
@@ -670,6 +677,7 @@
                     <li><a class="site-nav__link" href="#book">Our Book</a></li>
                     <li><a class="site-nav__link" href="#about">About</a></li>
                     <li><a class="site-nav__link" href="#support">Support</a></li>
+                    <li class="site-nav__item--mobile-cta"><a class="site-nav__link site-nav__link--cta" href="#contact"><span class="gradient-text">I'm Ready For a Nuclear Website</span> &rarr;</a></li>
                 </ul>
                 <div class="nav-actions">
                 <button type="button" class="icon-btn theme-toggle" id="theme-toggle" aria-label="Toggle light and dark mode">
