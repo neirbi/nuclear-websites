@@ -947,39 +947,40 @@
                     });
                 });
 
-                // Open zone = the horizontal span from the first dropdown
-                // trigger's left edge to the last trigger's right edge,
-                // across the full nav-bar height. Cursor inside this band
-                // (including the gaps between adjacent triggers) keeps the
-                // menu open; anywhere else in the header schedules a
-                // close. Listener is on the header so it covers the
-                // viewport width outside the .container too.
+                // Open zones:
+                //   1. Trigger band: the horizontal span from the first
+                //      dropdown trigger's left edge to the last trigger's
+                //      right edge, full nav-bar height.
+                //   2. The dropdown panel itself (when open).
+                // Cursor inside either zone keeps the menu open; anywhere
+                // else schedules a close. Single mousemove listener is the
+                // source of truth — avoids mouseover/mouseenter ordering
+                // edge cases and handles cursor stationary in a region.
                 const triggers = [...nav.querySelectorAll('.site-nav__item--has-dropdown')];
-                header.addEventListener('mouseover', (e) => {
-                    if (!dropdown.dataset.active) return;
+                const inRect = (x, y, r) =>
+                    x >= r.left && x <= r.right && y >= r.top && y <= r.bottom;
+                const isInOpenZone = (x, y) => {
                     if (triggers.length) {
-                        const firstR = triggers[0].getBoundingClientRect();
-                        const lastR = triggers[triggers.length - 1].getBoundingClientRect();
+                        const first = triggers[0].getBoundingClientRect();
+                        const last = triggers[triggers.length - 1].getBoundingClientRect();
                         if (
-                            e.clientX >= firstR.left && e.clientX <= lastR.right &&
-                            e.clientY >= firstR.top && e.clientY <= lastR.bottom
-                        ) return;
+                            x >= first.left && x <= last.right &&
+                            y >= first.top && y <= last.bottom
+                        ) return true;
                     }
-                    scheduleClose();
-                });
-
-                // Cancel pending close when re-entering header or dropdown.
-                header.addEventListener('mouseenter', cancelClose);
-                dropdown.addEventListener('mouseenter', cancelClose);
-
-                // Leaving header or dropdown for elsewhere on the page closes.
-                const closeIfLeavingBoth = (e) => {
-                    if (header.contains(e.relatedTarget)) return;
-                    if (dropdown.contains(e.relatedTarget)) return;
-                    scheduleClose();
+                    if (dropdown.dataset.active && inRect(x, y, dropdown.getBoundingClientRect())) {
+                        return true;
+                    }
+                    return false;
                 };
-                header.addEventListener('mouseleave', closeIfLeavingBoth);
-                dropdown.addEventListener('mouseleave', closeIfLeavingBoth);
+                document.addEventListener('mousemove', (e) => {
+                    if (!dropdown.dataset.active && !closeTimer) return;
+                    if (isInOpenZone(e.clientX, e.clientY)) {
+                        cancelClose();
+                    } else {
+                        scheduleClose();
+                    }
+                });
             }
         })();
     </script>
