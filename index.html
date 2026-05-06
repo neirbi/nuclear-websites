@@ -810,6 +810,17 @@
             inherits: true;
             initial-value: 50%;
         }
+        @media (prefers-reduced-motion: no-preference) {
+            .compare.is-hinting {
+                animation: sliderHint 1.6s cubic-bezier(.4,0,.2,1) forwards;
+            }
+        }
+        @keyframes sliderHint {
+            0%   { --split: 50%; }
+            35%  { --split: 22%; }
+            65%  { --split: 78%; }
+            100% { --split: 50%; }
+        }
         .compare {
             position: relative;
             width: 100%;
@@ -1212,6 +1223,23 @@
                     });
                 }
             });
+
+            // One-shot hint: wait for idle + 1500ms, then animate once
+            var hinted = false;
+            function fireHint() {
+                if (hinted) return;
+                hinted = true;
+                slider.classList.add('is-hinting');
+                slider.addEventListener('animationend', function () {
+                    slider.classList.remove('is-hinting');
+                }, { once: true });
+            }
+            if ('requestIdleCallback' in window) {
+                requestIdleCallback(function () { setTimeout(fireHint, 1500); });
+            } else {
+                setTimeout(fireHint, 1500);
+            }
+        });
         })();
     </script>
 </body>
