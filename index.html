@@ -743,6 +743,7 @@
             position: relative;
             overflow: hidden;
             text-align: center;
+            padding-bottom: var(--space-xl);
         }
 
         .hero::before {
@@ -816,6 +817,12 @@
             margin-top: var(--space-xl);
             user-select: none;
             background: var(--color-bg-surface);
+            cursor: ew-resize;
+            touch-action: none;
+        }
+        .compare:focus-visible {
+            outline: 2px solid var(--color-blue-500);
+            outline-offset: 4px;
         }
         .compare__img {
             position: absolute;
@@ -825,42 +832,10 @@
             object-fit: cover;
             pointer-events: none;
             user-select: none;
+            -webkit-user-drag: none;
         }
         .compare__img--after {
             clip-path: inset(0 0 0 var(--pos));
-        }
-        .compare__range {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            background: transparent;
-            border: 0;
-            -webkit-appearance: none;
-            appearance: none;
-            opacity: 0;
-            cursor: ew-resize;
-            z-index: 2;
-        }
-        .compare__range::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 4rem;
-            height: 100%;
-            cursor: ew-resize;
-        }
-        .compare__range::-moz-range-thumb {
-            width: 4rem;
-            height: 100%;
-            border: 0;
-            background: transparent;
-            cursor: ew-resize;
-        }
-        .compare__range:focus-visible + .compare__handle {
-            outline: 2px solid var(--color-blue-500);
-            outline-offset: 4px;
-            border-radius: var(--radius-sm);
         }
         .compare__handle {
             position: absolute;
@@ -1119,15 +1094,44 @@
                 });
             }
 
-            // Before/after compare slider — wire native range input
-            // to the --pos CSS variable that drives both the after-image
-            // clip and the handle position.
+            // Before/after compare slider — pointer drag + keyboard.
+            // Single --pos CSS variable drives both the after-image
+            // clip and the handle position. role="slider" + arrow keys
+            // give it accessibility without a hidden input fallback.
             document.querySelectorAll('[data-compare]').forEach((el) => {
-                const range = el.querySelector('.compare__range');
-                if (!range) return;
-                const update = () => el.style.setProperty('--pos', range.value + '%');
-                range.addEventListener('input', update);
-                update();
+                let pos = 50;
+                const setPos = (p) => {
+                    pos = Math.max(0, Math.min(100, p));
+                    el.style.setProperty('--pos', pos + '%');
+                    el.setAttribute('aria-valuenow', Math.round(pos));
+                };
+                const updateFromEvent = (e) => {
+                    const r = el.getBoundingClientRect();
+                    setPos(((e.clientX - r.left) / r.width) * 100);
+                };
+                let dragging = false;
+                el.addEventListener('pointerdown', (e) => {
+                    dragging = true;
+                    el.setPointerCapture(e.pointerId);
+                    updateFromEvent(e);
+                });
+                el.addEventListener('pointermove', (e) => {
+                    if (dragging) updateFromEvent(e);
+                });
+                const stop = (e) => {
+                    dragging = false;
+                    try { el.releasePointerCapture(e.pointerId); } catch {}
+                };
+                el.addEventListener('pointerup', stop);
+                el.addEventListener('pointercancel', stop);
+                el.addEventListener('keydown', (e) => {
+                    const step = e.shiftKey ? 10 : 2;
+                    if (e.key === 'ArrowLeft') { setPos(pos - step); e.preventDefault(); }
+                    else if (e.key === 'ArrowRight') { setPos(pos + step); e.preventDefault(); }
+                    else if (e.key === 'Home') { setPos(0); e.preventDefault(); }
+                    else if (e.key === 'End') { setPos(100); e.preventDefault(); }
+                });
+                setPos(50);
             });
         })();
     </script>
@@ -1154,10 +1158,9 @@
                     <p class="hero__subtitle">We build websites engineered to convert visitors into customers. Using the same battle-tested principles behind the book Nuclear Websites.</p>
                     <a class="btn-pill" href="#contact">Get a site that pays for itself</a>
                 </div>
-                <div class="compare" data-compare>
+                <div class="compare" data-compare role="slider" tabindex="0" aria-label="Drag to compare before and after" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
                     <img class="compare__img compare__img--before" src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/showcase/sample-website-hero-before.avif" alt="Sample website hero, before">
                     <img class="compare__img compare__img--after" src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/showcase/sample-website-hero-after.avif" alt="Sample website hero, after">
-                    <input class="compare__range" type="range" min="0" max="100" value="50" step="0.1" aria-label="Drag to compare before and after">
                     <div class="compare__handle" aria-hidden="true">
                         <span class="compare__knob">
                             <svg width="20" height="12" viewBox="0 0 20 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
