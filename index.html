@@ -693,6 +693,42 @@
         }
 
         /* ===========================================
+           SECTION — generic centered-content section
+           Inherits page background; constrains content to a readable
+           measure within the 1400px container.
+           =========================================== */
+        .section {
+            text-align: center;
+            padding-block: var(--space-xl);
+        }
+        .section__inner {
+            max-width: 52rem;
+            margin-inline: auto;
+        }
+        .section__eyebrow {
+            font-size: var(--text-sm);
+            font-weight: var(--weight-medium);
+            color: var(--color-text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin: 0 0 var(--space-md);
+        }
+        .section__title {
+            font-size: clamp(1.75rem, 4vw, 2.75rem);
+            font-weight: var(--weight-bold);
+            letter-spacing: -0.02em;
+            line-height: var(--line-height-heading);
+            margin: 0 0 var(--space-md);
+        }
+        .section__body {
+            font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
+            color: var(--color-text-secondary);
+            line-height: var(--line-height-base);
+            margin: 0 auto;
+            max-width: 38rem;
+        }
+
+        /* ===========================================
            HERO — radial gradient blob + centered content
            =========================================== */
         .hero {
@@ -1006,6 +1042,16 @@
                     <h1 id="hero-title" class="hero__title">Your website should <span class="gradient-text">make you money</span>. Most don&rsquo;t.</h1>
                     <p class="hero__subtitle">We build websites engineered to convert visitors into customers. Using the same battle-tested principles behind the book Nuclear Websites.</p>
                     <a class="btn-pill" href="#contact">Get a site that pays for itself</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="why" aria-labelledby="why-title">
+            <div class="container">
+                <div class="section__inner">
+                    <p class="section__eyebrow">Why</p>
+                    <h2 id="why-title" class="section__title">Pretty is profitable. Your website should make you money. AND look incredible doing it.</h2>
+                    <p class="section__body">It&rsquo;s not 2003 anymore. You don&rsquo;t have to choose between fast and pretty, between conversion and craft, between performance and design. That tradeoff died with dial-up. The tools changed. The playing field leveled. You can have your cake and eat it too.</p>
                 </div>
             </div>
         </section>
