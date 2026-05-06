@@ -947,13 +947,22 @@
                     });
                 });
 
-                // Hovering anywhere in the nav bar that isn't a dropdown
-                // trigger (logo, non-trigger links, nav-actions, grid
-                // gaps) schedules a close. mouseover bubbles, so one
-                // delegated listener covers every region.
+                // Open zone = the horizontal span from the first dropdown
+                // trigger's left edge to the last trigger's right edge,
+                // across the full nav-bar height. Cursor inside this band
+                // (including the gaps between adjacent triggers) keeps the
+                // menu open; anywhere else in the nav schedules a close.
+                const triggers = [...nav.querySelectorAll('.site-nav__item--has-dropdown')];
                 nav.addEventListener('mouseover', (e) => {
                     if (!dropdown.dataset.active) return;
-                    if (e.target.closest('.site-nav__item--has-dropdown')) return;
+                    if (triggers.length) {
+                        const firstR = triggers[0].getBoundingClientRect();
+                        const lastR = triggers[triggers.length - 1].getBoundingClientRect();
+                        if (
+                            e.clientX >= firstR.left && e.clientX <= lastR.right &&
+                            e.clientY >= firstR.top && e.clientY <= lastR.bottom
+                        ) return;
+                    }
                     scheduleClose();
                 });
 
