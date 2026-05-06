@@ -168,6 +168,9 @@
             /* --- FROSTED GLASS (frosted nav, mobile menu panel) --- */
             --frost-bg: rgba(255, 255, 255, 0.72);
             --frost-filter: saturate(180%) blur(20px);
+
+            /* --- NAV DROPDOWN — solid panel, distinct surface from frosted nav --- */
+            --dropdown-bg: var(--color-bg-surface-strong);
         }
 
         /* ===========================================
@@ -384,9 +387,7 @@
         .nav-dropdown {
             position: fixed;
             inset: var(--nav-height) 0 0 0;
-            background-color: var(--frost-bg);
-            -webkit-backdrop-filter: var(--frost-filter);
-            backdrop-filter: var(--frost-filter);
+            background-color: var(--dropdown-bg);
             visibility: hidden;
             transition: visibility 0s linear 350ms;
         }
@@ -622,6 +623,7 @@
             --color-bg-surface: #1D1D1F;
             --color-bg-surface-strong: #161618;
             --frost-bg: rgba(29, 29, 31, 0.72);
+            --dropdown-bg: var(--color-bg-surface);
         }
 
         /* ===========================================
