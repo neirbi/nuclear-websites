@@ -802,11 +802,8 @@
 
         /* ===========================================
            BEFORE / AFTER COMPARE — draggable slider
-           Pattern based on the working ba-slider in the ARC Dental
-           project: --split CSS var (registered with @property so it's
-           animatable) drives both the after-image clip and the handle
-           position. Layered with the MacBook frame on top, the chassis
-           hides the slider chrome outside the screen area.
+           Two stacked images. The "after" is clipped from the left by
+           --split, registered with @property so percentage tweens cleanly.
            =========================================== */
         @property --split {
             syntax: '<percentage>';
@@ -816,12 +813,15 @@
         .compare {
             position: relative;
             width: 100%;
-            aspect-ratio: 2362 / 1440;
+            aspect-ratio: 16 / 9;
             margin-top: var(--space-xl);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
             cursor: col-resize;
             user-select: none;
             -webkit-user-select: none;
             touch-action: pan-y pinch-zoom;
+            box-shadow: 0 8px 48px rgba(0, 0, 0, 0.12);
         }
         .compare__img {
             position: absolute;
@@ -829,23 +829,13 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            object-position: center;
+            display: block;
             pointer-events: none;
             -webkit-user-drag: none;
         }
-        .compare__img--before { z-index: 1; }
         .compare__img--after {
-            z-index: 2;
             clip-path: inset(0 0 0 var(--split, 50%));
-        }
-        .compare__frame {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            pointer-events: none;
-            -webkit-user-drag: none;
-            z-index: 4;
         }
         .compare__handle {
             position: absolute;
@@ -858,7 +848,6 @@
             align-items: center;
             pointer-events: none;
             width: 44px;
-            z-index: 5;
         }
         .compare__handle:focus-visible {
             outline: 2px solid var(--color-blue-500);
@@ -1182,9 +1171,8 @@
                     <a class="btn-pill" href="#contact">Get a site that pays for itself</a>
                 </div>
                 <div class="compare" data-compare role="img" aria-label="Sample website before and after redesign comparison">
-                    <img class="compare__img compare__img--before" src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/showcase/backtoaction-before-comparison.avif" alt="Sample website, before" draggable="false">
-                    <img class="compare__img compare__img--after" src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/showcase/backtoaction-after-comparison.avif" alt="Sample website, after" draggable="false">
-                    <img class="compare__frame" src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/showcase/mackbook-pro-empty-screen.avif" alt="" draggable="false">
+                    <img class="compare__img compare__img--before" src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/showcase/sample-website-hero-before.avif" alt="Sample website, before redesign" draggable="false">
+                    <img class="compare__img compare__img--after" src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/showcase/sample-website-hero-after.avif" alt="Sample website, after redesign" draggable="false">
                     <div class="compare__handle" role="slider" aria-label="Compare before and after" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" tabindex="0">
                         <div class="compare__line"></div>
                         <div class="compare__circle" aria-hidden="true">
