@@ -1222,24 +1222,23 @@
                         else if (e.key === 'ArrowRight') { slider.style.setProperty('--split', clamp(cur + step, 9.74, 90.26).toFixed(2) + '%'); handle.setAttribute('aria-valuenow', Math.round(clamp(cur + step, 9.74, 90.26))); e.preventDefault(); }
                     });
                 }
-            });
 
-            // One-shot hint: wait for idle + 1500ms, then animate once
-            var hinted = false;
-            function fireHint() {
-                if (hinted) return;
-                hinted = true;
-                slider.classList.add('is-hinting');
-                slider.addEventListener('animationend', function () {
-                    slider.classList.remove('is-hinting');
-                }, { once: true });
-            }
-            if ('requestIdleCallback' in window) {
-                requestIdleCallback(function () { setTimeout(fireHint, 1500); });
-            } else {
-                setTimeout(fireHint, 1500);
-            }
-        });
+                // One-shot hint: wait for idle + 1500ms, then animate once
+                var hinted = false;
+                function fireHint() {
+                    if (hinted) return;
+                    hinted = true;
+                    slider.classList.add('is-hinting');
+                    slider.addEventListener('animationend', function () {
+                        slider.classList.remove('is-hinting');
+                    }, { once: true });
+                }
+                if ('requestIdleCallback' in window) {
+                    requestIdleCallback(function () { setTimeout(fireHint, 1500); });
+                } else {
+                    setTimeout(fireHint, 1500);
+                }
+            });
         })();
     </script>
 </body>
