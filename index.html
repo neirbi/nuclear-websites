@@ -132,6 +132,12 @@
             --text-xl:   1.953rem;   /* 31px — H2 */
             --text-xxl:  2.441rem;   /* 39px — H1 */
 
+            /* Display type — large marketing headlines that scale with
+               viewport. Apple-style range: ~40px mobile -> ~120px wide
+               desktop. Off-scale on purpose; sits above the systematic
+               type ratio for hero/section-intro headlines. */
+            --text-display: clamp(2.5rem, 8vw, 7.5rem);
+
             /* --- VERTICAL RHYTHM --- */
             --heading-margin-top: 2em;
             --heading-margin-bottom: 1em;
@@ -702,7 +708,7 @@
             padding-block: var(--space-xl);
         }
         .section__inner {
-            max-width: 36rem;
+            max-width: 56rem;
             margin-inline: auto;
         }
         .section__eyebrow {
@@ -713,7 +719,7 @@
             margin: 0 0 var(--space-md);
         }
         .section__title {
-            font-size: var(--text-xxl);
+            font-size: var(--text-display);
             font-weight: var(--weight-bold);
             line-height: 1.1;
             margin: 0 0 var(--space-md);
@@ -724,6 +730,7 @@
             color: var(--color-text-secondary);
             line-height: 1.2;
             margin: 0 auto;
+            max-width: 38rem;
         }
         .section__body-emphasis {
             color: var(--color-text-primary);
