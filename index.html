@@ -907,40 +907,9 @@
             const header = document.getElementById('site-header');
             const dropdown = document.querySelector('.nav-dropdown');
             if (dropdown) {
-                // Mouseenter zones: every nav <li> plus .nav-actions (theme
-                // toggle area). Entering any zone without a data-dropdown
-                // attribute clears the active group, so moving right past
-                // Support into the theme toggle correctly closes the menu.
-                const zones = [
-                    ...nav.querySelectorAll('.site-nav__links > li'),
-                    nav.querySelector('.nav-actions'),
-                ].filter(Boolean);
-                zones.forEach((item) => {
-                    item.addEventListener('mouseenter', () => {
-                        const target = item.dataset.dropdown;
-                        if (!target) {
-                            delete dropdown.dataset.active;
-                            dropdown.classList.remove('is-opening');
-                            return;
-                        }
-                        const wasInactive = !dropdown.dataset.active;
-                        if (wasInactive) {
-                            // Cold open — restart the stagger animation
-                            dropdown.classList.remove('is-opening');
-                            // Force reflow so the animation re-triggers if
-                            // the class was already on a moment ago.
-                            void dropdown.offsetWidth;
-                            dropdown.classList.add('is-opening');
-                        } else if (dropdown.dataset.active !== target) {
-                            // Sibling switch — group cross-fade only
-                            dropdown.classList.remove('is-opening');
-                        }
-                        dropdown.dataset.active = target;
-                    });
-                });
-                // Closing is debounced so a brief cursor gap between the
-                // header trigger and the still-opening dropdown panel
-                // doesn't drop the active state mid-transit.
+                // Closing is debounced so brief cursor gaps (between the
+                // trigger and the opening panel, between adjacent triggers
+                // during a sibling switch, etc.) don't drop the active state.
                 let closeTimer = null;
                 const cancelClose = () => {
                     if (closeTimer) {
@@ -956,21 +925,43 @@
                         closeTimer = null;
                     }, 150);
                 };
+
+                // Trigger entry: open the panel or cross-fade between siblings.
+                nav.querySelectorAll('.site-nav__item--has-dropdown').forEach((item) => {
+                    item.addEventListener('mouseenter', () => {
+                        cancelClose();
+                        const target = item.dataset.dropdown;
+                        const wasInactive = !dropdown.dataset.active;
+                        if (wasInactive) {
+                            // Cold open — restart the stagger animation.
+                            dropdown.classList.remove('is-opening');
+                            // Force reflow so the animation re-triggers if
+                            // the class was already on a moment ago.
+                            void dropdown.offsetWidth;
+                            dropdown.classList.add('is-opening');
+                        } else if (dropdown.dataset.active !== target) {
+                            // Sibling switch — group cross-fade only.
+                            dropdown.classList.remove('is-opening');
+                        }
+                        dropdown.dataset.active = target;
+                    });
+                });
+
+                // Hovering anywhere in the nav bar that isn't a dropdown
+                // trigger (logo, non-trigger links, nav-actions, grid
+                // gaps) schedules a close. mouseover bubbles, so one
+                // delegated listener covers every region.
+                nav.addEventListener('mouseover', (e) => {
+                    if (!dropdown.dataset.active) return;
+                    if (e.target.closest('.site-nav__item--has-dropdown')) return;
+                    scheduleClose();
+                });
+
+                // Cancel pending close when re-entering header or dropdown.
                 header.addEventListener('mouseenter', cancelClose);
                 dropdown.addEventListener('mouseenter', cancelClose);
 
-                // Cursor leaving the trigger row closes the menu — unless
-                // it's heading into the panel (going down to interact with
-                // content). Catches the empty space to the right of the
-                // last trigger that no element handler can cover.
-                const navLinks = nav.querySelector('.site-nav__links');
-                if (navLinks) {
-                    navLinks.addEventListener('mouseleave', (e) => {
-                        if (!dropdown.contains(e.relatedTarget)) {
-                            scheduleClose();
-                        }
-                    });
-                }
+                // Leaving header or dropdown for elsewhere on the page closes.
                 const closeIfLeavingBoth = (e) => {
                     if (header.contains(e.relatedTarget)) return;
                     if (dropdown.contains(e.relatedTarget)) return;
