@@ -820,6 +820,7 @@
             cursor: ew-resize;
             touch-action: none;
         }
+        .compare.is-dragging { cursor: grabbing; }
         .compare:focus-visible {
             outline: 2px solid var(--color-blue-500);
             outline-offset: 4px;
@@ -1109,9 +1110,11 @@
             }
 
             // Before/after compare slider — pointer drag + keyboard.
-            // Single --pos CSS variable drives both the after-image
-            // clip and the handle position. role="slider" + arrow keys
-            // give it accessibility without a hidden input fallback.
+            // Pattern: pointerdown on host element starts drag; document-
+            // level pointermove/pointerup track the drag so it survives
+            // leaving the host bounds (more reliable than setPointerCapture
+            // across browsers). One --pos CSS variable drives both the
+            // after-image clip and the handle position.
             document.querySelectorAll('[data-compare]').forEach((el) => {
                 let pos = 50;
                 const setPos = (p) => {
@@ -1119,25 +1122,31 @@
                     el.style.setProperty('--pos', pos + '%');
                     el.setAttribute('aria-valuenow', Math.round(pos));
                 };
-                const updateFromEvent = (e) => {
+                const updateFromX = (clientX) => {
                     const r = el.getBoundingClientRect();
-                    setPos(((e.clientX - r.left) / r.width) * 100);
+                    if (r.width === 0) return;
+                    setPos(((clientX - r.left) / r.width) * 100);
                 };
+
                 let dragging = false;
                 el.addEventListener('pointerdown', (e) => {
                     dragging = true;
-                    el.setPointerCapture(e.pointerId);
-                    updateFromEvent(e);
+                    el.classList.add('is-dragging');
+                    updateFromX(e.clientX);
+                    e.preventDefault();
                 });
-                el.addEventListener('pointermove', (e) => {
-                    if (dragging) updateFromEvent(e);
-                });
-                const stop = (e) => {
-                    dragging = false;
-                    try { el.releasePointerCapture(e.pointerId); } catch {}
+                const move = (e) => {
+                    if (dragging) updateFromX(e.clientX);
                 };
-                el.addEventListener('pointerup', stop);
-                el.addEventListener('pointercancel', stop);
+                const stop = () => {
+                    if (!dragging) return;
+                    dragging = false;
+                    el.classList.remove('is-dragging');
+                };
+                document.addEventListener('pointermove', move);
+                document.addEventListener('pointerup', stop);
+                document.addEventListener('pointercancel', stop);
+
                 el.addEventListener('keydown', (e) => {
                     const step = e.shiftKey ? 10 : 2;
                     if (e.key === 'ArrowLeft') { setPos(pos - step); e.preventDefault(); }
@@ -1145,6 +1154,7 @@
                     else if (e.key === 'Home') { setPos(0); e.preventDefault(); }
                     else if (e.key === 'End') { setPos(100); e.preventDefault(); }
                 });
+
                 setPos(50);
             });
         })();
