@@ -746,34 +746,18 @@
             padding-bottom: var(--space-xl);
         }
 
-        .hero::before,
-        .hero::after {
+        .hero::before {
             content: '';
             position: absolute;
             inset: 0;
-            pointer-events: none;
-        }
-
-        /* Ambient light layer — 3 asymmetric glows, 3 brand colors */
-        .hero::before {
             background:
-                radial-gradient(ellipse 35vw 45vh at 72% 8%,
-                    color-mix(in srgb, var(--color-blue-500) 18%, transparent),
-                    transparent 70%),
-                radial-gradient(ellipse 25vw 35vh at 18% 30%,
-                    color-mix(in srgb, var(--color-accent-primary) 15%, transparent),
-                    transparent 70%),
-                radial-gradient(ellipse 30vw 40vh at 88% 72%,
-                    color-mix(in srgb, var(--color-green-500) 13%, transparent),
-                    transparent 70%);
-        }
-
-        /* Grain overlay — elevates gradients from flat to tactile */
-        .hero::after {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23grain)' opacity='0.08'/%3E%3C/svg%3E");
-            background-repeat: repeat;
-            background-size: 300px 300px;
-            opacity: 0.5;
+                radial-gradient(ellipse 55% 55% at 100% 0%,
+                    color-mix(in srgb, var(--color-green-500) 22%, transparent) 0%,
+                    transparent 65%),
+                radial-gradient(ellipse 55% 55% at 0% 100%,
+                    color-mix(in srgb, var(--color-green-500) 18%, transparent) 0%,
+                    transparent 65%);
+            pointer-events: none;
         }
 
         .hero__inner {
@@ -1212,27 +1196,20 @@
             document.querySelectorAll('[data-compare]').forEach(function (slider) {
                 var handle = slider.querySelector('.compare__handle');
                 var active = false;
-                var rect = slider.getBoundingClientRect();
                 var clamp = function (v, lo, hi) { return Math.min(Math.max(v, lo), hi); };
 
-                // Cache rect on resize — avoids reflow on every mousemove
-                window.addEventListener('resize', function () { rect = slider.getBoundingClientRect(); }, { passive: true });
-
                 function setPos(clientX) {
+                    var rect = slider.getBoundingClientRect();
                     var pct = clamp((clientX - rect.left) / rect.width * 100, 9.74, 90.26);
                     slider.style.setProperty('--split', pct.toFixed(2) + '%');
                     if (handle) handle.setAttribute('aria-valuenow', Math.round(pct));
                 }
 
-                function cancelHint() {
-                    slider.classList.remove('is-hinting');
-                }
-
-                slider.addEventListener('mousedown', function (e) { active = true; cancelHint(); setPos(e.clientX); });
+                slider.addEventListener('mousedown', function (e) { active = true; setPos(e.clientX); });
                 window.addEventListener('mousemove',  function (e) { if (active) setPos(e.clientX); });
                 window.addEventListener('mouseup',    function ()  { active = false; });
 
-                slider.addEventListener('touchstart', function (e) { active = true; cancelHint(); setPos(e.touches[0].clientX); }, { passive: true });
+                slider.addEventListener('touchstart', function (e) { active = true; setPos(e.touches[0].clientX); }, { passive: true });
                 window.addEventListener('touchmove',  function (e) { if (active) setPos(e.touches[0].clientX); },     { passive: true });
                 window.addEventListener('touchend',   function ()  { active = false; });
                 window.addEventListener('touchcancel', function () { active = false; });
