@@ -846,7 +846,6 @@
             user-select: none;
             -webkit-user-select: none;
             touch-action: pan-y pinch-zoom;
-            will-change: transform;
         }
         .compare__frame {
             position: absolute;
@@ -1213,20 +1212,27 @@
             document.querySelectorAll('[data-compare]').forEach(function (slider) {
                 var handle = slider.querySelector('.compare__handle');
                 var active = false;
+                var rect = slider.getBoundingClientRect();
                 var clamp = function (v, lo, hi) { return Math.min(Math.max(v, lo), hi); };
 
+                // Cache rect on resize — avoids reflow on every mousemove
+                window.addEventListener('resize', function () { rect = slider.getBoundingClientRect(); }, { passive: true });
+
                 function setPos(clientX) {
-                    var rect = slider.getBoundingClientRect();
                     var pct = clamp((clientX - rect.left) / rect.width * 100, 9.74, 90.26);
                     slider.style.setProperty('--split', pct.toFixed(2) + '%');
                     if (handle) handle.setAttribute('aria-valuenow', Math.round(pct));
                 }
 
-                slider.addEventListener('mousedown', function (e) { active = true; setPos(e.clientX); });
+                function cancelHint() {
+                    slider.classList.remove('is-hinting');
+                }
+
+                slider.addEventListener('mousedown', function (e) { active = true; cancelHint(); setPos(e.clientX); });
                 window.addEventListener('mousemove',  function (e) { if (active) setPos(e.clientX); });
                 window.addEventListener('mouseup',    function ()  { active = false; });
 
-                slider.addEventListener('touchstart', function (e) { active = true; setPos(e.touches[0].clientX); }, { passive: true });
+                slider.addEventListener('touchstart', function (e) { active = true; cancelHint(); setPos(e.touches[0].clientX); }, { passive: true });
                 window.addEventListener('touchmove',  function (e) { if (active) setPos(e.touches[0].clientX); },     { passive: true });
                 window.addEventListener('touchend',   function ()  { active = false; });
                 window.addEventListener('touchcancel', function () { active = false; });
