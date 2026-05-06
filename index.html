@@ -768,16 +768,17 @@
         }
 
         .hero__title {
-            font-size: clamp(2.25rem, 5vw, 3.75rem);
+            font-size: var(--text-display);
             font-weight: var(--weight-bold);
-            letter-spacing: -0.02em;
+            line-height: 1.1;
             margin: 0 0 var(--space-md);
         }
 
         .hero__subtitle {
-            font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
+            font-size: var(--text-md);
+            font-weight: var(--weight-semibold);
             color: var(--color-text-secondary);
-            line-height: 1.5;
+            line-height: 1.2;
             margin: 0 auto var(--space-lg);
             max-width: 38rem;
         }
