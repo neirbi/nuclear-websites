@@ -1110,44 +1110,6 @@
         })();
     </script>
 
-    <script>
-        // Before/after compare slider — pattern mirrors the working
-        // ba-slider in the ARC Dental project. Window-level move/end
-        // listeners, no preventDefault on mousedown.
-        (function () {
-            document.querySelectorAll('[data-compare]').forEach(function (slider) {
-                var handle = slider.querySelector('.compare__handle');
-                var active = false;
-                var clamp = function (v, lo, hi) { return Math.min(Math.max(v, lo), hi); };
-
-                function setPos(clientX) {
-                    var rect = slider.getBoundingClientRect();
-                    var pct = clamp((clientX - rect.left) / rect.width * 100, 0, 100);
-                    slider.style.setProperty('--split', pct.toFixed(2) + '%');
-                    if (handle) handle.setAttribute('aria-valuenow', Math.round(pct));
-                }
-
-                slider.addEventListener('mousedown', function (e) { active = true; setPos(e.clientX); });
-                window.addEventListener('mousemove',  function (e) { if (active) setPos(e.clientX); });
-                window.addEventListener('mouseup',    function ()  { active = false; });
-
-                slider.addEventListener('touchstart', function (e) { active = true; setPos(e.touches[0].clientX); }, { passive: true });
-                window.addEventListener('touchmove',  function (e) { if (active) setPos(e.touches[0].clientX); },     { passive: true });
-                window.addEventListener('touchend',   function ()  { active = false; });
-                window.addEventListener('touchcancel', function () { active = false; });
-
-                if (handle) {
-                    handle.addEventListener('keydown', function (e) {
-                        var cur = parseFloat(slider.style.getPropertyValue('--split') || '50');
-                        var step = e.shiftKey ? 10 : 2;
-                        if (e.key === 'ArrowLeft')  { slider.style.setProperty('--split', clamp(cur - step, 0, 100).toFixed(2) + '%'); handle.setAttribute('aria-valuenow', Math.round(clamp(cur - step, 0, 100))); e.preventDefault(); }
-                        else if (e.key === 'ArrowRight') { slider.style.setProperty('--split', clamp(cur + step, 0, 100).toFixed(2) + '%'); handle.setAttribute('aria-valuenow', Math.round(clamp(cur + step, 0, 100))); e.preventDefault(); }
-                    });
-                }
-            });
-        })();
-    </script>
-
     <!-- ===========================================
          RIBBON SLOT — move this section anywhere in the page
          =========================================== -->
@@ -1209,5 +1171,40 @@
         </div>
     </footer>
 
+    <script>
+        // Compare slider — placed after the element so querySelectorAll finds it.
+        (function () {
+            document.querySelectorAll('[data-compare]').forEach(function (slider) {
+                var handle = slider.querySelector('.compare__handle');
+                var active = false;
+                var clamp = function (v, lo, hi) { return Math.min(Math.max(v, lo), hi); };
+
+                function setPos(clientX) {
+                    var rect = slider.getBoundingClientRect();
+                    var pct = clamp((clientX - rect.left) / rect.width * 100, 0, 100);
+                    slider.style.setProperty('--split', pct.toFixed(2) + '%');
+                    if (handle) handle.setAttribute('aria-valuenow', Math.round(pct));
+                }
+
+                slider.addEventListener('mousedown', function (e) { active = true; setPos(e.clientX); });
+                window.addEventListener('mousemove',  function (e) { if (active) setPos(e.clientX); });
+                window.addEventListener('mouseup',    function ()  { active = false; });
+
+                slider.addEventListener('touchstart', function (e) { active = true; setPos(e.touches[0].clientX); }, { passive: true });
+                window.addEventListener('touchmove',  function (e) { if (active) setPos(e.touches[0].clientX); },     { passive: true });
+                window.addEventListener('touchend',   function ()  { active = false; });
+                window.addEventListener('touchcancel', function () { active = false; });
+
+                if (handle) {
+                    handle.addEventListener('keydown', function (e) {
+                        var cur = parseFloat(slider.style.getPropertyValue('--split') || '50');
+                        var step = e.shiftKey ? 10 : 2;
+                        if (e.key === 'ArrowLeft')  { slider.style.setProperty('--split', clamp(cur - step, 0, 100).toFixed(2) + '%'); handle.setAttribute('aria-valuenow', Math.round(clamp(cur - step, 0, 100))); e.preventDefault(); }
+                        else if (e.key === 'ArrowRight') { slider.style.setProperty('--split', clamp(cur + step, 0, 100).toFixed(2) + '%'); handle.setAttribute('aria-valuenow', Math.round(clamp(cur + step, 0, 100))); e.preventDefault(); }
+                    });
+                }
+            });
+        })();
+    </script>
 </body>
 </html>
