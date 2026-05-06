@@ -754,16 +754,16 @@
             pointer-events: none;
         }
 
-        /* Ambient light layer — 4 asymmetric glows, 3 brand colors */
+        /* Ambient light layer — 3 asymmetric glows, 3 brand colors */
         .hero::before {
             background:
-                radial-gradient(ellipse 38% 42% at 72% 8%,
+                radial-gradient(circle 40vw at 72% 8%,
                     color-mix(in srgb, var(--color-blue-500) 18%, transparent),
                     transparent 70%),
-                radial-gradient(ellipse 30% 36% at 18% 30%,
+                radial-gradient(circle 30vw at 18% 30%,
                     color-mix(in srgb, var(--color-accent-primary) 15%, transparent),
                     transparent 70%),
-                radial-gradient(ellipse 42% 38% at 88% 72%,
+                radial-gradient(circle 38vw at 88% 72%,
                     color-mix(in srgb, var(--color-green-500) 13%, transparent),
                     transparent 70%);
         }
