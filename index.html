@@ -880,6 +880,16 @@
             -webkit-user-drag: none;
             z-index: 4;
         }
+        /* Transparent hit-target on top of every visual layer.
+           Guarantees pointer events reach the JS regardless of how
+           lower layers' pointer-events resolve under the MacBook. */
+        .compare__hit {
+            position: absolute;
+            inset: 0;
+            z-index: 5;
+            cursor: ew-resize;
+            background: transparent;
+        }
 
 
         .skip-link {
@@ -1120,6 +1130,7 @@
         // children that have pointer-events:none).
         (function () {
             document.querySelectorAll('[data-compare]').forEach(function (el) {
+                var hit = el.querySelector('.compare__hit') || el;
                 var pos = 50;
                 var dragging = false;
                 function setPos(p) {
@@ -1150,8 +1161,8 @@
                     dragging = false;
                     el.classList.remove('is-dragging');
                 }
-                el.addEventListener('mousedown', onDown);
-                el.addEventListener('touchstart', onDown, { passive: false });
+                hit.addEventListener('mousedown', onDown);
+                hit.addEventListener('touchstart', onDown, { passive: false });
                 document.addEventListener('mousemove', onMove);
                 document.addEventListener('touchmove', onMove, { passive: false });
                 document.addEventListener('mouseup', onUp);
@@ -1205,6 +1216,7 @@
                         </span>
                     </div>
                     <img class="compare__frame" src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/showcase/mackbook-pro-empty-screen.avif" alt="">
+                    <div class="compare__hit" aria-hidden="true"></div>
                 </div>
             </div>
         </section>
