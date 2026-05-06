@@ -802,29 +802,26 @@
 
         /* ===========================================
            BEFORE / AFTER COMPARE — draggable slider
-           Three layers stacked at the MacBook frame's aspect ratio:
-             1. before screenshot (bottom)
-             2. after screenshot, clipped from the left by --pos
-             3. handle (vertical divider + knob)
-             4. MacBook frame on top — opaque chassis hides the
-                handle and screenshot edges; the transparent screen
-                area lets layers 1–3 show through cleanly.
+           Pattern based on the working ba-slider in the ARC Dental
+           project: --split CSS var (registered with @property so it's
+           animatable) drives both the after-image clip and the handle
+           position. Layered with the MacBook frame on top, the chassis
+           hides the slider chrome outside the screen area.
            =========================================== */
+        @property --split {
+            syntax: '<percentage>';
+            inherits: true;
+            initial-value: 50%;
+        }
         .compare {
-            --pos: 50%;
             position: relative;
             width: 100%;
             aspect-ratio: 2362 / 1440;
             margin-top: var(--space-xl);
+            cursor: col-resize;
             user-select: none;
-            cursor: ew-resize;
-            touch-action: none;
-        }
-        .compare.is-dragging { cursor: grabbing; }
-        .compare:focus-visible {
-            outline: 2px solid var(--color-blue-500);
-            outline-offset: 4px;
-            border-radius: var(--radius-lg);
+            -webkit-user-select: none;
+            touch-action: pan-y pinch-zoom;
         }
         .compare__img {
             position: absolute;
@@ -833,42 +830,13 @@
             height: 100%;
             object-fit: cover;
             pointer-events: none;
-            user-select: none;
             -webkit-user-drag: none;
         }
         .compare__img--before { z-index: 1; }
         .compare__img--after {
             z-index: 2;
-            clip-path: inset(0 0 0 var(--pos));
+            clip-path: inset(0 0 0 var(--split, 50%));
         }
-        .compare__handle {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: var(--pos);
-            width: 2px;
-            background: rgba(255, 255, 255, 0.95);
-            transform: translateX(-50%);
-            pointer-events: none;
-            box-shadow: 0 0 12px rgba(0, 0, 0, 0.25);
-            z-index: 3;
-        }
-        .compare__knob {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 3rem;
-            height: 3rem;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.95);
-            transform: translate(-50%, -50%);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--color-text-primary);
-        }
-        .compare__knob svg { display: block; }
         .compare__frame {
             position: absolute;
             inset: 0;
@@ -876,19 +844,50 @@
             height: 100%;
             object-fit: contain;
             pointer-events: none;
-            user-select: none;
             -webkit-user-drag: none;
             z-index: 4;
         }
-        /* Transparent hit-target on top of every visual layer.
-           Guarantees pointer events reach the JS regardless of how
-           lower layers' pointer-events resolve under the MacBook. */
-        .compare__hit {
+        .compare__handle {
             position: absolute;
-            inset: 0;
+            top: 0;
+            bottom: 0;
+            left: var(--split, 50%);
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            pointer-events: none;
+            width: 44px;
             z-index: 5;
-            cursor: ew-resize;
-            background: transparent;
+        }
+        .compare__handle:focus-visible {
+            outline: 2px solid var(--color-blue-500);
+            outline-offset: 4px;
+            border-radius: var(--radius-sm);
+        }
+        .compare__line {
+            flex: 1;
+            width: 2px;
+            background: #fff;
+            box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+        }
+        .compare__circle {
+            flex-shrink: 0;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            color: #333;
+        }
+        .compare__circle svg {
+            width: 14px;
+            height: 14px;
+            flex-shrink: 0;
         }
 
 
@@ -1123,61 +1122,39 @@
     </script>
 
     <script>
-        // Before/after compare slider — isolated from the main IIFE so
-        // any error elsewhere can't prevent it from initializing.
-        // Mouse + touch listeners (pointer events have inconsistent
-        // behavior in some Chromium versions when combined with image
-        // children that have pointer-events:none).
+        // Before/after compare slider — pattern mirrors the working
+        // ba-slider in the ARC Dental project. Window-level move/end
+        // listeners, no preventDefault on mousedown.
         (function () {
-            document.querySelectorAll('[data-compare]').forEach(function (el) {
-                var hit = el.querySelector('.compare__hit') || el;
-                var pos = 50;
-                var dragging = false;
-                function setPos(p) {
-                    pos = Math.max(0, Math.min(100, p));
-                    el.style.setProperty('--pos', pos + '%');
-                    el.setAttribute('aria-valuenow', String(Math.round(pos)));
-                }
-                function moveTo(clientX) {
-                    var r = el.getBoundingClientRect();
-                    if (!r.width) return;
-                    setPos(((clientX - r.left) / r.width) * 100);
-                }
-                function getX(e) {
-                    return e.touches && e.touches[0] ? e.touches[0].clientX : e.clientX;
-                }
-                function onDown(e) {
-                    dragging = true;
-                    el.classList.add('is-dragging');
-                    moveTo(getX(e));
-                    e.preventDefault();
-                }
-                function onMove(e) {
-                    if (!dragging) return;
-                    moveTo(getX(e));
-                }
-                function onUp() {
-                    if (!dragging) return;
-                    dragging = false;
-                    el.classList.remove('is-dragging');
-                }
-                hit.addEventListener('mousedown', onDown);
-                hit.addEventListener('touchstart', onDown, { passive: false });
-                document.addEventListener('mousemove', onMove);
-                document.addEventListener('touchmove', onMove, { passive: false });
-                document.addEventListener('mouseup', onUp);
-                document.addEventListener('touchend', onUp);
-                document.addEventListener('touchcancel', onUp);
+            document.querySelectorAll('[data-compare]').forEach(function (slider) {
+                var handle = slider.querySelector('.compare__handle');
+                var active = false;
+                var clamp = function (v, lo, hi) { return Math.min(Math.max(v, lo), hi); };
 
-                el.addEventListener('keydown', function (e) {
-                    var step = e.shiftKey ? 10 : 2;
-                    if (e.key === 'ArrowLeft')  { setPos(pos - step); e.preventDefault(); }
-                    else if (e.key === 'ArrowRight') { setPos(pos + step); e.preventDefault(); }
-                    else if (e.key === 'Home')  { setPos(0);   e.preventDefault(); }
-                    else if (e.key === 'End')   { setPos(100); e.preventDefault(); }
-                });
+                function setPos(clientX) {
+                    var rect = slider.getBoundingClientRect();
+                    var pct = clamp((clientX - rect.left) / rect.width * 100, 0, 100);
+                    slider.style.setProperty('--split', pct.toFixed(2) + '%');
+                    if (handle) handle.setAttribute('aria-valuenow', Math.round(pct));
+                }
 
-                setPos(50);
+                slider.addEventListener('mousedown', function (e) { active = true; setPos(e.clientX); });
+                window.addEventListener('mousemove',  function (e) { if (active) setPos(e.clientX); });
+                window.addEventListener('mouseup',    function ()  { active = false; });
+
+                slider.addEventListener('touchstart', function (e) { active = true; setPos(e.touches[0].clientX); }, { passive: true });
+                window.addEventListener('touchmove',  function (e) { if (active) setPos(e.touches[0].clientX); },     { passive: true });
+                window.addEventListener('touchend',   function ()  { active = false; });
+                window.addEventListener('touchcancel', function () { active = false; });
+
+                if (handle) {
+                    handle.addEventListener('keydown', function (e) {
+                        var cur = parseFloat(slider.style.getPropertyValue('--split') || '50');
+                        var step = e.shiftKey ? 10 : 2;
+                        if (e.key === 'ArrowLeft')  { slider.style.setProperty('--split', clamp(cur - step, 0, 100).toFixed(2) + '%'); handle.setAttribute('aria-valuenow', Math.round(clamp(cur - step, 0, 100))); e.preventDefault(); }
+                        else if (e.key === 'ArrowRight') { slider.style.setProperty('--split', clamp(cur + step, 0, 100).toFixed(2) + '%'); handle.setAttribute('aria-valuenow', Math.round(clamp(cur + step, 0, 100))); e.preventDefault(); }
+                    });
+                }
             });
         })();
     </script>
@@ -1204,19 +1181,22 @@
                     <p class="hero__subtitle">We build websites engineered to convert visitors into customers. Using the same battle-tested principles behind the book Nuclear Websites.</p>
                     <a class="btn-pill" href="#contact">Get a site that pays for itself</a>
                 </div>
-                <div class="compare" data-compare role="slider" tabindex="0" aria-label="Drag to compare before and after" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
-                    <img class="compare__img compare__img--before" src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/showcase/backtoaction-before-comparison.avif" alt="Sample website, before">
-                    <img class="compare__img compare__img--after" src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/showcase/backtoaction-after-comparison.avif" alt="Sample website, after">
-                    <div class="compare__handle" aria-hidden="true">
-                        <span class="compare__knob">
-                            <svg width="20" height="12" viewBox="0 0 20 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="5 1 1 6 5 11"/>
-                                <polyline points="15 1 19 6 15 11"/>
+                <div class="compare" data-compare role="img" aria-label="Sample website before and after redesign comparison">
+                    <img class="compare__img compare__img--before" src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/showcase/backtoaction-before-comparison.avif" alt="Sample website, before" draggable="false">
+                    <img class="compare__img compare__img--after" src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/showcase/backtoaction-after-comparison.avif" alt="Sample website, after" draggable="false">
+                    <img class="compare__frame" src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/showcase/mackbook-pro-empty-screen.avif" alt="" draggable="false">
+                    <div class="compare__handle" role="slider" aria-label="Compare before and after" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" tabindex="0">
+                        <div class="compare__line"></div>
+                        <div class="compare__circle" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M15 18l-6-6 6-6"/>
                             </svg>
-                        </span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 18l6-6-6-6"/>
+                            </svg>
+                        </div>
+                        <div class="compare__line"></div>
                     </div>
-                    <img class="compare__frame" src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/showcase/mackbook-pro-empty-screen.avif" alt="">
-                    <div class="compare__hit" aria-hidden="true"></div>
                 </div>
             </div>
         </section>
