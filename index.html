@@ -799,7 +799,99 @@
             color: var(--color-on-accent);
         }
 
-        /* Skip link — hidden until keyboard-focused */
+        /* ===========================================
+           BEFORE / AFTER COMPARE — draggable slider
+           Two stacked images; the "after" is clipped from the left by
+           --pos, so dragging the handle reveals the before underneath.
+           Native <input type="range"> drives --pos for free pointer +
+           touch + keyboard support.
+           =========================================== */
+        .compare {
+            --pos: 50%;
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin-top: var(--space-xl);
+            user-select: none;
+            background: var(--color-bg-surface);
+        }
+        .compare__img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none;
+            user-select: none;
+        }
+        .compare__img--after {
+            clip-path: inset(0 0 0 var(--pos));
+        }
+        .compare__range {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            border: 0;
+            -webkit-appearance: none;
+            appearance: none;
+            opacity: 0;
+            cursor: ew-resize;
+            z-index: 2;
+        }
+        .compare__range::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 4rem;
+            height: 100%;
+            cursor: ew-resize;
+        }
+        .compare__range::-moz-range-thumb {
+            width: 4rem;
+            height: 100%;
+            border: 0;
+            background: transparent;
+            cursor: ew-resize;
+        }
+        .compare__range:focus-visible + .compare__handle {
+            outline: 2px solid var(--color-blue-500);
+            outline-offset: 4px;
+            border-radius: var(--radius-sm);
+        }
+        .compare__handle {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: var(--pos);
+            width: 2px;
+            background: rgba(255, 255, 255, 0.95);
+            transform: translateX(-50%);
+            pointer-events: none;
+            box-shadow: 0 0 12px rgba(0, 0, 0, 0.25);
+            z-index: 1;
+        }
+        .compare__knob {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.95);
+            transform: translate(-50%, -50%);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-primary);
+        }
+        .compare__knob svg { display: block; }
+
+
         .skip-link {
             position: absolute;
             top: var(--space-xs);
@@ -1026,6 +1118,17 @@
                     }
                 });
             }
+
+            // Before/after compare slider — wire native range input
+            // to the --pos CSS variable that drives both the after-image
+            // clip and the handle position.
+            document.querySelectorAll('[data-compare]').forEach((el) => {
+                const range = el.querySelector('.compare__range');
+                if (!range) return;
+                const update = () => el.style.setProperty('--pos', range.value + '%');
+                range.addEventListener('input', update);
+                update();
+            });
         })();
     </script>
 
@@ -1050,6 +1153,19 @@
                     <h1 id="hero-title" class="hero__title">Your website should <span class="gradient-text">make you money</span>. Most don&rsquo;t.</h1>
                     <p class="hero__subtitle">We build websites engineered to convert visitors into customers. Using the same battle-tested principles behind the book Nuclear Websites.</p>
                     <a class="btn-pill" href="#contact">Get a site that pays for itself</a>
+                </div>
+                <div class="compare" data-compare>
+                    <img class="compare__img compare__img--before" src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/showcase/sample-website-hero-before.avif" alt="Sample website hero, before">
+                    <img class="compare__img compare__img--after" src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/showcase/sample-website-hero-after.avif" alt="Sample website hero, after">
+                    <input class="compare__range" type="range" min="0" max="100" value="50" step="0.1" aria-label="Drag to compare before and after">
+                    <div class="compare__handle" aria-hidden="true">
+                        <span class="compare__knob">
+                            <svg width="20" height="12" viewBox="0 0 20 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="5 1 1 6 5 11"/>
+                                <polyline points="15 1 19 6 15 11"/>
+                            </svg>
+                        </span>
+                    </div>
                 </div>
             </div>
         </section>
