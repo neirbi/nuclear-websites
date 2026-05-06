@@ -1109,50 +1109,61 @@
                 });
             }
 
-            // Before/after compare slider — pointer drag + keyboard.
-            // Pattern: pointerdown on host element starts drag; document-
-            // level pointermove/pointerup track the drag so it survives
-            // leaving the host bounds (more reliable than setPointerCapture
-            // across browsers). One --pos CSS variable drives both the
-            // after-image clip and the handle position.
-            document.querySelectorAll('[data-compare]').forEach((el) => {
-                let pos = 50;
-                const setPos = (p) => {
+        })();
+    </script>
+
+    <script>
+        // Before/after compare slider — isolated from the main IIFE so
+        // any error elsewhere can't prevent it from initializing.
+        // Mouse + touch listeners (pointer events have inconsistent
+        // behavior in some Chromium versions when combined with image
+        // children that have pointer-events:none).
+        (function () {
+            document.querySelectorAll('[data-compare]').forEach(function (el) {
+                var pos = 50;
+                var dragging = false;
+                function setPos(p) {
                     pos = Math.max(0, Math.min(100, p));
                     el.style.setProperty('--pos', pos + '%');
-                    el.setAttribute('aria-valuenow', Math.round(pos));
-                };
-                const updateFromX = (clientX) => {
-                    const r = el.getBoundingClientRect();
-                    if (r.width === 0) return;
+                    el.setAttribute('aria-valuenow', String(Math.round(pos)));
+                }
+                function moveTo(clientX) {
+                    var r = el.getBoundingClientRect();
+                    if (!r.width) return;
                     setPos(((clientX - r.left) / r.width) * 100);
-                };
-
-                let dragging = false;
-                el.addEventListener('pointerdown', (e) => {
+                }
+                function getX(e) {
+                    return e.touches && e.touches[0] ? e.touches[0].clientX : e.clientX;
+                }
+                function onDown(e) {
                     dragging = true;
                     el.classList.add('is-dragging');
-                    updateFromX(e.clientX);
+                    moveTo(getX(e));
                     e.preventDefault();
-                });
-                const move = (e) => {
-                    if (dragging) updateFromX(e.clientX);
-                };
-                const stop = () => {
+                }
+                function onMove(e) {
+                    if (!dragging) return;
+                    moveTo(getX(e));
+                }
+                function onUp() {
                     if (!dragging) return;
                     dragging = false;
                     el.classList.remove('is-dragging');
-                };
-                document.addEventListener('pointermove', move);
-                document.addEventListener('pointerup', stop);
-                document.addEventListener('pointercancel', stop);
+                }
+                el.addEventListener('mousedown', onDown);
+                el.addEventListener('touchstart', onDown, { passive: false });
+                document.addEventListener('mousemove', onMove);
+                document.addEventListener('touchmove', onMove, { passive: false });
+                document.addEventListener('mouseup', onUp);
+                document.addEventListener('touchend', onUp);
+                document.addEventListener('touchcancel', onUp);
 
-                el.addEventListener('keydown', (e) => {
-                    const step = e.shiftKey ? 10 : 2;
-                    if (e.key === 'ArrowLeft') { setPos(pos - step); e.preventDefault(); }
+                el.addEventListener('keydown', function (e) {
+                    var step = e.shiftKey ? 10 : 2;
+                    if (e.key === 'ArrowLeft')  { setPos(pos - step); e.preventDefault(); }
                     else if (e.key === 'ArrowRight') { setPos(pos + step); e.preventDefault(); }
-                    else if (e.key === 'Home') { setPos(0); e.preventDefault(); }
-                    else if (e.key === 'End') { setPos(100); e.preventDefault(); }
+                    else if (e.key === 'Home')  { setPos(0);   e.preventDefault(); }
+                    else if (e.key === 'End')   { setPos(100); e.preventDefault(); }
                 });
 
                 setPos(50);
