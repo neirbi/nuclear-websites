@@ -918,7 +918,7 @@
                     }
                 };
                 const scheduleClose = () => {
-                    cancelClose();
+                    if (closeTimer) return;
                     closeTimer = setTimeout(() => {
                         delete dropdown.dataset.active;
                         dropdown.classList.remove('is-opening');
@@ -951,9 +951,11 @@
                 // trigger's left edge to the last trigger's right edge,
                 // across the full nav-bar height. Cursor inside this band
                 // (including the gaps between adjacent triggers) keeps the
-                // menu open; anywhere else in the nav schedules a close.
+                // menu open; anywhere else in the header schedules a
+                // close. Listener is on the header so it covers the
+                // viewport width outside the .container too.
                 const triggers = [...nav.querySelectorAll('.site-nav__item--has-dropdown')];
-                nav.addEventListener('mouseover', (e) => {
+                header.addEventListener('mouseover', (e) => {
                     if (!dropdown.dataset.active) return;
                     if (triggers.length) {
                         const firstR = triggers[0].getBoundingClientRect();
