@@ -1189,7 +1189,7 @@
 
                 function setPos(clientX) {
                     var rect = slider.getBoundingClientRect();
-                    var pct = clamp((clientX - rect.left) / rect.width * 100, 0, 100);
+                    var pct = clamp((clientX - rect.left) / rect.width * 100, 9.74, 90.26);
                     slider.style.setProperty('--split', pct.toFixed(2) + '%');
                     if (handle) handle.setAttribute('aria-valuenow', Math.round(pct));
                 }
@@ -1207,8 +1207,8 @@
                     handle.addEventListener('keydown', function (e) {
                         var cur = parseFloat(slider.style.getPropertyValue('--split') || '50');
                         var step = e.shiftKey ? 10 : 2;
-                        if (e.key === 'ArrowLeft')  { slider.style.setProperty('--split', clamp(cur - step, 0, 100).toFixed(2) + '%'); handle.setAttribute('aria-valuenow', Math.round(clamp(cur - step, 0, 100))); e.preventDefault(); }
-                        else if (e.key === 'ArrowRight') { slider.style.setProperty('--split', clamp(cur + step, 0, 100).toFixed(2) + '%'); handle.setAttribute('aria-valuenow', Math.round(clamp(cur + step, 0, 100))); e.preventDefault(); }
+                        if (e.key === 'ArrowLeft')  { slider.style.setProperty('--split', clamp(cur - step, 9.74, 90.26).toFixed(2) + '%'); handle.setAttribute('aria-valuenow', Math.round(clamp(cur - step, 9.74, 90.26))); e.preventDefault(); }
+                        else if (e.key === 'ArrowRight') { slider.style.setProperty('--split', clamp(cur + step, 9.74, 90.26).toFixed(2) + '%'); handle.setAttribute('aria-valuenow', Math.round(clamp(cur + step, 9.74, 90.26))); e.preventDefault(); }
                     });
                 }
             });
