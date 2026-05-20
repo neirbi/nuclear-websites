@@ -753,6 +753,23 @@
         .section--reading.section--left .section__body {
             margin-inline: 0;
         }
+        .section__list {
+            list-style: none;
+            padding: 0;
+            margin: var(--space-md) 0 0;
+            max-width: var(--measure-body);
+            font-size: var(--text-md);
+            font-weight: var(--weight-semibold);
+            color: var(--color-text-secondary);
+            line-height: 1.4;
+        }
+        .section__list li + li {
+            margin-top: var(--space-xs);
+        }
+        .section__list strong {
+            color: var(--color-text-primary);
+            font-weight: var(--weight-semibold);
+        }
 
         /* ===========================================
            HERO — radial gradient blob + centered content
@@ -1209,6 +1226,22 @@
                     <p class="section__eyebrow">How</p>
                     <h2 id="how-title" class="section__title"><span class="gradient-text">We build on principles,</span><br>not trends.</h2>
                     <p class="section__body">Every element must pass one test. <span class="section__body-emphasis">Does this move the sale forward?</span> Your visitor only cares about one thing: what&rsquo;s in it for them. A slow, ugly, bloated site answers that question for you, and the answer is nothing. So we cut everything that doesn&rsquo;t earn its place. What&rsquo;s left is fast and beautiful.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section--reading section--left" id="what" aria-labelledby="what-title">
+            <div class="container">
+                <div class="section__inner">
+                    <p class="section__eyebrow">What</p>
+                    <h2 id="what-title" class="section__title"><span class="gradient-text">A website that</span><br>pays for itself.</h2>
+                    <p class="section__body">Most websites are broken. Fast but hideous. Gorgeous but dead. Modern but useless. One or two boxes checked, the rest ignored, and you wonder why nothing sells. We build world class websites. <span class="section__body-emphasis">The kind you&rsquo;d get if you asked Apple to build you one.</span> The one you always wished you had.</p>
+                    <ul class="section__list">
+                        <li><strong>Fast.</strong> Loads before they blink.</li>
+                        <li><strong>Beautiful.</strong> A site they enjoy looking at.</li>
+                        <li><strong>Functional.</strong> It actually does things.</li>
+                        <li><strong>Converts.</strong> It turns visitors into customers.</li>
+                    </ul>
                 </div>
             </div>
         </section>
