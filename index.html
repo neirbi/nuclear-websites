@@ -89,6 +89,7 @@
             /* --- BRAND COLORS --- */
             --color-teal-400: #12B8C9;
             --color-teal-800: #0A5565;
+            --color-green-300: #7FE3B0;      /* Bright mint — gradient light stop */
             --color-green-500: #2FAE6F;
             --color-blue-500: #0071E3;       /* Apple-style blue */
             --color-blue-link: #0066CC;      /* light-mode link blue */
@@ -117,6 +118,7 @@
 
             /* --- GRADIENTS --- */
             --gradient-primary: linear-gradient(135deg, #12B8C9 0%, #0A5565 100%);
+            --gradient-success: linear-gradient(90deg, var(--color-green-300) 0%, var(--color-green-500) 100%);
 
             /* --- FONTS ---
                System stack loads instantly; Inter swaps in on load */
@@ -285,6 +287,9 @@
             -webkit-background-clip: text;
             color: transparent;
             -webkit-text-fill-color: transparent;
+        }
+        .gradient-text--success {
+            background-image: var(--gradient-success);
         }
 
         .visually-hidden {
@@ -1237,10 +1242,10 @@
                     <h2 id="what-title" class="section__title"><span class="gradient-text">A website that</span><br>pays for itself.</h2>
                     <p class="section__body">Most websites are broken. Fast but hideous. Gorgeous but dead. Modern but useless. One or two boxes checked, the rest ignored, and you wonder why nothing sells. We build world class websites. <span class="section__body-emphasis">The kind you&rsquo;d get if you asked Apple to build you one.</span> The one you always wished you had.</p>
                     <ul class="section__list">
-                        <li><strong>Fast.</strong> Loads before they blink.</li>
-                        <li><strong>Beautiful.</strong> A site they enjoy looking at.</li>
-                        <li><strong>Functional.</strong> It actually does things.</li>
-                        <li><strong>Converts.</strong> It turns visitors into customers.</li>
+                        <li><strong class="gradient-text gradient-text--success">Fast.</strong> Loads before they blink.</li>
+                        <li><strong class="gradient-text gradient-text--success">Beautiful.</strong> A site they enjoy looking at.</li>
+                        <li><strong class="gradient-text gradient-text--success">Functional.</strong> It actually does things.</li>
+                        <li><strong class="gradient-text gradient-text--success">Converts.</strong> It turns visitors into customers.</li>
                     </ul>
                 </div>
             </div>
