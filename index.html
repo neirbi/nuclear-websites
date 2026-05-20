@@ -859,6 +859,25 @@
             -webkit-user-select: none;
             touch-action: pan-y pinch-zoom;
         }
+        /* Scroll-expanding wrapper — compositor-only scale via view() timeline. */
+        @keyframes compare-grow {
+            from { transform: scale(var(--compare-start-scale, 0.5)); }
+            to   { transform: scale(1); }
+        }
+        .compare-grow {
+            width: 100%;
+            transform-origin: center top;
+            will-change: transform;
+            animation: compare-grow linear both;
+            animation-timeline: view();
+            animation-range: entry 0% cover 45%;
+        }
+        @supports not (animation-timeline: view()) {
+            .compare-grow { transform: none; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .compare-grow { animation: none; transform: none; }
+        }
         .compare__frame {
             position: absolute;
             inset: 0;
@@ -1179,6 +1198,7 @@
                     <p class="hero__subtitle">Built on the same battle-tested principles behind the book.</p>
                     <a class="btn-pill" href="#contact">Get a site that pays for itself</a>
                 </div>
+                <div class="compare-grow">
                 <div class="compare" data-compare role="img" aria-label="Sample website before and after redesign comparison">
                     <img class="compare__img compare__img--before" src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/showcase/arcdental-before-comparison.avif" alt="Sample website, before redesign" draggable="false">
                     <img class="compare__img compare__img--after" src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/showcase/arcdental-after-comparison.avif" alt="Sample website, after redesign" draggable="false">
@@ -1195,6 +1215,7 @@
                         <div class="compare__line"></div>
                     </div>
                     <img class="compare__frame" src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/showcase/mackbook-pro-empty-screen.avif" alt="" draggable="false">
+                </div>
                 </div>
             </div>
         </section>
