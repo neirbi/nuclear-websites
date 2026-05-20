@@ -176,6 +176,7 @@
             --measure-wrapper: 61rem;        /* 976px — content wrapper for reading sections */
             --measure-body: 41rem;           /* 656px — running text column for readability */
             --nav-height: 2.75rem;           /* 44px */
+            --nav-dropdown-height: 22rem;    /* total curtain height when open */
             --ribbon-height: 3.25rem;        /* 52px */
 
             /* --- FROSTED GLASS (frosted nav, dropdown, mobile menu panel) --- */
@@ -355,6 +356,7 @@
             color: var(--color-text-primary);
             font-size: var(--text-sm);
             opacity: 0.8;
+            transition: opacity var(--transition-base);
         }
         .site-nav__link:hover {
             color: var(--color-text-primary);
@@ -370,10 +372,10 @@
 
         /* ===========================================
            NAV DROPDOWN — sibling of .site-header
-           Transparent panel; the .nav-scrim behind it provides the
-           frosted surface. One .nav-dropdown contains a
-           .nav-dropdown__group per trigger, all stacked in place.
-           Group opacity drives sibling cross-fade.
+           Solid curtain that drops below the nav. One .nav-dropdown
+           contains a .nav-dropdown__group per trigger, all stacked
+           in place; group opacity drives sibling cross-fade.
+           The .nav-scrim frosts the page area below the curtain.
            =========================================== */
         .nav-dropdown {
             position: fixed;
@@ -390,7 +392,7 @@
         body:has(.site-nav__item--has-dropdown:hover) .nav-dropdown,
         body:has(.site-nav__item--has-dropdown:focus-within) .nav-dropdown,
         .nav-dropdown:focus-within {
-            height: calc(22rem - var(--nav-height));
+            height: calc(var(--nav-dropdown-height) - var(--nav-height));
             transition-delay: 0s;
         }
 
@@ -451,9 +453,10 @@
         }
         .nav-dropdown__link {
             color: var(--color-text-primary);
-            font-size: 1.5rem;
+            font-size: var(--text-lg);
             font-weight: var(--weight-semibold);
             opacity: 0.9;
+            transition: opacity var(--transition-base);
         }
         .nav-dropdown__link:hover {
             color: var(--color-text-primary);
@@ -468,11 +471,18 @@
         }
         .nav-dropdown__caption a:hover { color: var(--color-text-primary); }
 
-        /* Scrim — frosts the rest of the visible page below the open
-           curtain. Sits behind the header (which is z-index 50), uses
-           the same frost tokens so it visually unifies with the panel.
-           pointer-events:none so cursor leaving the trigger drops hover
-           and the scrim/curtain both close together. */
+        @media (prefers-reduced-motion: reduce) {
+            .nav-dropdown { transition: none; }
+            .nav-dropdown.is-opening :is(.nav-dropdown__eyebrow, .nav-dropdown__list > li, .nav-dropdown__caption) {
+                animation: none;
+            }
+            .nav-scrim { transition: opacity 0s, visibility 0s; }
+        }
+
+        /* Scrim — frosts the page area below the open curtain.
+           Mirrors the curtain's open-state triggers so the two
+           always animate together. pointer-events:none so cursor
+           leaving the trigger zone closes both. */
         .nav-scrim {
             position: fixed;
             inset: var(--nav-height) 0 0 0;
@@ -488,7 +498,6 @@
         body:has(.nav-dropdown[data-active]) .nav-scrim,
         body:has(.site-nav__item--has-dropdown:hover) .nav-scrim,
         body:has(.site-nav__item--has-dropdown:focus-within) .nav-scrim,
-        body:has(.nav-dropdown:hover) .nav-scrim,
         body:has(.nav-dropdown:focus-within) .nav-scrim {
             opacity: 1;
             visibility: visible;
@@ -511,6 +520,12 @@
             transition: opacity var(--transition-base);
         }
         .icon-btn:hover { opacity: 1; }
+        .icon-btn:focus-visible {
+            outline: 2px solid var(--color-blue-500);
+            outline-offset: 2px;
+            border-radius: var(--radius-sm);
+            opacity: 1;
+        }
 
         .theme-toggle svg { width: 1.125rem; height: 1.125rem; }
         .theme-toggle .icon-sun { display: none; }
@@ -1002,9 +1017,9 @@
                     <li><a class="site-nav__link" href="#what">What</a></li>
                     <li><a class="site-nav__link" href="#about">About</a></li>
                     <li><a class="site-nav__link" href="#book">Our Book</a></li>
-                    <li class="site-nav__item--has-dropdown" data-dropdown="websites"><a class="site-nav__link" href="#websites">Websites</a></li>
-                    <li class="site-nav__item--has-dropdown" data-dropdown="apps"><a class="site-nav__link" href="#apps">Apps</a></li>
-                    <li class="site-nav__item--has-dropdown" data-dropdown="support"><a class="site-nav__link" href="#support">Support</a></li>
+                    <li class="site-nav__item--has-dropdown" data-dropdown="websites"><a class="site-nav__link" href="#websites" aria-haspopup="menu" aria-expanded="false" aria-controls="nav-dropdown-panel">Websites</a></li>
+                    <li class="site-nav__item--has-dropdown" data-dropdown="apps"><a class="site-nav__link" href="#apps" aria-haspopup="menu" aria-expanded="false" aria-controls="nav-dropdown-panel">Apps</a></li>
+                    <li class="site-nav__item--has-dropdown" data-dropdown="support"><a class="site-nav__link" href="#support" aria-haspopup="menu" aria-expanded="false" aria-controls="nav-dropdown-panel">Support</a></li>
                     <li class="site-nav__item--mobile-cta"><a class="site-nav__link" href="#contact"><span class="gradient-text">I'm Ready For a Nuclear Website &rarr;</span></a></li>
                 </ul>
                 <div class="nav-actions">
@@ -1026,7 +1041,7 @@
         </div>
     </header>
 
-    <div class="nav-dropdown" aria-hidden="true">
+    <div class="nav-dropdown" id="nav-dropdown-panel" aria-hidden="true">
             <div class="nav-dropdown__group" data-group="websites">
                 <div class="container">
                     <p class="nav-dropdown__eyebrow">Explore Websites</p>
@@ -1097,6 +1112,15 @@
             const header = document.getElementById('site-header');
             const dropdown = document.querySelector('.nav-dropdown');
             if (dropdown) {
+                const triggerItems = [...nav.querySelectorAll('.site-nav__item--has-dropdown')];
+                const triggerLinks = triggerItems.map((item) => item.querySelector('.site-nav__link'));
+                const syncAria = () => {
+                    const active = dropdown.dataset.active;
+                    triggerItems.forEach((item, i) => {
+                        triggerLinks[i].setAttribute('aria-expanded', String(item.dataset.dropdown === active));
+                    });
+                };
+
                 // Closing is debounced so brief cursor gaps (between the
                 // trigger and the opening panel, between adjacent triggers
                 // during a sibling switch, etc.) don't drop the active state.
@@ -1107,17 +1131,24 @@
                         closeTimer = null;
                     }
                 };
+                const closeNow = () => {
+                    cancelClose();
+                    delete dropdown.dataset.active;
+                    dropdown.classList.remove('is-opening');
+                    syncAria();
+                };
                 const scheduleClose = () => {
                     if (closeTimer) return;
                     closeTimer = setTimeout(() => {
                         delete dropdown.dataset.active;
                         dropdown.classList.remove('is-opening');
                         closeTimer = null;
+                        syncAria();
                     }, 150);
                 };
 
                 // Trigger entry: open the panel or cross-fade between siblings.
-                nav.querySelectorAll('.site-nav__item--has-dropdown').forEach((item) => {
+                triggerItems.forEach((item) => {
                     item.addEventListener('mouseenter', () => {
                         cancelClose();
                         const target = item.dataset.dropdown;
@@ -1134,7 +1165,20 @@
                             dropdown.classList.remove('is-opening');
                         }
                         dropdown.dataset.active = target;
+                        syncAria();
                     });
+                });
+
+                // Escape closes the dropdown.
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && dropdown.dataset.active) {
+                        closeNow();
+                        const active = triggerItems.find((item) =>
+                            dropdown.contains(document.activeElement) ||
+                            item.contains(document.activeElement)
+                        );
+                        if (active) active.querySelector('.site-nav__link').focus();
+                    }
                 });
 
                 // Open zones:
@@ -1146,13 +1190,12 @@
                 // else schedules a close. Single mousemove listener is the
                 // source of truth — avoids mouseover/mouseenter ordering
                 // edge cases and handles cursor stationary in a region.
-                const triggers = [...nav.querySelectorAll('.site-nav__item--has-dropdown')];
                 const inRect = (x, y, r) =>
                     x >= r.left && x <= r.right && y >= r.top && y <= r.bottom;
                 const isInOpenZone = (x, y) => {
-                    if (triggers.length) {
-                        const first = triggers[0].getBoundingClientRect();
-                        const last = triggers[triggers.length - 1].getBoundingClientRect();
+                    if (triggerItems.length) {
+                        const first = triggerItems[0].getBoundingClientRect();
+                        const last = triggerItems[triggerItems.length - 1].getBoundingClientRect();
                         if (
                             x >= first.left && x <= last.right &&
                             y >= first.top && y <= last.bottom
