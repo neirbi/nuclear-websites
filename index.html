@@ -169,6 +169,8 @@
             /* --- LAYOUT --- */
             --container-max-width: 87.5rem;  /* 1400px */
             --container-padding: var(--space-md);
+            --measure-wrapper: 61rem;        /* 976px — content wrapper for reading sections */
+            --measure-body: 41rem;           /* 656px — running text column for readability */
             --nav-height: 2.75rem;           /* 44px */
             --ribbon-height: 3.25rem;        /* 52px */
 
@@ -742,15 +744,13 @@
         .section--left .section__body {
             margin-inline: 0;
         }
-        #why .section__inner,
-        #how .section__inner {
-            max-width: 61rem;
+        .section--reading .section__inner {
+            max-width: var(--measure-wrapper);
         }
-        #why .section__body,
-        #how .section__body {
-            max-width: 41rem;
+        .section--reading .section__body {
+            max-width: var(--measure-body);
         }
-        #how .section__body {
+        .section--reading.section--left .section__body {
             margin-inline: 0;
         }
 
@@ -1193,7 +1193,7 @@
             </div>
         </section>
 
-        <section class="section" id="why" aria-labelledby="why-title">
+        <section class="section section--reading" id="why" aria-labelledby="why-title">
             <div class="container">
                 <div class="section__inner">
                     <p class="section__eyebrow">Why</p>
@@ -1203,7 +1203,7 @@
             </div>
         </section>
 
-        <section class="section section--left" id="how" aria-labelledby="how-title">
+        <section class="section section--reading section--left" id="how" aria-labelledby="how-title">
             <div class="container">
                 <div class="section__inner">
                     <p class="section__eyebrow">How</p>
