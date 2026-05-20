@@ -117,8 +117,12 @@
             --color-accent-strong: #0A5565;
             --color-success: #2FAE6F;
 
-            /* --- GRADIENTS --- */
-            --gradient-primary: linear-gradient(90deg, var(--color-teal-300) 0%, var(--color-teal-400) 100%);
+            /* --- GRADIENTS ---
+               Stops are theme-aware so the gradient reads on both light and dark.
+               Light mode uses darker stops; dark mode uses brighter stops. */
+            --gradient-primary-start: #0E8FA0;   /* vivid mid-teal — light-mode start */
+            --gradient-primary-end:   #075E6A;   /* deep teal — light-mode end */
+            --gradient-primary: linear-gradient(90deg, var(--gradient-primary-start) 0%, var(--gradient-primary-end) 100%);
             --gradient-success: linear-gradient(90deg, var(--color-green-300) 0%, var(--color-green-500) 100%);
 
             /* --- FONTS ---
@@ -616,6 +620,8 @@
             --color-bg-surface: #1D1D1F;
             --color-bg-surface-strong: #161618;
             --frost-bg: rgba(29, 29, 31, 0.72);
+            --gradient-primary-start: var(--color-teal-300);  /* #6FE0EA — bright on dark */
+            --gradient-primary-end:   var(--color-teal-400);  /* #12B8C9 — vivid mid */
         }
 
         /* ===========================================
