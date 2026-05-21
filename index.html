@@ -795,25 +795,35 @@
         }
         .section--card > .container {
             display: flex;
-            align-items: center;
+            align-items: stretch;
             gap: var(--space-lg);
         }
         .section--card .section__inner {
             flex-shrink: 0;
         }
+        /* Aside sits next to the card and stretches to its height.
+           A padded absolute frame anchors the row that holds the images,
+           so the frame's height equals the card's content area
+           (card height minus its vertical padding) — images at
+           height:100% then deterministically match the content height
+           without inflating the row via their intrinsic size. */
         .section__aside {
             flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            gap: var(--space-md);
+            position: relative;
             min-width: 0;
         }
-        .section__aside img {
+        .section__aside__frame {
+            position: absolute;
+            inset: var(--space-xl) 0;
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+        .section__aside__frame img {
             display: block;
             flex: 0 0 auto;
             width: auto;
-            height: clamp(20rem, 36vw, 34rem);
+            height: 100%;
         }
         @media (max-width: 47.99em) {
             .section--card > .container {
@@ -825,6 +835,16 @@
                 border-radius: 0;
                 padding: 0;
                 max-width: 100%;
+            }
+            /* Drop the absolute frame on mobile so phones flow normally. */
+            .section__aside { position: static; }
+            .section__aside__frame {
+                position: static;
+                justify-content: center;
+            }
+            .section__aside__frame img {
+                height: auto;
+                max-width: 50%;
             }
         }
         .section__list {
@@ -1350,8 +1370,10 @@
                     </ul>
                 </div>
                 <div class="section__aside" aria-hidden="true">
-                    <img src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/iphone%20front.png" alt="" loading="lazy" decoding="async">
-                    <img src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/iphone%20right.png" alt="" loading="lazy" decoding="async">
+                    <div class="section__aside__frame">
+                        <img src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/iphone%20front.png" alt="" loading="lazy" decoding="async">
+                        <img src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/iphone%20right.png" alt="" loading="lazy" decoding="async">
+                    </div>
                 </div>
             </div>
         </section>
