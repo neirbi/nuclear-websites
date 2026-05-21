@@ -778,10 +778,15 @@
             margin-inline: 0;
         }
         .section--card .section__inner {
-            background-color: var(--color-bg-surface);
+            background: linear-gradient(
+                to right,
+                var(--color-bg-surface) 0%,
+                var(--color-bg-surface) calc(var(--space-xl) + var(--measure-body)),
+                var(--color-bg-primary) 100%
+            );
             border-radius: var(--radius-xl);
             padding: var(--space-xl);
-            max-width: calc(var(--measure-body) + 2 * var(--space-xl));
+            max-width: calc(var(--measure-wrapper) + 2 * var(--space-xl));
             margin-inline: 0 auto;
         }
         .section--card .section__eyebrow,
