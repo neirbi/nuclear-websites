@@ -896,6 +896,77 @@
             margin-left: 0.25rem;
         }
 
+        /* Modal dialog — native <dialog> styled to match the card surface. */
+        .dialog {
+            border: 0;
+            padding: 0;
+            background-color: var(--color-bg-surface);
+            color: var(--color-text-primary);
+            border-radius: var(--radius-xl);
+            max-width: min(40rem, 92vw);
+            width: 100%;
+            max-height: 86vh;
+            overflow: hidden;
+        }
+        .dialog::backdrop {
+            background-color: rgba(0, 0, 0, 0.5);
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+        }
+        .dialog__close {
+            position: absolute;
+            top: var(--space-md);
+            right: var(--space-md);
+            width: 2rem;
+            height: 2rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-fill-subtle);
+            border: 0;
+            border-radius: 50%;
+            color: var(--color-text-primary);
+            font-size: 1.25rem;
+            line-height: 1;
+            cursor: pointer;
+            transition: opacity var(--transition-base);
+        }
+        .dialog__close:hover { opacity: 0.7; }
+        .dialog__body {
+            padding: var(--space-xl);
+            overflow-y: auto;
+            max-height: 86vh;
+        }
+        .dialog__title {
+            font-size: var(--text-xl);
+            font-weight: var(--weight-bold);
+            line-height: 1.1;
+            margin: 0 0 var(--space-xs);
+        }
+        .dialog__subtitle {
+            font-size: var(--text-md);
+            color: var(--color-text-secondary);
+            margin: 0 0 var(--space-lg);
+        }
+        .dialog__list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-lg);
+        }
+        .dialog__list h3 {
+            font-size: var(--text-md);
+            font-weight: var(--weight-semibold);
+            margin: 0 0 var(--space-xs);
+        }
+        .dialog__list p {
+            margin: 0;
+            color: var(--color-text-secondary);
+            line-height: 1.45;
+        }
+
         /* ===========================================
            HERO — centered content
            =========================================== */
@@ -1319,6 +1390,25 @@
                 });
             }
 
+            // Native <dialog> openers. Links with data-dialog open the matching id.
+            document.querySelectorAll('[data-dialog]').forEach((trigger) => {
+                trigger.addEventListener('click', (e) => {
+                    const dialog = document.getElementById(trigger.dataset.dialog);
+                    if (!dialog) return;
+                    e.preventDefault();
+                    dialog.showModal();
+                });
+            });
+            document.querySelectorAll('dialog.dialog').forEach((dialog) => {
+                // Click on the backdrop (outside the dialog box) closes it.
+                dialog.addEventListener('click', (e) => {
+                    if (e.target === dialog) dialog.close();
+                });
+                dialog.querySelectorAll('[data-dialog-close]').forEach((btn) => {
+                    btn.addEventListener('click', () => dialog.close());
+                });
+            });
+
         })();
     </script>
 
@@ -1383,7 +1473,7 @@
                     <p class="section__eyebrow">How</p>
                     <h2 id="how-title" class="section__title"><span class="gradient-text">We build on principles,</span><br>not trends.</h2>
                     <p class="section__body">Your visitor only cares about one thing. What&rsquo;s in it for them? Slow, ugly, bloated websites scare them away. They&rsquo;re gone before they can find out. <span class="section__body-emphasis">Every element must move the sale forward.</span> What&rsquo;s left is fast and beautiful. A money-making machine.</p>
-                    <a class="learn-more" href="#">Learn more about Nuclear Principles</a>
+                    <a class="learn-more" href="#" data-dialog="principles">Learn more about Nuclear Principles</a>
                 </div>
             </div>
         </section>
@@ -1410,6 +1500,36 @@
             </div>
         </section>
     </main>
+
+    <dialog id="principles" class="dialog" aria-labelledby="principles-title">
+        <button type="button" class="dialog__close" data-dialog-close aria-label="Close">&times;</button>
+        <div class="dialog__body">
+            <h2 id="principles-title" class="dialog__title">First Principles</h2>
+            <p class="dialog__subtitle">The five truths of web-design.</p>
+            <ol class="dialog__list">
+                <li>
+                    <h3>I. Convert attention into value.</h3>
+                    <p>A website has one job. Every element either moves the sale forward, or it doesn&rsquo;t belong.</p>
+                </li>
+                <li>
+                    <h3>II. The body decides.</h3>
+                    <p>They judge before they read. A feeling, not a thought. Lose them here and the words never get a turn.</p>
+                </li>
+                <li>
+                    <h3>III. Every screen answers.</h3>
+                    <p>Is this real? Is this for me? What now? Leave one open and they&rsquo;re gone.</p>
+                </li>
+                <li>
+                    <h3>IV. Words convert; design directs.</h3>
+                    <p>Words close the sale. Design just points the way. Pretty that says nothing sells nothing.</p>
+                </li>
+                <li>
+                    <h3>V. Move the sale forward.</h3>
+                    <p>Every element earns its place. Not taste. Not ego. It moves the sale, or it&rsquo;s cut.</p>
+                </li>
+            </ol>
+        </div>
+    </dialog>
 
     <!-- ===========================================
          FOOTER
