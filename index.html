@@ -871,6 +871,31 @@
             font-weight: var(--weight-semibold);
         }
 
+        /* Apple-style inline "Learn more" link. */
+        .learn-more {
+            display: inline-block;
+            margin-top: var(--space-md);
+            color: var(--color-blue-link);
+            font-size: var(--text-md);
+            font-weight: var(--weight-regular);
+            transition: opacity var(--transition-base);
+        }
+        :root[data-theme="dark"] .learn-more {
+            color: var(--color-blue-link-bright);
+        }
+        .learn-more:hover {
+            color: var(--color-blue-link);
+            opacity: 0.7;
+        }
+        :root[data-theme="dark"] .learn-more:hover {
+            color: var(--color-blue-link-bright);
+        }
+        .learn-more::after {
+            content: " \203A";
+            display: inline-block;
+            margin-left: 0.25rem;
+        }
+
         /* ===========================================
            HERO — centered content
            =========================================== */
@@ -1358,6 +1383,7 @@
                     <p class="section__eyebrow">How</p>
                     <h2 id="how-title" class="section__title"><span class="gradient-text">We build on principles,</span><br>not trends.</h2>
                     <p class="section__body">Your visitor only cares about one thing. What&rsquo;s in it for them? Slow, ugly, bloated websites scare them away. They&rsquo;re gone before they can find out. <span class="section__body-emphasis">Every element must move the sale forward.</span> What&rsquo;s left is fast and beautiful. A money-making machine.</p>
+                    <a class="learn-more" href="#">Learn more about Nuclear Principals</a>
                 </div>
             </div>
         </section>
