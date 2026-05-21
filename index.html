@@ -811,8 +811,11 @@
         }
         .section__aside img {
             display: block;
+            flex: 1 1 0;
+            min-width: 0;
             max-width: 100%;
             height: auto;
+            object-fit: contain;
         }
         @media (max-width: 47.99em) {
             .section--card > .container {
