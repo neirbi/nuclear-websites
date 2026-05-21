@@ -1390,25 +1390,6 @@
                 });
             }
 
-            // Native <dialog> openers. Links with data-dialog open the matching id.
-            document.querySelectorAll('[data-dialog]').forEach((trigger) => {
-                trigger.addEventListener('click', (e) => {
-                    const dialog = document.getElementById(trigger.dataset.dialog);
-                    if (!dialog) return;
-                    e.preventDefault();
-                    dialog.showModal();
-                });
-            });
-            document.querySelectorAll('dialog.dialog').forEach((dialog) => {
-                // Click on the backdrop (outside the dialog box) closes it.
-                dialog.addEventListener('click', (e) => {
-                    if (e.target === dialog) dialog.close();
-                });
-                dialog.querySelectorAll('[data-dialog-close]').forEach((btn) => {
-                    btn.addEventListener('click', () => dialog.close());
-                });
-            });
-
         })();
     </script>
 
@@ -1588,6 +1569,26 @@
                 } else {
                     setTimeout(fireHint, 1500);
                 }
+            });
+        })();
+
+        // Native <dialog> openers — placed after the dialog markup so it's in the DOM.
+        (function () {
+            document.querySelectorAll('[data-dialog]').forEach(function (trigger) {
+                trigger.addEventListener('click', function (e) {
+                    var dialog = document.getElementById(trigger.dataset.dialog);
+                    if (!dialog) return;
+                    e.preventDefault();
+                    dialog.showModal();
+                });
+            });
+            document.querySelectorAll('dialog.dialog').forEach(function (dialog) {
+                dialog.addEventListener('click', function (e) {
+                    if (e.target === dialog) dialog.close();
+                });
+                dialog.querySelectorAll('[data-dialog-close]').forEach(function (btn) {
+                    btn.addEventListener('click', function () { dialog.close(); });
+                });
             });
         })();
     </script>
