@@ -843,8 +843,12 @@
                 justify-content: center;
             }
             .section__aside__frame img {
+                flex: 1 1 0;
+                min-width: 0;
+                width: auto;
                 height: auto;
-                max-width: 50%;
+                max-height: 50vh;
+                object-fit: contain;
             }
         }
         .section__list {
