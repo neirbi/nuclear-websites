@@ -829,6 +829,7 @@
             .section--card > .container {
                 flex-direction: column;
                 align-items: stretch;
+                gap: 0;
             }
             /* Unwrap the card so its children become direct flex items of the
                container; lets us interleave the aside between body and list. */
@@ -844,6 +845,7 @@
             .section__aside {
                 flex: 0 0 auto;
                 height: 55vh;
+                margin-block: var(--space-lg);
             }
             .section__aside__frame {
                 inset: 0;
