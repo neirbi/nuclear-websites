@@ -793,6 +793,36 @@
         .section--card .section__title {
             max-width: var(--measure-wrapper);
         }
+        .section--card > .container {
+            display: flex;
+            align-items: center;
+            gap: var(--space-lg);
+        }
+        .section--card .section__inner {
+            flex-shrink: 0;
+        }
+        .section__aside {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: var(--space-md);
+            min-width: 0;
+        }
+        .section__aside img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+        @media (max-width: 47.99em) {
+            .section--card > .container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .section--card .section__inner {
+                max-width: 100%;
+            }
+        }
         .section__list {
             list-style: none;
             padding: 0;
@@ -1314,6 +1344,10 @@
                         <li class="gradient-text gradient-text--success">Everything works, not just for show.</li>
                         <li class="gradient-text gradient-text--success">It turns visitors into customers.</li>
                     </ul>
+                </div>
+                <div class="section__aside" aria-hidden="true">
+                    <img src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/iphone%20front.png" alt="" loading="lazy" decoding="async">
+                    <img src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/iphone%20right.png" alt="" loading="lazy" decoding="async">
                 </div>
             </div>
         </section>
