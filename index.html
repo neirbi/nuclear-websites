@@ -830,11 +830,13 @@
                 flex-direction: column;
                 align-items: stretch;
             }
+            /* Unwrap the card so its children become direct flex items of the
+               container; lets us interleave the aside between body and list. */
             .section--card .section__inner {
-                background: none;
-                border-radius: 0;
-                padding: 0;
-                max-width: 100%;
+                display: contents;
+            }
+            .section--card .section__list {
+                order: 1;
             }
             /* Same architecture as desktop — frame fills aside, images at height:100%.
                Aside needs an explicit height since there's no sibling to stretch from.
