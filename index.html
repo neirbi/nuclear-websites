@@ -780,7 +780,11 @@
             background-color: var(--color-bg-surface);
             border-radius: var(--radius-lg);
             padding: var(--space-xl);
-            max-width: calc(var(--measure-wrapper) + 2 * var(--space-xl));
+            max-width: none;
+        }
+        .section--card .section__eyebrow,
+        .section--card .section__title {
+            max-width: var(--measure-wrapper);
         }
         .section__list {
             list-style: none;
