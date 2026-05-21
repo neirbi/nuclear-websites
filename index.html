@@ -795,7 +795,7 @@
         }
         .section--card > .container {
             display: flex;
-            align-items: stretch;
+            align-items: center;
             gap: var(--space-lg);
         }
         .section--card .section__inner {
@@ -804,17 +804,16 @@
         .section__aside {
             flex: 1;
             display: flex;
-            align-items: stretch;
+            align-items: center;
             justify-content: flex-start;
             gap: var(--space-md);
             min-width: 0;
-            padding-block: var(--space-xl);
         }
         .section__aside img {
             display: block;
             flex: 0 0 auto;
             width: auto;
-            height: 100%;
+            height: clamp(14rem, 24vw, 22rem);
         }
         @media (max-width: 47.99em) {
             .section--card > .container {
