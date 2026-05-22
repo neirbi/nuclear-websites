@@ -980,6 +980,21 @@
             line-height: 1.2;
             margin: 0;
         }
+        @media (max-width: 47.99em) {
+            .dialog {
+                max-width: 94vw;
+                max-height: 92dvh;
+                border-radius: var(--radius-lg);
+            }
+            .dialog__body {
+                padding: var(--space-lg);
+                max-height: 92dvh;
+            }
+            .dialog__close {
+                top: var(--space-sm);
+                right: var(--space-sm);
+            }
+        }
 
         /* ===========================================
            HERO — centered content
