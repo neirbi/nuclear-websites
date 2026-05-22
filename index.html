@@ -876,6 +876,22 @@
             font-weight: var(--weight-semibold);
         }
 
+        /* Image breaking out of the centered text container, anchored to the
+           section's left edge so the source's top-left corner (where the hand
+           enters) sits at the viewport edge. */
+        .section__hand {
+            display: block;
+            width: 50%;
+            max-width: 44rem;
+            margin: var(--space-xl) 0 0 0;
+        }
+        @media (max-width: 47.99em) {
+            .section__hand {
+                width: 90%;
+                max-width: none;
+            }
+        }
+
         /* Apple-style inline "Learn more" link. */
         .learn-more {
             display: inline-block;
@@ -1450,6 +1466,7 @@
                     <p class="section__body">It&rsquo;s not 2003. You don&rsquo;t have to choose between fast and pretty. <span class="section__body-emphasis">That tradeoff died with dial-up.</span> The tools changed. The playing field leveled. You can have your cake and eat it too.</p>
                 </div>
             </div>
+            <img class="section__hand" src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/hand%20and%20phone.png" alt="" loading="lazy" decoding="async">
         </section>
 
         <section class="section section--reading section--left" id="how" aria-labelledby="how-title">
