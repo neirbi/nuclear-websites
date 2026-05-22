@@ -876,18 +876,20 @@
             font-weight: var(--weight-semibold);
         }
 
-        /* Image breaking out of the centered text container, anchored to the
-           section's left edge so the source's top-left corner (where the hand
-           enters) sits at the viewport edge. */
+        /* Image breaks out of the centered text container and anchors to the
+           section's right edge. The source has the hand entering from its
+           top-left, so we mirror it (scaleX -1) so the hand enters from the
+           viewport's top-right and reaches down/left into the section. */
         .section__hand {
             display: block;
-            width: 50%;
-            max-width: 44rem;
-            margin: var(--space-xl) 0 0 0;
+            width: 65%;
+            max-width: 60rem;
+            margin: var(--space-xl) 0 0 auto;
+            transform: scaleX(-1);
         }
         @media (max-width: 47.99em) {
             .section__hand {
-                width: 90%;
+                width: 95%;
                 max-width: none;
             }
         }
