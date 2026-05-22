@@ -876,20 +876,14 @@
             font-weight: var(--weight-semibold);
         }
 
-        /* Image breaks out of the centered text container and anchors to the
-           section's left edge so the source's top-left corner (where the hand
-           enters) sits at the viewport edge. */
-        .section__hand {
+        /* Section media image — sits as a sibling of section__inner inside
+           container so it fills the full container width (up to 1400px),
+           not the narrower reading column. */
+        .section__media {
             display: block;
-            width: 65%;
-            max-width: 60rem;
-            margin: var(--space-xl) 0 0 0;
-        }
-        @media (max-width: 47.99em) {
-            .section__hand {
-                width: 95%;
-                max-width: none;
-            }
+            width: 100%;
+            height: auto;
+            margin-top: var(--space-xl);
         }
 
         /* Apple-style inline "Learn more" link. */
@@ -1465,8 +1459,8 @@
                     <h2 id="why-title" class="section__title"><span class="gradient-text">Pretty is profitable.</span><br>Make it both.</h2>
                     <p class="section__body">It&rsquo;s not 2003. You don&rsquo;t have to choose between fast and pretty. <span class="section__body-emphasis">That tradeoff died with dial-up.</span> The tools changed. The playing field leveled. You can have your cake and eat it too.</p>
                 </div>
+                <img class="section__media" src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/iphone%20horizontal.png" alt="" loading="lazy" decoding="async">
             </div>
-            <img class="section__hand" src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/hand%20and%20phone.png" alt="" loading="lazy" decoding="async">
         </section>
 
         <section class="section section--reading section--left" id="how" aria-labelledby="how-title">
