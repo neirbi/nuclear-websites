@@ -843,9 +843,14 @@
             /* Same architecture as desktop — frame fills aside, images at height:100%.
                Aside needs an explicit height since there's no sibling to stretch from.
                Resetting flex so the column doesn't override the explicit height. */
+            /* Size by width via aspect-ratio so the box doesn't move when
+               iOS Safari's address bar collapses/expands. Width is stable;
+               height is derived. */
             .section__aside {
                 flex: 0 0 auto;
-                height: 55dvh;
+                width: 100%;
+                height: auto;
+                aspect-ratio: 1 / 1;
                 margin-block: var(--space-lg);
             }
             .section__aside__frame {
