@@ -898,33 +898,39 @@
             margin-inline: auto;
             text-align: left;
         }
-        /* Inactive: low-alpha primary text color (looks like faded body copy).
-           Active: foreground color fades to transparent over a slow ease,
-           revealing the gradient that's painted as background. Because the
-           starting color is mostly transparent already, the background-image
-           swap is camouflaged — no flicker. Same pattern Reviews uses for its
-           CTA, applied to every sentence. */
+        /* Inactive: low-alpha primary text color (looks like faded body copy)
+           with NO background-image — solid colored text only.
+           Active: applies the gradient as background-image and fades color
+           to transparent over a slow ease. Because the starting color is
+           mostly transparent, the gradient peeks through immediately and
+           the rest of the transition just fades the remaining alpha out —
+           same camouflage trick Reviews uses on its CTA. */
         .reveal-sentence {
-            background-image: var(--gradient-success);
-            background-clip: text;
-            -webkit-background-clip: text;
             color: color-mix(in srgb, var(--color-text-primary) 18%, transparent);
-            -webkit-text-fill-color: color-mix(in srgb, var(--color-text-primary) 18%, transparent);
             transition: color 0.55s cubic-bezier(0.16, 1, 0.3, 1),
                         -webkit-text-fill-color 0.55s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .reveal-sentence.is-active {
+            background-image: var(--gradient-success);
+            background-clip: text;
+            -webkit-background-clip: text;
             color: transparent;
             -webkit-text-fill-color: transparent;
         }
-        .reveal-sentence--cta {
+        .reveal-sentence--cta.is-active {
             background-image: var(--gradient-primary);
         }
         @media (prefers-reduced-motion: reduce) {
             .reveal-sentence {
+                background-image: var(--gradient-success);
+                background-clip: text;
+                -webkit-background-clip: text;
                 color: transparent;
                 -webkit-text-fill-color: transparent;
                 transition: none;
+            }
+            .reveal-sentence--cta {
+                background-image: var(--gradient-primary);
             }
         }
 
