@@ -903,26 +903,26 @@
             transition: color var(--transition-base);
         }
         .reveal-sentence.is-active {
-            background-image: var(--gradient-success);
+            color: var(--color-green-500);
+        }
+        .reveal-sentence--cta.is-active {
+            background-image: var(--gradient-primary);
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
             -webkit-text-fill-color: transparent;
         }
-        .reveal-sentence--cta.is-active {
-            background-image: var(--gradient-primary);
-        }
         @media (prefers-reduced-motion: reduce) {
             .reveal-sentence {
-                background-image: var(--gradient-success);
-                background-clip: text;
-                -webkit-background-clip: text;
-                color: transparent;
-                -webkit-text-fill-color: transparent;
+                color: var(--color-green-500);
                 transition: none;
             }
             .reveal-sentence--cta {
                 background-image: var(--gradient-primary);
+                background-clip: text;
+                -webkit-background-clip: text;
+                color: transparent;
+                -webkit-text-fill-color: transparent;
             }
         }
 
