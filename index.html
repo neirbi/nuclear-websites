@@ -899,30 +899,24 @@
             text-align: left;
         }
         .reveal-sentence {
-            color: var(--color-text-quaternary);
-            transition: color var(--transition-base);
-        }
-        .reveal-sentence.is-active {
-            color: var(--color-green-500);
-        }
-        .reveal-sentence--cta.is-active {
-            background-image: var(--gradient-primary);
+            background-image: var(--gradient-success);
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
             -webkit-text-fill-color: transparent;
+            opacity: 0.2;
+            transition: opacity var(--transition-base);
+        }
+        .reveal-sentence.is-active {
+            opacity: 1;
+        }
+        .reveal-sentence--cta {
+            background-image: var(--gradient-primary);
         }
         @media (prefers-reduced-motion: reduce) {
             .reveal-sentence {
-                color: var(--color-green-500);
+                opacity: 1;
                 transition: none;
-            }
-            .reveal-sentence--cta {
-                background-image: var(--gradient-primary);
-                background-clip: text;
-                -webkit-background-clip: text;
-                color: transparent;
-                -webkit-text-fill-color: transparent;
             }
         }
 
