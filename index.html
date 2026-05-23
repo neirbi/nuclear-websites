@@ -898,31 +898,30 @@
             margin-inline: auto;
             text-align: left;
         }
+        /* Gradient is always applied as the background; the foreground text
+           color fades to transparent on activate, letting the gradient show
+           through. Only `color` / `-webkit-text-fill-color` animate — no
+           property swap mid-transition, so no flicker. */
         .reveal-sentence {
-            color: color-mix(in srgb, var(--color-text-primary) 18%, transparent);
-            transition: color 0.55s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .reveal-sentence.is-active {
-            color: var(--color-green-500);
-        }
-        .reveal-sentence--cta.is-active {
-            background-image: var(--gradient-primary);
+            background-image: var(--gradient-success);
             background-clip: text;
             -webkit-background-clip: text;
+            color: var(--color-text-secondary);
+            -webkit-text-fill-color: var(--color-text-secondary);
+            transition: color var(--transition-base), -webkit-text-fill-color var(--transition-base);
+        }
+        .reveal-sentence.is-active {
             color: transparent;
             -webkit-text-fill-color: transparent;
         }
+        .reveal-sentence--cta {
+            background-image: var(--gradient-primary);
+        }
         @media (prefers-reduced-motion: reduce) {
             .reveal-sentence {
-                color: var(--color-green-500);
-                transition: none;
-            }
-            .reveal-sentence--cta {
-                background-image: var(--gradient-primary);
-                background-clip: text;
-                -webkit-background-clip: text;
                 color: transparent;
                 -webkit-text-fill-color: transparent;
+                transition: none;
             }
         }
 
