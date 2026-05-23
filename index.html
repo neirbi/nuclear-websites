@@ -898,39 +898,31 @@
             margin-inline: auto;
             text-align: left;
         }
-        /* Inactive: low-alpha primary text color (looks like faded body copy)
-           with NO background-image — solid colored text only.
-           Active: applies the gradient as background-image and fades color
-           to transparent over a slow ease. Because the starting color is
-           mostly transparent, the gradient peeks through immediately and
-           the rest of the transition just fades the remaining alpha out —
-           same camouflage trick Reviews uses on its CTA. */
         .reveal-sentence {
-            color: color-mix(in srgb, var(--color-text-primary) 18%, transparent);
-            transition: color 0.55s cubic-bezier(0.16, 1, 0.3, 1),
-                        -webkit-text-fill-color 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+            color: var(--color-text-quaternary);
+            transition: color var(--transition-base);
         }
         .reveal-sentence.is-active {
-            background-image: var(--gradient-success);
+            color: var(--color-text-primary);
+        }
+        .reveal-sentence--cta.is-active {
+            background-image: var(--gradient-primary);
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
             -webkit-text-fill-color: transparent;
         }
-        .reveal-sentence--cta.is-active {
-            background-image: var(--gradient-primary);
-        }
         @media (prefers-reduced-motion: reduce) {
             .reveal-sentence {
-                background-image: var(--gradient-success);
-                background-clip: text;
-                -webkit-background-clip: text;
-                color: transparent;
-                -webkit-text-fill-color: transparent;
+                color: var(--color-text-primary);
                 transition: none;
             }
             .reveal-sentence--cta {
                 background-image: var(--gradient-primary);
+                background-clip: text;
+                -webkit-background-clip: text;
+                color: transparent;
+                -webkit-text-fill-color: transparent;
             }
         }
 
