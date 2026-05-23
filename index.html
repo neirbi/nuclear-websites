@@ -886,6 +886,46 @@
             margin-top: var(--space-xl);
         }
 
+        /* Scroll-driven sentence reveal — sentences start faded and turn full
+           text color one at a time as they pass the viewport's vertical centre.
+           Final sentence with --cta switches to the brand gradient on activation. */
+        .reveal-sentences__text {
+            font-size: var(--text-display);
+            font-weight: var(--weight-bold);
+            line-height: 1.2;
+            margin: 0;
+            max-width: var(--measure-wrapper);
+            margin-inline: auto;
+            text-align: left;
+        }
+        .reveal-sentence {
+            color: var(--color-text-quaternary);
+            transition: color var(--transition-base);
+        }
+        .reveal-sentence.is-active {
+            color: var(--color-text-primary);
+        }
+        .reveal-sentence--cta.is-active {
+            background-image: var(--gradient-primary);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .reveal-sentence {
+                color: var(--color-text-primary);
+                transition: none;
+            }
+            .reveal-sentence--cta {
+                background-image: var(--gradient-primary);
+                background-clip: text;
+                -webkit-background-clip: text;
+                color: transparent;
+                -webkit-text-fill-color: transparent;
+            }
+        }
+
         /* Apple-style inline "Learn more" link. */
         .learn-more {
             display: inline-block;
@@ -1510,6 +1550,20 @@
                 </div>
             </div>
         </section>
+
+        <section class="section" id="about" aria-label="About">
+            <div class="container">
+                <p class="reveal-sentences__text">
+                    <span class="reveal-sentence">Your website is costing you money.</span>
+                    <span class="reveal-sentence">Fine is the most expensive word in business.</span>
+                    <span class="reveal-sentence">Most people pour more fuel into a leaking engine. More ads. More spend. Same distance.</span>
+                    <span class="reveal-sentence">A better website is a more efficient engine. Same fuel. Further.</span>
+                    <span class="reveal-sentence">Your site is probably fine.</span>
+                    <span class="reveal-sentence">Fine has a ceiling.</span>
+                    <span class="reveal-sentence reveal-sentence--cta">Are you ready to go nuclear?</span>
+                </p>
+            </div>
+        </section>
     </main>
 
     <dialog id="principles" class="dialog" aria-labelledby="principles-title">
@@ -1620,6 +1674,30 @@
                     btn.addEventListener('click', function () { dialog.close(); });
                 });
             });
+        })();
+
+        // Sentence scrollspy — activates the sentence nearest the viewport centre.
+        (function () {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            var sentences = [].slice.call(document.querySelectorAll('.reveal-sentence'));
+            if (!sentences.length) return;
+
+            function update() {
+                var focus = window.innerHeight * 0.5;
+                var closest = null;
+                var closestDist = Infinity;
+                sentences.forEach(function (el) {
+                    var rect = el.getBoundingClientRect();
+                    if (rect.bottom < -50 || rect.top > window.innerHeight + 50) return;
+                    var dist = Math.abs((rect.top + rect.height / 2) - focus);
+                    if (dist < closestDist) { closestDist = dist; closest = el; }
+                });
+                sentences.forEach(function (el) {
+                    el.classList.toggle('is-active', el === closest);
+                });
+            }
+            window.addEventListener('scroll', update, { passive: true });
+            update();
         })();
     </script>
 </body>
