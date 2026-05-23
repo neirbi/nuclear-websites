@@ -898,17 +898,20 @@
             margin-inline: auto;
             text-align: left;
         }
-        /* Gradient is always applied as the background; the foreground text
-           color fades to transparent on activate, letting the gradient show
-           through. Only `color` / `-webkit-text-fill-color` animate — no
-           property swap mid-transition, so no flicker. */
+        /* Inactive: low-alpha primary text color (looks like faded body copy).
+           Active: foreground color fades to transparent over a slow ease,
+           revealing the gradient that's painted as background. Because the
+           starting color is mostly transparent already, the background-image
+           swap is camouflaged — no flicker. Same pattern Reviews uses for its
+           CTA, applied to every sentence. */
         .reveal-sentence {
             background-image: var(--gradient-success);
             background-clip: text;
             -webkit-background-clip: text;
-            color: var(--color-text-secondary);
-            -webkit-text-fill-color: var(--color-text-secondary);
-            transition: color var(--transition-base), -webkit-text-fill-color var(--transition-base);
+            color: color-mix(in srgb, var(--color-text-primary) 18%, transparent);
+            -webkit-text-fill-color: color-mix(in srgb, var(--color-text-primary) 18%, transparent);
+            transition: color 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+                        -webkit-text-fill-color 0.55s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .reveal-sentence.is-active {
             color: transparent;
