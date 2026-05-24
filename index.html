@@ -103,6 +103,7 @@
             --color-text-secondary: #6E6E73;
             --color-text-tertiary: #8E8E93;
             --color-text-quaternary: #C7C7CC;
+            --color-text-faded: color-mix(in srgb, var(--color-text-secondary) 25%, transparent);
 
             /* --- BACKGROUND COLORS --- */
             --color-bg-primary: #FBFBFD;
@@ -899,7 +900,7 @@
             text-align: left;
         }
         .reveal-sentence {
-            color: var(--color-text-quaternary);
+            color: var(--color-text-faded);
             transition: color var(--transition-base);
         }
         .reveal-sentence.is-active {
