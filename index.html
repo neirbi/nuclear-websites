@@ -946,6 +946,35 @@
             }
         }
 
+        /* Page-end CTA — full-bleed video with text-shaped knockout overlay.
+           The video plays underneath; an SVG above it fills the section with
+           the page bg colour, except where the <text> in the mask punches
+           through — there the video shows. Theme-aware via --color-bg-primary. */
+        .page-end-cta {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 2048 / 1124;
+            overflow: hidden;
+        }
+        .page-end-cta__video,
+        .page-end-cta__mask {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        .page-end-cta__video {
+            object-fit: cover;
+        }
+        .page-end-cta__mask text {
+            fill: black;
+            font-family: var(--font-system);
+        }
+        .page-end-cta__veil {
+            fill: var(--color-bg-primary);
+        }
+
         /* Apple-style inline "Learn more" link. */
         .learn-more {
             display: inline-block;
@@ -1592,6 +1621,25 @@
                 </div>
             </div>
         </section>
+
+        <section class="page-end-cta" id="page-end-cta">
+            <h2 class="visually-hidden">Are you ready to go nuclear?</h2>
+            <video class="page-end-cta__video" muted loop playsinline preload="none" aria-hidden="true">
+                <source data-src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/large%20video.mp4" type="video/mp4">
+            </video>
+            <svg class="page-end-cta__mask" viewBox="0 0 2048 1124" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                <defs>
+                    <mask id="page-end-cta-mask">
+                        <rect width="100%" height="100%" fill="white"/>
+                        <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-weight="900">
+                            <tspan x="50%" dy="-0.45em" font-size="260">are you ready</tspan>
+                            <tspan x="50%" dy="1.05em" font-size="260">to go nuclear?</tspan>
+                        </text>
+                    </mask>
+                </defs>
+                <rect class="page-end-cta__veil" width="100%" height="100%" mask="url(#page-end-cta-mask)"/>
+            </svg>
+        </section>
     </main>
 
     <dialog id="principles" class="dialog" aria-labelledby="principles-title">
@@ -1726,6 +1774,34 @@
             }
             window.addEventListener('scroll', update, { passive: true });
             update();
+        })();
+
+        // Page-end CTA video — load on intersection, play when visible.
+        (function () {
+            var video = document.querySelector('.page-end-cta__video');
+            if (!video) return;
+            var source = video.querySelector('source[data-src]');
+            if (!source) return;
+            if (!('IntersectionObserver' in window)) {
+                source.src = source.dataset.src;
+                video.load();
+                video.play().catch(function () {});
+                return;
+            }
+            var io = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        if (!source.src) {
+                            source.src = source.dataset.src;
+                            video.load();
+                        }
+                        video.play().catch(function () {});
+                    } else {
+                        video.pause();
+                    }
+                });
+            }, { rootMargin: '200px' });
+            io.observe(video);
         })();
     </script>
 </body>
