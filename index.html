@@ -956,31 +956,28 @@
             overflow: hidden;
             isolation: isolate;
         }
-        .page-end-cta__video,
-        .page-end-cta__mask {
+        .page-end-cta__video {
             position: absolute;
             inset: 0;
             width: 100%;
             height: 100%;
             display: block;
-        }
-        /* SVG overshoots the container by 2px in every direction so it can
-           never fall short of the video's bounds due to subpixel rounding.
-           The container's overflow:hidden clips it back to the visible area. */
-        .page-end-cta__mask {
-            inset: -2px;
-            width: calc(100% + 4px);
-            height: calc(100% + 4px);
-        }
-        .page-end-cta__video {
             object-fit: cover;
         }
-        .page-end-cta__mask text {
-            fill: black;
-            font-family: var(--font-system);
-        }
+        /* Veil — a plain HTML div with CSS mask-image. Plain DOM box means
+           inset:0 maps exactly to container bounds (no SVG element bounds
+           drift, no subpixel peek). The SVG inside the data URI is only the
+           text-shape definition; it stretches to fill the veil via mask-size. */
         .page-end-cta__veil {
-            fill: var(--color-bg-primary);
+            position: absolute;
+            inset: 0;
+            background-color: var(--color-bg-primary);
+            -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2048 1124' preserveAspectRatio='none'><rect width='2048' height='1124' fill='white'/><text x='1024' y='562' text-anchor='middle' dominant-baseline='middle' font-family='-apple-system,BlinkMacSystemFont,Inter,Roboto,sans-serif' font-weight='900' fill='black'><tspan x='1024' dy='-0.45em' font-size='260'>Are You Ready</tspan><tspan x='1024' dy='1.05em' font-size='260'>To Go Nuclear?</tspan></text></svg>");
+            mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2048 1124' preserveAspectRatio='none'><rect width='2048' height='1124' fill='white'/><text x='1024' y='562' text-anchor='middle' dominant-baseline='middle' font-family='-apple-system,BlinkMacSystemFont,Inter,Roboto,sans-serif' font-weight='900' fill='black'><tspan x='1024' dy='-0.45em' font-size='260'>Are You Ready</tspan><tspan x='1024' dy='1.05em' font-size='260'>To Go Nuclear?</tspan></text></svg>");
+            -webkit-mask-size: 100% 100%;
+            mask-size: 100% 100%;
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
         }
         .page-end-cta__actions {
             display: flex;
@@ -1656,18 +1653,7 @@
                     <video class="page-end-cta__video" muted loop playsinline preload="none" aria-hidden="true">
                         <source data-src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/large%20video.mp4" type="video/mp4">
                     </video>
-                    <svg class="page-end-cta__mask" viewBox="0 0 2048 1124" preserveAspectRatio="none" aria-hidden="true">
-                        <defs>
-                            <mask id="page-end-cta-mask" maskUnits="userSpaceOnUse" x="-32" y="-32" width="2112" height="1188">
-                                <rect x="-32" y="-32" width="2112" height="1188" fill="white"/>
-                                <text x="1024" y="562" text-anchor="middle" dominant-baseline="middle" font-weight="900">
-                                    <tspan x="1024" dy="-0.45em" font-size="260">Are You Ready</tspan>
-                                    <tspan x="1024" dy="1.05em" font-size="260">To Go Nuclear?</tspan>
-                                </text>
-                            </mask>
-                        </defs>
-                        <rect class="page-end-cta__veil" x="-32" y="-32" width="2112" height="1188" mask="url(#page-end-cta-mask)"/>
-                    </svg>
+                    <div class="page-end-cta__veil" aria-hidden="true"></div>
                 </div>
                 <div class="page-end-cta__actions">
                     <a class="btn-pill btn-pill--filled" href="#contact">Go Nuclear</a>
