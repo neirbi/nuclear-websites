@@ -951,10 +951,12 @@
            the page bg colour, except where the <text> in the mask punches
            through — there the video shows. Theme-aware via --color-bg-primary. */
         .page-end-cta {
-            position: relative;
             width: 100%;
             max-width: var(--container-max-width);
             margin-inline: auto;
+        }
+        .page-end-cta__media {
+            position: relative;
             aspect-ratio: 2048 / 1124;
             overflow: hidden;
         }
@@ -975,6 +977,13 @@
         }
         .page-end-cta__veil {
             fill: var(--color-bg-primary);
+        }
+        .page-end-cta__actions {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-md);
+            margin-top: var(--space-lg);
+            flex-wrap: wrap;
         }
 
         /* Apple-style inline "Learn more" link. */
@@ -1130,12 +1139,24 @@
             font-size: var(--text-base);
             font-weight: var(--weight-medium);
             text-decoration: none;
-            transition: background-color var(--transition-base), color var(--transition-base);
+            transition: background-color var(--transition-base), color var(--transition-base), opacity var(--transition-base);
         }
         .btn-pill:hover,
         .btn-pill:focus-visible {
             background-color: var(--color-green-500);
             color: var(--color-on-accent);
+        }
+        /* Filled variant — looks like the outlined pill's hover state by
+           default. Subtle opacity dip on hover for affordance. */
+        .btn-pill--filled {
+            background-color: var(--color-green-500);
+            color: var(--color-on-accent);
+        }
+        .btn-pill--filled:hover,
+        .btn-pill--filled:focus-visible {
+            background-color: var(--color-green-500);
+            color: var(--color-on-accent);
+            opacity: 0.85;
         }
 
         /* ===========================================
@@ -1626,21 +1647,27 @@
 
         <section class="page-end-cta" id="page-end-cta">
             <h2 class="visually-hidden">Are You Ready To Go Nuclear?</h2>
-            <video class="page-end-cta__video" muted loop playsinline preload="none" aria-hidden="true">
-                <source data-src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/large%20video.mp4" type="video/mp4">
-            </video>
-            <svg class="page-end-cta__mask" viewBox="0 0 2048 1124" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-                <defs>
-                    <mask id="page-end-cta-mask">
-                        <rect width="100%" height="100%" fill="white"/>
-                        <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-weight="900">
-                            <tspan x="50%" dy="-0.45em" font-size="260">Are You Ready</tspan>
-                            <tspan x="50%" dy="1.05em" font-size="260">To Go Nuclear?</tspan>
-                        </text>
-                    </mask>
-                </defs>
-                <rect class="page-end-cta__veil" width="100%" height="100%" mask="url(#page-end-cta-mask)"/>
-            </svg>
+            <div class="page-end-cta__media">
+                <video class="page-end-cta__video" muted loop playsinline preload="none" aria-hidden="true">
+                    <source data-src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/large%20video.mp4" type="video/mp4">
+                </video>
+                <svg class="page-end-cta__mask" viewBox="0 0 2048 1124" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                    <defs>
+                        <mask id="page-end-cta-mask">
+                            <rect width="100%" height="100%" fill="white"/>
+                            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-weight="900">
+                                <tspan x="50%" dy="-0.45em" font-size="260">Are You Ready</tspan>
+                                <tspan x="50%" dy="1.05em" font-size="260">To Go Nuclear?</tspan>
+                            </text>
+                        </mask>
+                    </defs>
+                    <rect class="page-end-cta__veil" width="100%" height="100%" mask="url(#page-end-cta-mask)"/>
+                </svg>
+            </div>
+            <div class="page-end-cta__actions">
+                <a class="btn-pill btn-pill--filled" href="#contact">Go Nuclear</a>
+                <a class="btn-pill" href="#">Learn more</a>
+            </div>
         </section>
     </main>
 
