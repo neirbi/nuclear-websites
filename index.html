@@ -964,6 +964,14 @@
             height: 100%;
             display: block;
         }
+        /* SVG overshoots the container by 2px in every direction so it can
+           never fall short of the video's bounds due to subpixel rounding.
+           The container's overflow:hidden clips it back to the visible area. */
+        .page-end-cta__mask {
+            inset: -2px;
+            width: calc(100% + 4px);
+            height: calc(100% + 4px);
+        }
         .page-end-cta__video {
             object-fit: cover;
         }
