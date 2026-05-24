@@ -950,15 +950,11 @@
            The video plays underneath; an SVG above it fills the section with
            the page bg colour, except where the <text> in the mask punches
            through — there the video shows. Theme-aware via --color-bg-primary. */
-        .page-end-cta {
-            width: 100%;
-            max-width: var(--container-max-width);
-            margin-inline: auto;
-        }
         .page-end-cta__media {
             position: relative;
             aspect-ratio: 2048 / 1124;
             overflow: hidden;
+            isolation: isolate;
         }
         .page-end-cta__video,
         .page-end-cta__mask {
@@ -1647,26 +1643,28 @@
 
         <section class="page-end-cta" id="page-end-cta">
             <h2 class="visually-hidden">Are You Ready To Go Nuclear?</h2>
-            <div class="page-end-cta__media">
-                <video class="page-end-cta__video" muted loop playsinline preload="none" aria-hidden="true">
-                    <source data-src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/large%20video.mp4" type="video/mp4">
-                </video>
-                <svg class="page-end-cta__mask" viewBox="0 0 2048 1124" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-                    <defs>
-                        <mask id="page-end-cta-mask">
-                            <rect width="100%" height="100%" fill="white"/>
-                            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-weight="900">
-                                <tspan x="50%" dy="-0.45em" font-size="260">Are You Ready</tspan>
-                                <tspan x="50%" dy="1.05em" font-size="260">To Go Nuclear?</tspan>
-                            </text>
-                        </mask>
-                    </defs>
-                    <rect class="page-end-cta__veil" width="100%" height="100%" mask="url(#page-end-cta-mask)"/>
-                </svg>
-            </div>
-            <div class="page-end-cta__actions">
-                <a class="btn-pill btn-pill--filled" href="#contact">Go Nuclear</a>
-                <a class="btn-pill" href="#">Learn more</a>
+            <div class="container">
+                <div class="page-end-cta__media">
+                    <video class="page-end-cta__video" muted loop playsinline preload="none" aria-hidden="true">
+                        <source data-src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/large%20video.mp4" type="video/mp4">
+                    </video>
+                    <svg class="page-end-cta__mask" viewBox="0 0 2048 1124" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                        <defs>
+                            <mask id="page-end-cta-mask">
+                                <rect width="100%" height="100%" fill="white"/>
+                                <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-weight="900">
+                                    <tspan x="50%" dy="-0.45em" font-size="260">Are You Ready</tspan>
+                                    <tspan x="50%" dy="1.05em" font-size="260">To Go Nuclear?</tspan>
+                                </text>
+                            </mask>
+                        </defs>
+                        <rect class="page-end-cta__veil" width="100%" height="100%" mask="url(#page-end-cta-mask)"/>
+                    </svg>
+                </div>
+                <div class="page-end-cta__actions">
+                    <a class="btn-pill btn-pill--filled" href="#contact">Go Nuclear</a>
+                    <a class="btn-pill" href="#">Learn more</a>
+                </div>
             </div>
         </section>
     </main>
