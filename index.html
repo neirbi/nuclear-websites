@@ -900,26 +900,30 @@
             text-align: left;
         }
         .reveal-sentence {
+            color: var(--color-text-faded);
+            transition: color 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-sentence.is-active {
             background-image: var(--gradient-success);
             background-clip: text;
             -webkit-background-clip: text;
-            color: var(--color-text-faded);
-            -webkit-text-fill-color: var(--color-text-faded);
-            transition: color 0.55s cubic-bezier(0.16, 1, 0.3, 1),
-                        -webkit-text-fill-color 0.55s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .reveal-sentence.is-active {
             color: transparent;
             -webkit-text-fill-color: transparent;
         }
-        .reveal-sentence--cta {
+        .reveal-sentence--cta.is-active {
             background-image: var(--gradient-primary);
         }
         @media (prefers-reduced-motion: reduce) {
             .reveal-sentence {
+                background-image: var(--gradient-success);
+                background-clip: text;
+                -webkit-background-clip: text;
                 color: transparent;
                 -webkit-text-fill-color: transparent;
                 transition: none;
+            }
+            .reveal-sentence--cta {
+                background-image: var(--gradient-primary);
             }
         }
 
