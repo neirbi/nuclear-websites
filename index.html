@@ -1141,12 +1141,22 @@
             max-width: 38rem;
         }
 
+        /* Pill button system.
+           Palette is controlled by three locals so any new variant only
+           needs to remap them — no rewriting hover rules.
+             --pill-accent       — border + fill color
+             --pill-on-accent    — text color when filled
+             --pill-accent-hover — fill color for the filled variant on hover */
         .btn-pill {
+            --pill-accent: var(--color-green-500);
+            --pill-on-accent: var(--color-on-accent);
+            --pill-accent-hover: color-mix(in srgb, var(--pill-accent), white 15%);
+
             display: inline-block;
             padding: 0.875rem 1.75rem;
             border-radius: 999px;
-            border: 1.5px solid var(--color-green-500);
-            color: var(--color-green-500);
+            border: 1.5px solid var(--pill-accent);
+            color: var(--pill-accent);
             background: transparent;
             font-size: var(--text-base);
             font-weight: var(--weight-medium);
@@ -1155,29 +1165,24 @@
         }
         .btn-pill:hover,
         .btn-pill:focus-visible {
-            background-color: var(--color-green-500);
-            color: var(--color-on-accent);
+            background-color: var(--pill-accent);
+            color: var(--pill-on-accent);
         }
-        /* Filled variant — looks like the outlined pill's hover state by
-           default. Subtle opacity dip on hover for affordance. */
+        /* Filled variant — looks like the outline's hover state by default;
+           lightens on hover without affecting the text. */
         .btn-pill--filled {
-            background-color: var(--color-green-500);
-            color: var(--color-on-accent);
+            background-color: var(--pill-accent);
+            color: var(--pill-on-accent);
         }
         .btn-pill--filled:hover,
         .btn-pill--filled:focus-visible {
-            background-color: color-mix(in srgb, var(--color-green-500), white 15%);
-            color: var(--color-on-accent);
+            background-color: var(--pill-accent-hover);
+            color: var(--pill-on-accent);
         }
-        /* Monochrome variant — off-black in light, off-white in dark. */
+        /* Monochrome palette — off-black in light, off-white in dark. */
         .btn-pill--mono {
-            border-color: var(--color-text-primary);
-            color: var(--color-text-primary);
-        }
-        .btn-pill--mono:hover,
-        .btn-pill--mono:focus-visible {
-            background-color: var(--color-text-primary);
-            color: var(--color-bg-primary);
+            --pill-accent: var(--color-text-primary);
+            --pill-on-accent: var(--color-bg-primary);
         }
 
         /* ===========================================
