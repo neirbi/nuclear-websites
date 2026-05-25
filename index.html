@@ -946,36 +946,14 @@
             }
         }
 
-        /* Page-end CTA — real HTML heading layered with the video using
-           mix-blend-mode. A tiny JS auto-fit (FitText pattern) scales the
-           font-size so the longest line exactly fills the chassis — no
-           font-metrics math, no glyph distortion. The video on top uses
-           darken (light text on dark bg) or lighten (dark text on light
-           bg) so it only shows through the text glyphs. */
+        /* Page-end CTA — video is masked to render ONLY inside the text
+           glyphs; the media box itself is the solid background colour.
+           No overlay veil, so edge bleed is impossible by construction. */
         .page-end-cta__media {
             position: relative;
             aspect-ratio: 2048 / 1124;
             overflow: hidden;
             background-color: var(--color-bg-primary);
-            isolation: isolate;
-        }
-        .page-end-cta__text {
-            position: absolute;
-            inset: 0;
-            margin: 0;
-            display: grid;
-            place-items: center;
-            text-align: center;
-            font-family: var(--font-primary);
-            font-weight: var(--weight-black);
-            line-height: 0.95;
-            letter-spacing: -0.04em;
-            color: #fff;
-            z-index: 1;
-        }
-        .page-end-cta__text > span {
-            display: block;
-            white-space: nowrap;
         }
         .page-end-cta__video {
             position: absolute;
@@ -984,11 +962,17 @@
             height: 100%;
             display: block;
             object-fit: cover;
-            mix-blend-mode: darken;
-            z-index: 2;
+            -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2048 1124' preserveAspectRatio='xMidYMid slice'><text x='1024' y='562' text-anchor='middle' dominant-baseline='middle' font-family='-apple-system,BlinkMacSystemFont,Inter,Roboto,sans-serif' font-weight='900' fill='white'><tspan x='1024' dy='-0.45em' font-size='300' textLength='2048' lengthAdjust='spacingAndGlyphs'>Are You Ready</tspan><tspan x='1024' dy='1.05em' font-size='300' textLength='2048' lengthAdjust='spacingAndGlyphs'>To Go Nuclear?</tspan></text></svg>");
+            mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2048 1124' preserveAspectRatio='xMidYMid slice'><text x='1024' y='562' text-anchor='middle' dominant-baseline='middle' font-family='-apple-system,BlinkMacSystemFont,Inter,Roboto,sans-serif' font-weight='900' fill='white'><tspan x='1024' dy='-0.45em' font-size='300' textLength='2048' lengthAdjust='spacingAndGlyphs'>Are You Ready</tspan><tspan x='1024' dy='1.05em' font-size='300' textLength='2048' lengthAdjust='spacingAndGlyphs'>To Go Nuclear?</tspan></text></svg>");
+            -webkit-mask-size: 100% 100%;
+            mask-size: 100% 100%;
+            -webkit-mask-position: center;
+            mask-position: center;
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            -webkit-mask-mode: luminance;
+            mask-mode: luminance;
         }
-        :root[data-theme="light"] .page-end-cta__text { color: #000; }
-        :root[data-theme="light"] .page-end-cta__video { mix-blend-mode: lighten; }
         .page-end-cta__actions {
             display: flex;
             justify-content: center;
@@ -1657,9 +1641,9 @@
         </section>
 
         <section class="section page-end-cta" id="page-end-cta">
+            <h2 class="visually-hidden">Are You Ready To Go Nuclear?</h2>
             <div class="container">
                 <div class="page-end-cta__media">
-                    <h2 class="page-end-cta__text"><span>Are You Ready</span><span>To Go Nuclear?</span></h2>
                     <video class="page-end-cta__video" muted loop playsinline preload="none" aria-hidden="true">
                         <source data-src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/large%20video.mp4" type="video/mp4">
                     </video>
@@ -1804,28 +1788,6 @@
             }
             window.addEventListener('scroll', update, { passive: true });
             update();
-        })();
-
-        // Page-end CTA heading — auto-fit each line so the widest fills
-        // the chassis exactly. Re-fits on resize and after fonts load.
-        (function () {
-            var heading = document.querySelector('.page-end-cta__text');
-            if (!heading) return;
-            var box = heading.parentElement;
-            var lines = heading.querySelectorAll('span');
-            if (!lines.length) return;
-            function fit() {
-                var probe = 100;
-                lines.forEach(function (l) { l.style.fontSize = probe + 'px'; });
-                var maxW = 0;
-                lines.forEach(function (l) { if (l.scrollWidth > maxW) maxW = l.scrollWidth; });
-                if (!maxW || !box.clientWidth) return;
-                var size = probe * (box.clientWidth / maxW);
-                lines.forEach(function (l) { l.style.fontSize = size + 'px'; });
-            }
-            fit();
-            if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
-            window.addEventListener('resize', fit, { passive: true });
         })();
 
         // Page-end CTA video — load on intersection, play when visible.
