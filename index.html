@@ -946,34 +946,28 @@
             }
         }
 
-        /* Page-end CTA — real HTML heading layered with the video using
-           mix-blend-mode. The media box is a solid bg; the heading is
-           white (dark theme) or black (light theme); the video sits on
-           top with darken/lighten so it only shows through the text.
-           Text sizes via cqw so it scales perfectly with the chassis. */
+        /* Page-end CTA — inline SVG <text> layered with the video using
+           mix-blend-mode. SVG fills the media box; <text textLength> forces
+           each line to fill the viewBox edge-to-edge automatically (no
+           font-metrics math). The video on top uses darken (light text on
+           dark bg) or lighten (dark text on light bg) so it only shows
+           through the text glyphs. */
         .page-end-cta__media {
             position: relative;
             aspect-ratio: 2048 / 1124;
             overflow: hidden;
             background-color: var(--color-bg-primary);
-            container-type: inline-size;
             isolation: isolate;
         }
         .page-end-cta__text {
             position: absolute;
             inset: 0;
-            margin: 0;
-            display: grid;
-            place-items: center;
-            font-family: var(--font-primary);
-            font-weight: var(--weight-black);
-            font-size: 14cqw;
-            line-height: 0.95;
-            letter-spacing: -0.04em;
-            text-align: center;
+            width: 100%;
+            height: 100%;
             color: #fff;
             z-index: 1;
         }
+        .page-end-cta__text text { fill: currentColor; }
         .page-end-cta__video {
             position: absolute;
             inset: 0;
@@ -1656,7 +1650,10 @@
         <section class="section page-end-cta" id="page-end-cta">
             <div class="container">
                 <div class="page-end-cta__media">
-                    <h2 class="page-end-cta__text">Are You Ready<br>To Go Nuclear?</h2>
+                    <svg class="page-end-cta__text" viewBox="0 0 2048 1124" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Are You Ready To Go Nuclear?">
+                        <text x="0" y="450" font-family="Inter, -apple-system, BlinkMacSystemFont, Roboto, sans-serif" font-weight="900" font-size="500" textLength="2048" lengthAdjust="spacingAndGlyphs">Are You Ready</text>
+                        <text x="0" y="980" font-family="Inter, -apple-system, BlinkMacSystemFont, Roboto, sans-serif" font-weight="900" font-size="500" textLength="2048" lengthAdjust="spacingAndGlyphs">To Go Nuclear?</text>
+                    </svg>
                     <video class="page-end-cta__video" muted loop playsinline preload="none" aria-hidden="true">
                         <source data-src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/large%20video.mp4" type="video/mp4">
                     </video>
