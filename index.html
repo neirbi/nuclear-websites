@@ -946,15 +946,14 @@
             }
         }
 
-        /* Page-end CTA — full-bleed video with text-shaped knockout overlay.
-           The video plays underneath; an SVG above it fills the section with
-           the page bg colour, except where the <text> in the mask punches
-           through — there the video shows. Theme-aware via --color-bg-primary. */
+        /* Page-end CTA — video is masked to render ONLY inside the text
+           glyphs; the media box itself is the solid background colour.
+           No overlay veil, so edge bleed is impossible by construction. */
         .page-end-cta__media {
             position: relative;
             aspect-ratio: 2048 / 1124;
             overflow: hidden;
-            isolation: isolate;
+            background-color: var(--color-bg-primary);
         }
         .page-end-cta__video {
             position: absolute;
@@ -963,19 +962,10 @@
             height: 100%;
             display: block;
             object-fit: cover;
-        }
-        /* Veil — a plain HTML div with CSS mask-image. Plain DOM box means
-           inset:0 maps exactly to container bounds (no SVG element bounds
-           drift, no subpixel peek). The SVG inside the data URI is only the
-           text-shape definition; it stretches to fill the veil via mask-size. */
-        .page-end-cta__veil {
-            position: absolute;
-            inset: 0;
-            background-color: var(--color-bg-primary);
-            -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2048 1124' preserveAspectRatio='xMidYMid slice'><rect width='2048' height='1124' fill='white'/><text x='1024' y='562' text-anchor='middle' dominant-baseline='middle' font-family='-apple-system,BlinkMacSystemFont,Inter,Roboto,sans-serif' font-weight='900' fill='black'><tspan x='1024' dy='-0.45em' font-size='260'>Are You Ready</tspan><tspan x='1024' dy='1.05em' font-size='260'>To Go Nuclear?</tspan></text></svg>");
-            mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2048 1124' preserveAspectRatio='xMidYMid slice'><rect width='2048' height='1124' fill='white'/><text x='1024' y='562' text-anchor='middle' dominant-baseline='middle' font-family='-apple-system,BlinkMacSystemFont,Inter,Roboto,sans-serif' font-weight='900' fill='black'><tspan x='1024' dy='-0.45em' font-size='260'>Are You Ready</tspan><tspan x='1024' dy='1.05em' font-size='260'>To Go Nuclear?</tspan></text></svg>");
-            -webkit-mask-size: 101% 101%;
-            mask-size: 101% 101%;
+            -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2048 1124' preserveAspectRatio='xMidYMid slice'><text x='1024' y='562' text-anchor='middle' dominant-baseline='middle' font-family='-apple-system,BlinkMacSystemFont,Inter,Roboto,sans-serif' font-weight='900' fill='white'><tspan x='1024' dy='-0.45em' font-size='260'>Are You Ready</tspan><tspan x='1024' dy='1.05em' font-size='260'>To Go Nuclear?</tspan></text></svg>");
+            mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2048 1124' preserveAspectRatio='xMidYMid slice'><text x='1024' y='562' text-anchor='middle' dominant-baseline='middle' font-family='-apple-system,BlinkMacSystemFont,Inter,Roboto,sans-serif' font-weight='900' fill='white'><tspan x='1024' dy='-0.45em' font-size='260'>Are You Ready</tspan><tspan x='1024' dy='1.05em' font-size='260'>To Go Nuclear?</tspan></text></svg>");
+            -webkit-mask-size: 100% 100%;
+            mask-size: 100% 100%;
             -webkit-mask-position: center;
             mask-position: center;
             -webkit-mask-repeat: no-repeat;
@@ -1657,7 +1647,6 @@
                     <video class="page-end-cta__video" muted loop playsinline preload="none" aria-hidden="true">
                         <source data-src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/large%20video.mp4" type="video/mp4">
                     </video>
-                    <div class="page-end-cta__veil" aria-hidden="true"></div>
                 </div>
                 <div class="page-end-cta__actions">
                     <a class="btn-pill btn-pill--filled" href="#contact">Go Nuclear</a>
