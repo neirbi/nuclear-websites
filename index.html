@@ -1224,7 +1224,7 @@
            =========================================== */
         .dialog {
             width: 100%;
-            max-width: var(--container-max-width);
+            max-width: calc(var(--measure-body) + 2 * var(--space-xl));
             max-height: calc(100dvh - 2 * var(--space-xl));
             margin: auto;
             padding: 0;
@@ -1276,11 +1276,7 @@
         .dialog__inner {
             position: relative;
             overflow-y: auto;
-            padding: var(--space-xl) var(--container-padding);
-        }
-        .dialog__content {
-            max-width: var(--measure-wrapper);
-            margin-inline: auto;
+            padding: var(--space-xl);
         }
         .dialog__close {
             position: absolute;
@@ -1294,7 +1290,6 @@
             color: var(--color-text-secondary);
             line-height: 1.2;
             margin: 0;
-            max-width: var(--measure-body);
         }
         .dialog__principles {
             list-style: none;
@@ -1302,10 +1297,6 @@
             margin: var(--space-xl) 0 0;
             display: grid;
             gap: var(--space-lg);
-            counter-reset: principle;
-        }
-        .dialog__principle {
-            max-width: var(--measure-body);
         }
         .dialog__principle__title {
             font-size: var(--text-lg);
@@ -1658,33 +1649,31 @@
                         <path d="M18 6 6 18M6 6l12 12"/>
                     </svg>
                 </button>
-                <div class="dialog__content">
-                    <p class="section__eyebrow">Nuclear Principles</p>
-                    <h2 id="nuclear-principles-title" class="section__title">First Principles</h2>
-                    <p class="dialog__subtitle">The five truths of web-design.</p>
-                    <ol class="dialog__principles">
-                        <li class="dialog__principle">
-                            <h3 class="dialog__principle__title"><span class="gradient-text gradient-text--success">Convert attention into value.</span></h3>
-                            <p class="dialog__principle__body">A website has one job. Every element either moves the sale forward, or it doesn&rsquo;t belong.</p>
-                        </li>
-                        <li class="dialog__principle">
-                            <h3 class="dialog__principle__title">The body decides.</h3>
-                            <p class="dialog__principle__body">They judge before they read. A feeling, not a thought. Lose them here and the words never get a turn.</p>
-                        </li>
-                        <li class="dialog__principle">
-                            <h3 class="dialog__principle__title">Every screen answers.</h3>
-                            <p class="dialog__principle__body">Is this real? Is this for me? What now? Leave one open and they&rsquo;re gone.</p>
-                        </li>
-                        <li class="dialog__principle">
-                            <h3 class="dialog__principle__title">Words convert; design directs.</h3>
-                            <p class="dialog__principle__body">Words close the sale. Design just points the way. Pretty that says nothing sells nothing.</p>
-                        </li>
-                        <li class="dialog__principle">
-                            <h3 class="dialog__principle__title">Move the sale forward.</h3>
-                            <p class="dialog__principle__body">Every element earns its place. Not taste. Not ego. It moves the sale, or it&rsquo;s cut.</p>
-                        </li>
-                    </ol>
-                </div>
+                <p class="section__eyebrow">Nuclear Principles</p>
+                <h2 id="nuclear-principles-title" class="section__title">First Principles</h2>
+                <p class="dialog__subtitle">The five truths of web-design.</p>
+                <ol class="dialog__principles">
+                    <li>
+                        <h3 class="dialog__principle__title"><span class="gradient-text gradient-text--success">Convert attention into value.</span></h3>
+                        <p class="dialog__principle__body">A website has one job. Every element either moves the sale forward, or it doesn&rsquo;t belong.</p>
+                    </li>
+                    <li>
+                        <h3 class="dialog__principle__title">The body decides.</h3>
+                        <p class="dialog__principle__body">They judge before they read. A feeling, not a thought. Lose them here and the words never get a turn.</p>
+                    </li>
+                    <li>
+                        <h3 class="dialog__principle__title">Every screen answers.</h3>
+                        <p class="dialog__principle__body">Is this real? Is this for me? What now? Leave one open and they&rsquo;re gone.</p>
+                    </li>
+                    <li>
+                        <h3 class="dialog__principle__title">Words convert; design directs.</h3>
+                        <p class="dialog__principle__body">Words close the sale. Design just points the way. Pretty that says nothing sells nothing.</p>
+                    </li>
+                    <li>
+                        <h3 class="dialog__principle__title">Move the sale forward.</h3>
+                        <p class="dialog__principle__body">Every element earns its place. Not taste. Not ego. It moves the sale, or it&rsquo;s cut.</p>
+                    </li>
+                </ol>
             </div>
         </dialog>
 
