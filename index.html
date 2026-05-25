@@ -1825,8 +1825,14 @@
                 });
                 // Backdrop click closes — click target is the <dialog> itself
                 // when the user clicks outside the inner content.
+                // Close only on true backdrop clicks (outside the dialog's
+                // visible box). e.target === dialog also fires for clicks
+                // inside the dialog's padding, which we want to ignore.
                 dialog.addEventListener('click', function (e) {
-                    if (e.target === dialog) dialog.close();
+                    var r = dialog.getBoundingClientRect();
+                    var inside = e.clientX >= r.left && e.clientX <= r.right
+                              && e.clientY >= r.top  && e.clientY <= r.bottom;
+                    if (!inside) dialog.close();
                 });
             });
         })();
