@@ -1008,6 +1008,14 @@
             content: " \203A";
             display: inline-block;
             margin-left: 0.25rem;
+            transition: transform var(--transition-base);
+        }
+        .learn-more:hover::after {
+            transform: translateX(0.25rem);
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .learn-more::after { transition: none; }
+            .learn-more:hover::after { transform: none; }
         }
 
         /* Modal dialog — native <dialog> styled to match the card surface. */
