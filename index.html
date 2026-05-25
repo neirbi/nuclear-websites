@@ -946,14 +946,33 @@
             }
         }
 
-        /* Page-end CTA — video is masked to render ONLY inside the text
-           glyphs; the media box itself is the solid background colour.
-           No overlay veil, so edge bleed is impossible by construction. */
+        /* Page-end CTA — real HTML heading layered with the video using
+           mix-blend-mode. The media box is a solid bg; the heading is
+           white (dark theme) or black (light theme); the video sits on
+           top with darken/lighten so it only shows through the text.
+           Text sizes via cqw so it scales perfectly with the chassis. */
         .page-end-cta__media {
             position: relative;
             aspect-ratio: 2048 / 1124;
             overflow: hidden;
             background-color: var(--color-bg-primary);
+            container-type: inline-size;
+            isolation: isolate;
+        }
+        .page-end-cta__text {
+            position: absolute;
+            inset: 0;
+            margin: 0;
+            display: grid;
+            place-items: center;
+            font-family: var(--font-primary);
+            font-weight: var(--weight-black);
+            font-size: 14cqw;
+            line-height: 0.95;
+            letter-spacing: -0.04em;
+            text-align: center;
+            color: #fff;
+            z-index: 1;
         }
         .page-end-cta__video {
             position: absolute;
@@ -962,17 +981,11 @@
             height: 100%;
             display: block;
             object-fit: cover;
-            -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2048 1124' preserveAspectRatio='xMidYMid slice'><text x='1024' y='562' text-anchor='middle' dominant-baseline='middle' font-family='-apple-system,BlinkMacSystemFont,Inter,Roboto,sans-serif' font-weight='900' fill='white'><tspan x='1024' dy='-0.45em' font-size='300' textLength='2048' lengthAdjust='spacingAndGlyphs'>Are You Ready</tspan><tspan x='1024' dy='1.05em' font-size='300' textLength='2048' lengthAdjust='spacingAndGlyphs'>To Go Nuclear?</tspan></text></svg>");
-            mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2048 1124' preserveAspectRatio='xMidYMid slice'><text x='1024' y='562' text-anchor='middle' dominant-baseline='middle' font-family='-apple-system,BlinkMacSystemFont,Inter,Roboto,sans-serif' font-weight='900' fill='white'><tspan x='1024' dy='-0.45em' font-size='300' textLength='2048' lengthAdjust='spacingAndGlyphs'>Are You Ready</tspan><tspan x='1024' dy='1.05em' font-size='300' textLength='2048' lengthAdjust='spacingAndGlyphs'>To Go Nuclear?</tspan></text></svg>");
-            -webkit-mask-size: 100% 100%;
-            mask-size: 100% 100%;
-            -webkit-mask-position: center;
-            mask-position: center;
-            -webkit-mask-repeat: no-repeat;
-            mask-repeat: no-repeat;
-            -webkit-mask-mode: luminance;
-            mask-mode: luminance;
+            mix-blend-mode: darken;
+            z-index: 2;
         }
+        :root[data-theme="light"] .page-end-cta__text { color: #000; }
+        :root[data-theme="light"] .page-end-cta__video { mix-blend-mode: lighten; }
         .page-end-cta__actions {
             display: flex;
             justify-content: center;
@@ -1641,9 +1654,9 @@
         </section>
 
         <section class="section page-end-cta" id="page-end-cta">
-            <h2 class="visually-hidden">Are You Ready To Go Nuclear?</h2>
             <div class="container">
                 <div class="page-end-cta__media">
+                    <h2 class="page-end-cta__text">Are You Ready<br>To Go Nuclear?</h2>
                     <video class="page-end-cta__video" muted loop playsinline preload="none" aria-hidden="true">
                         <source data-src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/large%20video.mp4" type="video/mp4">
                     </video>
