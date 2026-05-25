@@ -1151,7 +1151,7 @@
             font-size: var(--text-base);
             font-weight: var(--weight-medium);
             text-decoration: none;
-            transition: background-color var(--transition-base), color var(--transition-base), filter var(--transition-base);
+            transition: background-color var(--transition-base), color var(--transition-base);
         }
         .btn-pill:hover,
         .btn-pill:focus-visible {
@@ -1166,9 +1166,8 @@
         }
         .btn-pill--filled:hover,
         .btn-pill--filled:focus-visible {
-            background-color: var(--color-green-500);
+            background-color: color-mix(in srgb, var(--color-green-500), white 15%);
             color: var(--color-on-accent);
-            filter: brightness(1.15);
         }
         /* Monochrome variant — off-black in light, off-white in dark. */
         .btn-pill--mono {
