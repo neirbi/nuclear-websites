@@ -1238,6 +1238,7 @@
             color: var(--color-text-primary);
             overflow-y: auto;
             overscroll-behavior: contain;
+            scrollbar-width: none;
             opacity: 0;
             transform: translateY(8px);
             transition:
@@ -1246,6 +1247,7 @@
                 overlay 200ms ease allow-discrete,
                 display 200ms ease allow-discrete;
         }
+        .dialog::-webkit-scrollbar { display: none; }
         /* Lock body scroll while any dialog is open */
         body:has(dialog[open]) { overflow: hidden; }
         .dialog[open] {
