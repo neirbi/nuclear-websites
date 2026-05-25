@@ -1165,6 +1165,16 @@
             color: var(--color-on-accent);
             opacity: 0.85;
         }
+        /* Monochrome variant — off-black in light, off-white in dark. */
+        .btn-pill--mono {
+            border-color: var(--color-text-primary);
+            color: var(--color-text-primary);
+        }
+        .btn-pill--mono:hover,
+        .btn-pill--mono:focus-visible {
+            background-color: var(--color-text-primary);
+            color: var(--color-bg-primary);
+        }
 
         /* ===========================================
            BEFORE / AFTER COMPARE — draggable slider
@@ -1603,7 +1613,7 @@
                     <p class="section__eyebrow">How</p>
                     <h2 id="how-title" class="section__title"><span class="gradient-text">We build on principles,</span><br>not trends.</h2>
                     <p class="section__body">Your visitor only cares about one thing. What&rsquo;s in it for them? Slow, ugly, bloated websites scare them away. They&rsquo;re gone before they can find out. <span class="section__body-emphasis">Every element must move the sale forward.</span> What&rsquo;s left is fast and beautiful. A money-making machine.</p>
-                    <a class="learn-more" href="#" data-dialog="principles">Learn more about Nuclear Principles</a>
+                    <a class="btn-pill btn-pill--mono" href="#" data-dialog="principles">Learn more about Nuclear Principles</a>
                 </div>
             </div>
         </section>
