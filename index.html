@@ -1076,7 +1076,7 @@
             font-family: inherit;
             font-size: var(--text-base);
             font-weight: var(--weight-medium);
-            line-height: 1.2;
+            line-height: var(--line-height-base);
             text-decoration: none;
             cursor: pointer;
             transition: background-color var(--transition-base), color var(--transition-base);
@@ -1226,9 +1226,9 @@
            Animated open/close via @starting-style + allow-discrete.
            =========================================== */
         .dialog {
-            width: calc(100% - 2 * var(--container-padding));
+            width: 100%;
             max-width: var(--container-max-width);
-            max-height: calc(100dvh - 2 * var(--space-md));
+            max-height: 100dvh;
             margin: auto;
             padding: 0;
             border: 0;
@@ -1276,7 +1276,7 @@
 
         .dialog__inner {
             position: relative;
-            max-height: calc(100dvh - 2 * var(--space-md));
+            max-height: 100dvh;
             overflow-y: auto;
             padding: var(--space-xl) var(--container-padding);
         }
@@ -1316,9 +1316,10 @@
             margin: 0 0 var(--space-xs);
         }
         .dialog__principle__body {
-            font-size: var(--text-base);
+            font-size: var(--text-md);
+            font-weight: var(--weight-semibold);
             color: var(--color-text-secondary);
-            line-height: var(--line-height-base);
+            line-height: 1.2;
             margin: 0;
         }
 
