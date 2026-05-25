@@ -1073,12 +1073,9 @@
             border: 1.5px solid var(--pill-accent);
             color: var(--pill-accent);
             background: transparent;
-            font-family: inherit;
             font-size: var(--text-base);
             font-weight: var(--weight-medium);
-            line-height: var(--line-height-base);
             text-decoration: none;
-            cursor: pointer;
             transition: background-color var(--transition-base), color var(--transition-base);
         }
         .btn-pill:hover,
@@ -1228,14 +1225,16 @@
         .dialog {
             width: 100%;
             max-width: var(--container-max-width);
-            max-height: 100dvh;
+            max-height: calc(100dvh - 2 * var(--space-xl));
             margin: auto;
             padding: 0;
             border: 0;
             border-radius: var(--radius-xl);
             background: var(--color-bg-surface-strong);
             color: var(--color-text-primary);
-            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            overflow: clip;
             opacity: 0;
             transform: translateY(8px);
             transition:
@@ -1276,7 +1275,6 @@
 
         .dialog__inner {
             position: relative;
-            max-height: 100dvh;
             overflow-y: auto;
             padding: var(--space-xl) var(--container-padding);
         }
@@ -1647,7 +1645,7 @@
                     <h2 id="how-title" class="section__title"><span class="gradient-text">We build on principles,</span><br>not trends.</h2>
                     <p class="section__body">Your visitor only cares about one thing. What&rsquo;s in it for them? Slow, ugly, bloated websites scare them away. They&rsquo;re gone before they can find out. <span class="section__body-emphasis">Every element must move the sale forward.</span> What&rsquo;s left is fast and beautiful. A money-making machine.</p>
                     <div class="btn-row">
-                        <button type="button" class="btn-pill btn-pill--mono" aria-haspopup="dialog" aria-controls="nuclear-principles-dialog" data-dialog-open="nuclear-principles-dialog">Go inside Nuclear Principles</button>
+                        <a class="btn-pill btn-pill--mono" href="#nuclear-principles-dialog" aria-haspopup="dialog" aria-controls="nuclear-principles-dialog" data-dialog-open="nuclear-principles-dialog">Go inside Nuclear Principles</a>
                     </div>
                 </div>
             </div>
@@ -1836,7 +1834,7 @@
             document.querySelectorAll('[data-dialog-open]').forEach(function (trigger) {
                 var dialog = document.getElementById(trigger.dataset.dialogOpen);
                 if (!dialog) return;
-                trigger.addEventListener('click', function () { dialog.showModal(); });
+                trigger.addEventListener('click', function (e) { e.preventDefault(); dialog.showModal(); });
             });
             document.querySelectorAll('dialog').forEach(function (dialog) {
                 dialog.querySelectorAll('[data-dialog-close]').forEach(function (btn) {
