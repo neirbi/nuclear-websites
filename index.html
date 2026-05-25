@@ -1056,6 +1056,13 @@
             padding: var(--space-xl);
             overflow-y: auto;
             max-height: 86vh;
+            text-align: left;
+        }
+        /* Reuse section typography but left-aligned and unconstrained
+           inside the dialog (the dialog body is itself the container). */
+        .dialog__body .section__body {
+            margin-inline: 0;
+            max-width: none;
         }
         .dialog__list {
             list-style: none;
