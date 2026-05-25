@@ -777,10 +777,6 @@
         .section--reading.section--left .section__body {
             margin-inline: 0;
         }
-        /* Pill button placed inside a section body — sits below copy. */
-        .section__cta {
-            margin-top: var(--space-lg);
-        }
         .section--card .section__inner {
             background: linear-gradient(
                 to right,
@@ -981,12 +977,17 @@
             margin-top: var(--space-lg);
             margin-bottom: 0;
         }
-        .page-end-cta__actions {
+        /* Shared row for pill CTAs. One or many pills, any section. */
+        .btn-row {
             display: flex;
             justify-content: center;
             gap: var(--space-md);
             margin-top: var(--space-lg);
             flex-wrap: wrap;
+        }
+        /* Left-aligned variant for left-aligned sections. */
+        .section--left .btn-row {
+            justify-content: flex-start;
         }
 
         /* Apple-style inline "Learn more" link. */
@@ -1119,14 +1120,6 @@
             max-width: 52rem;
             margin-inline: auto;
             padding-block: var(--space-xl);
-        }
-
-        .hero__actions {
-            display: flex;
-            justify-content: center;
-            gap: var(--space-md);
-            margin-top: var(--space-lg);
-            flex-wrap: wrap;
         }
 
         .hero__title {
@@ -1584,7 +1577,7 @@
                     <p class="section__eyebrow">Nuclear Websites</p>
                     <h1 id="hero-title" class="hero__title">Websites that actually <span class="gradient-text">make you money.</span></h1>
                     <p class="subtitle">Built on the same battle-tested principles behind the book.</p>
-                    <div class="hero__actions">
+                    <div class="btn-row">
                         <a class="btn-pill btn-pill--filled" href="#">Learn more</a>
                         <a class="btn-pill" href="#contact">Go Nuclear</a>
                     </div>
@@ -1628,7 +1621,9 @@
                     <p class="section__eyebrow">How</p>
                     <h2 id="how-title" class="section__title"><span class="gradient-text">We build on principles,</span><br>not trends.</h2>
                     <p class="section__body">Your visitor only cares about one thing. What&rsquo;s in it for them? Slow, ugly, bloated websites scare them away. They&rsquo;re gone before they can find out. <span class="section__body-emphasis">Every element must move the sale forward.</span> What&rsquo;s left is fast and beautiful. A money-making machine.</p>
-                    <a class="btn-pill btn-pill--mono section__cta" href="#" data-dialog="principles">Go inside Nuclear Principles</a>
+                    <div class="btn-row">
+                        <a class="btn-pill btn-pill--mono" href="#" data-dialog="principles">Go inside Nuclear Principles</a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1681,7 +1676,7 @@
                     </video>
                 </div>
                 <p class="subtitle page-end-cta__subtitle">Get a website that pays for itself.</p>
-                <div class="page-end-cta__actions">
+                <div class="btn-row">
                     <a class="btn-pill" href="#contact">Learn more</a>
                 </div>
                 <a class="learn-more" href="#">Go Nuclear</a>
