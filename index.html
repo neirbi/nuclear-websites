@@ -1073,9 +1073,12 @@
             border: 1.5px solid var(--pill-accent);
             color: var(--pill-accent);
             background: transparent;
+            font-family: inherit;
             font-size: var(--text-base);
             font-weight: var(--weight-medium);
+            line-height: 1.2;
             text-decoration: none;
+            cursor: pointer;
             transition: background-color var(--transition-base), color var(--transition-base);
         }
         .btn-pill:hover,
@@ -1216,6 +1219,108 @@
             flex-shrink: 0;
         }
 
+
+        /* ===========================================
+           DIALOG — native <dialog> modal card
+           Reuses section tokens; ::backdrop frosts page behind.
+           Animated open/close via @starting-style + allow-discrete.
+           =========================================== */
+        .dialog {
+            width: calc(100% - 2 * var(--container-padding));
+            max-width: var(--container-max-width);
+            max-height: calc(100dvh - 2 * var(--space-md));
+            margin: auto;
+            padding: 0;
+            border: 0;
+            border-radius: var(--radius-xl);
+            background: var(--color-bg-surface-strong);
+            color: var(--color-text-primary);
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(8px);
+            transition:
+                opacity 200ms ease,
+                transform 200ms ease,
+                overlay 200ms ease allow-discrete,
+                display 200ms ease allow-discrete;
+        }
+        .dialog[open] {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        @starting-style {
+            .dialog[open] {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+        }
+        .dialog::backdrop {
+            background-color: rgba(0, 0, 0, 0.5);
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+            opacity: 0;
+            transition:
+                opacity 200ms ease,
+                overlay 200ms ease allow-discrete,
+                display 200ms ease allow-discrete;
+        }
+        .dialog[open]::backdrop { opacity: 1; }
+        @starting-style {
+            .dialog[open]::backdrop { opacity: 0; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .dialog,
+            .dialog::backdrop { transition: none; }
+            .dialog { transform: none; }
+        }
+
+        .dialog__inner {
+            position: relative;
+            max-height: calc(100dvh - 2 * var(--space-md));
+            overflow-y: auto;
+            padding: var(--space-xl) var(--container-padding);
+        }
+        .dialog__content {
+            max-width: var(--measure-wrapper);
+            margin-inline: auto;
+        }
+        .dialog__close {
+            position: absolute;
+            top: var(--space-md);
+            right: var(--space-md);
+            z-index: 1;
+        }
+        .dialog__subtitle {
+            font-size: var(--text-md);
+            font-weight: var(--weight-semibold);
+            color: var(--color-text-secondary);
+            line-height: 1.2;
+            margin: 0;
+            max-width: var(--measure-body);
+        }
+        .dialog__principles {
+            list-style: none;
+            padding: 0;
+            margin: var(--space-xl) 0 0;
+            display: grid;
+            gap: var(--space-lg);
+            counter-reset: principle;
+        }
+        .dialog__principle {
+            max-width: var(--measure-body);
+        }
+        .dialog__principle__title {
+            font-size: var(--text-lg);
+            font-weight: var(--weight-bold);
+            line-height: 1.2;
+            margin: 0 0 var(--space-xs);
+        }
+        .dialog__principle__body {
+            font-size: var(--text-base);
+            color: var(--color-text-secondary);
+            line-height: var(--line-height-base);
+            margin: 0;
+        }
 
         .skip-link {
             position: absolute;
@@ -1541,11 +1646,48 @@
                     <h2 id="how-title" class="section__title"><span class="gradient-text">We build on principles,</span><br>not trends.</h2>
                     <p class="section__body">Your visitor only cares about one thing. What&rsquo;s in it for them? Slow, ugly, bloated websites scare them away. They&rsquo;re gone before they can find out. <span class="section__body-emphasis">Every element must move the sale forward.</span> What&rsquo;s left is fast and beautiful. A money-making machine.</p>
                     <div class="btn-row">
-                        <a class="btn-pill btn-pill--mono" href="#">Go inside Nuclear Principles</a>
+                        <button type="button" class="btn-pill btn-pill--mono" aria-haspopup="dialog" aria-controls="nuclear-principles-dialog" data-dialog-open="nuclear-principles-dialog">Go inside Nuclear Principles</button>
                     </div>
                 </div>
             </div>
         </section>
+
+        <dialog id="nuclear-principles-dialog" class="dialog" aria-labelledby="nuclear-principles-title">
+            <div class="dialog__inner">
+                <button type="button" class="icon-btn dialog__close" aria-label="Close dialog" data-dialog-close>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="18" height="18">
+                        <path d="M18 6 6 18M6 6l12 12"/>
+                    </svg>
+                </button>
+                <div class="dialog__content">
+                    <p class="section__eyebrow">Nuclear Principles</p>
+                    <h2 id="nuclear-principles-title" class="section__title">First Principles</h2>
+                    <p class="dialog__subtitle">The five truths of web-design.</p>
+                    <ol class="dialog__principles">
+                        <li class="dialog__principle">
+                            <h3 class="dialog__principle__title"><span class="gradient-text gradient-text--success">Convert attention into value.</span></h3>
+                            <p class="dialog__principle__body">A website has one job. Every element either moves the sale forward, or it doesn&rsquo;t belong.</p>
+                        </li>
+                        <li class="dialog__principle">
+                            <h3 class="dialog__principle__title">The body decides.</h3>
+                            <p class="dialog__principle__body">They judge before they read. A feeling, not a thought. Lose them here and the words never get a turn.</p>
+                        </li>
+                        <li class="dialog__principle">
+                            <h3 class="dialog__principle__title">Every screen answers.</h3>
+                            <p class="dialog__principle__body">Is this real? Is this for me? What now? Leave one open and they&rsquo;re gone.</p>
+                        </li>
+                        <li class="dialog__principle">
+                            <h3 class="dialog__principle__title">Words convert; design directs.</h3>
+                            <p class="dialog__principle__body">Words close the sale. Design just points the way. Pretty that says nothing sells nothing.</p>
+                        </li>
+                        <li class="dialog__principle">
+                            <h3 class="dialog__principle__title">Move the sale forward.</h3>
+                            <p class="dialog__principle__body">Every element earns its place. Not taste. Not ego. It moves the sale, or it&rsquo;s cut.</p>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </dialog>
 
         <section class="section section--reading section--left section--card" id="what" aria-labelledby="what-title">
             <div class="container">
@@ -1685,6 +1827,26 @@
             }
             window.addEventListener('scroll', update, { passive: true });
             update();
+        })();
+
+        // Dialog — open via [data-dialog-open], close via [data-dialog-close]
+        // or backdrop click. Native <dialog> handles ESC + focus trap.
+        (function () {
+            document.querySelectorAll('[data-dialog-open]').forEach(function (trigger) {
+                var dialog = document.getElementById(trigger.dataset.dialogOpen);
+                if (!dialog) return;
+                trigger.addEventListener('click', function () { dialog.showModal(); });
+            });
+            document.querySelectorAll('dialog').forEach(function (dialog) {
+                dialog.querySelectorAll('[data-dialog-close]').forEach(function (btn) {
+                    btn.addEventListener('click', function () { dialog.close(); });
+                });
+                // Backdrop click closes — click target is the <dialog> itself
+                // when the user clicks outside the inner content.
+                dialog.addEventListener('click', function (e) {
+                    if (e.target === dialog) dialog.close();
+                });
+            });
         })();
 
         // Page-end CTA video — load on intersection, play when visible.
