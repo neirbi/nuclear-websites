@@ -1222,17 +1222,18 @@
            Reuses section tokens; ::backdrop frosts page behind.
            Animated open/close via @starting-style + allow-discrete.
            =========================================== */
-        /* Outer dialog = container chrome (1400 cap, horizontal padding).
-           Transparent — the visible card lives inside as .dialog__card. */
         .dialog {
             width: 100%;
             max-width: var(--container-max-width);
+            max-height: calc(100dvh - 2 * var(--space-xl));
             margin: auto;
-            padding: var(--space-xl) var(--container-padding);
+            padding: var(--space-xl);
             border: 0;
-            background: transparent;
+            border-radius: var(--radius-xl);
+            background: var(--color-bg-surface-strong);
             color: var(--color-text-primary);
-            overflow: clip;
+            overflow-y: auto;
+            overscroll-behavior: contain;
             opacity: 0;
             transform: translateY(8px);
             transition:
@@ -1273,18 +1274,6 @@
             .dialog { transform: none; }
         }
 
-        /* Visible card — mirrors .section--card sizing + left alignment. */
-        .dialog__card {
-            position: relative;
-            max-width: calc(var(--measure-body) + 2 * var(--space-xl));
-            max-height: calc(100dvh - 2 * var(--space-xl));
-            margin-inline: 0 auto;
-            padding: var(--space-xl);
-            border-radius: var(--radius-xl);
-            background: var(--color-bg-surface-strong);
-            overflow-y: auto;
-            overscroll-behavior: contain;
-        }
         .dialog__close {
             position: absolute;
             top: var(--space-md);
@@ -1650,7 +1639,6 @@
         </section>
 
         <dialog id="nuclear-principles-dialog" class="dialog" aria-labelledby="nuclear-principles-title">
-            <div class="dialog__card">
                 <button type="button" class="icon-btn dialog__close" aria-label="Close dialog" data-dialog-close>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="18" height="18">
                         <path d="M18 6 6 18M6 6l12 12"/>
@@ -1681,7 +1669,6 @@
                         <p class="dialog__principle__body">Every element earns its place. Not taste. Not ego. It moves the sale, or it&rsquo;s cut.</p>
                     </li>
                 </ol>
-            </div>
         </dialog>
 
         <section class="section section--reading section--left section--card" id="what" aria-labelledby="what-title">
