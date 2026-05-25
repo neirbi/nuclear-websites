@@ -1023,78 +1023,6 @@
             .learn-more:hover::after { transform: none; }
         }
 
-        /* Modal dialog — native <dialog> styled to match the card surface. */
-        .dialog {
-            border: 0;
-            padding: 0;
-            background-color: var(--color-bg-surface);
-            color: var(--color-text-primary);
-            border-radius: var(--radius-xl);
-            width: 92vw;
-            max-width: var(--container-max-width);
-            max-height: 86vh;
-            overflow: hidden;
-        }
-        .dialog::backdrop {
-            background-color: rgba(0, 0, 0, 0.5);
-            -webkit-backdrop-filter: blur(8px);
-            backdrop-filter: blur(8px);
-        }
-        .dialog__close {
-            position: absolute;
-            top: var(--space-md);
-            right: var(--space-md);
-            background-color: var(--color-fill-subtle);
-            border-radius: 50%;
-            font-size: var(--text-md);
-            line-height: 1;
-        }
-        .dialog__body {
-            padding: var(--space-xl);
-            overflow-y: auto;
-            max-height: 86vh;
-            text-align: left;
-        }
-        /* Reuse section typography but left-aligned and unconstrained
-           inside the dialog (the dialog body is itself the container). */
-        .dialog__body .section__body {
-            margin-inline: 0;
-            max-width: none;
-        }
-        .dialog__list {
-            list-style: none;
-            padding: 0;
-            margin: var(--space-lg) 0 0;
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-lg);
-        }
-        .dialog__list h3 {
-            font-size: var(--text-lg);
-            font-weight: var(--weight-semibold);
-            color: var(--color-text-primary);
-            line-height: 1.2;
-            margin: 0 0 var(--space-xs);
-        }
-        .dialog__list p {
-            margin: 0;
-        }
-        @media (max-width: 47.99em) {
-            .dialog {
-                max-width: 94vw;
-                max-height: 92dvh;
-                border-radius: var(--radius-lg);
-            }
-            .dialog__body {
-                padding: var(--space-lg);
-                max-height: 92dvh;
-            }
-            .dialog__close {
-                top: var(--space-sm);
-                right: var(--space-sm);
-            }
-        }
-
         /* ===========================================
            HERO — centered content
            =========================================== */
@@ -1165,11 +1093,6 @@
         .btn-pill--filled:focus-visible {
             background-color: var(--pill-accent-hover);
             color: var(--pill-on-accent);
-        }
-        /* Monochrome palette — off-black in light, off-white in dark. */
-        .btn-pill--mono {
-            --pill-accent: var(--color-text-primary);
-            --pill-on-accent: var(--color-bg-primary);
         }
 
         /* ===========================================
@@ -1612,9 +1535,6 @@
                     <p class="section__eyebrow">How</p>
                     <h2 id="how-title" class="section__title"><span class="gradient-text">We build on principles,</span><br>not trends.</h2>
                     <p class="section__body">Your visitor only cares about one thing. What&rsquo;s in it for them? Slow, ugly, bloated websites scare them away. They&rsquo;re gone before they can find out. <span class="section__body-emphasis">Every element must move the sale forward.</span> What&rsquo;s left is fast and beautiful. A money-making machine.</p>
-                    <div class="btn-row">
-                        <a class="btn-pill btn-pill--mono" href="#" data-dialog="principles">Go inside Nuclear Principles</a>
-                    </div>
                 </div>
             </div>
         </section>
@@ -1675,37 +1595,6 @@
         </section>
     </main>
 
-    <dialog id="principles" class="dialog" aria-labelledby="principles-title">
-        <button type="button" class="icon-btn dialog__close" data-dialog-close aria-label="Close">&times;</button>
-        <div class="dialog__body">
-            <p class="section__eyebrow">Nuclear Principles</p>
-            <h2 id="principles-title" class="section__title"><span class="gradient-text">First Principles</span></h2>
-            <p class="section__body">The five truths of web-design.</p>
-            <ol class="dialog__list">
-                <li>
-                    <h3>Convert attention into value.</h3>
-                    <p class="section__body">A website has one job. Every element either moves the sale forward, or it doesn&rsquo;t belong.</p>
-                </li>
-                <li>
-                    <h3>The body decides.</h3>
-                    <p class="section__body">They judge before they read. A feeling, not a thought. Lose them here and the words never get a turn.</p>
-                </li>
-                <li>
-                    <h3>Every screen answers.</h3>
-                    <p class="section__body">Is this real? Is this for me? What now? Leave one open and they&rsquo;re gone.</p>
-                </li>
-                <li>
-                    <h3>Words convert; design directs.</h3>
-                    <p class="section__body">Words close the sale. Design just points the way. Pretty that says nothing sells nothing.</p>
-                </li>
-                <li>
-                    <h3>Move the sale forward.</h3>
-                    <p class="section__body">Every element earns its place. Not taste. Not ego. It moves the sale, or it&rsquo;s cut.</p>
-                </li>
-            </ol>
-        </div>
-    </dialog>
-
     <!-- ===========================================
          FOOTER
          =========================================== -->
@@ -1763,26 +1652,6 @@
                 } else {
                     setTimeout(fireHint, 1500);
                 }
-            });
-        })();
-
-        // Native <dialog> openers — placed after the dialog markup so it's in the DOM.
-        (function () {
-            document.querySelectorAll('[data-dialog]').forEach(function (trigger) {
-                trigger.addEventListener('click', function (e) {
-                    var dialog = document.getElementById(trigger.dataset.dialog);
-                    if (!dialog) return;
-                    e.preventDefault();
-                    dialog.showModal();
-                });
-            });
-            document.querySelectorAll('dialog.dialog').forEach(function (dialog) {
-                dialog.addEventListener('click', function (e) {
-                    if (e.target === dialog) dialog.close();
-                });
-                dialog.querySelectorAll('[data-dialog-close]').forEach(function (btn) {
-                    btn.addEventListener('click', function () { dialog.close(); });
-                });
             });
         })();
 
