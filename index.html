@@ -1222,18 +1222,16 @@
            Reuses section tokens; ::backdrop frosts page behind.
            Animated open/close via @starting-style + allow-discrete.
            =========================================== */
+        /* Outer dialog = container chrome (1400 cap, horizontal padding).
+           Transparent — the visible card lives inside as .dialog__card. */
         .dialog {
             width: 100%;
-            max-width: calc(var(--measure-body) + 2 * var(--space-xl));
-            max-height: calc(100dvh - 2 * var(--space-xl));
+            max-width: var(--container-max-width);
             margin: auto;
-            padding: 0;
+            padding: var(--space-xl) var(--container-padding);
             border: 0;
-            border-radius: var(--radius-xl);
-            background: var(--color-bg-surface-strong);
+            background: transparent;
             color: var(--color-text-primary);
-            display: flex;
-            flex-direction: column;
             overflow: clip;
             opacity: 0;
             transform: translateY(8px);
@@ -1243,6 +1241,8 @@
                 overlay 200ms ease allow-discrete,
                 display 200ms ease allow-discrete;
         }
+        /* Lock body scroll while any dialog is open */
+        body:has(dialog[open]) { overflow: hidden; }
         .dialog[open] {
             opacity: 1;
             transform: translateY(0);
@@ -1273,10 +1273,17 @@
             .dialog { transform: none; }
         }
 
-        .dialog__inner {
+        /* Visible card — mirrors .section--card sizing + left alignment. */
+        .dialog__card {
             position: relative;
-            overflow-y: auto;
+            max-width: calc(var(--measure-body) + 2 * var(--space-xl));
+            max-height: calc(100dvh - 2 * var(--space-xl));
+            margin-inline: 0 auto;
             padding: var(--space-xl);
+            border-radius: var(--radius-xl);
+            background: var(--color-bg-surface-strong);
+            overflow-y: auto;
+            overscroll-behavior: contain;
         }
         .dialog__close {
             position: absolute;
@@ -1643,7 +1650,7 @@
         </section>
 
         <dialog id="nuclear-principles-dialog" class="dialog" aria-labelledby="nuclear-principles-title">
-            <div class="dialog__inner">
+            <div class="dialog__card">
                 <button type="button" class="icon-btn dialog__close" aria-label="Close dialog" data-dialog-close>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="18" height="18">
                         <path d="M18 6 6 18M6 6l12 12"/>
