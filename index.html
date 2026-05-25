@@ -1121,6 +1121,14 @@
             padding-block: var(--space-xl);
         }
 
+        .hero__actions {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-md);
+            margin-top: var(--space-lg);
+            flex-wrap: wrap;
+        }
+
         .hero__title {
             font-size: var(--text-display);
             font-weight: var(--weight-bold);
@@ -1576,7 +1584,10 @@
                     <p class="section__eyebrow">Nuclear Websites</p>
                     <h1 id="hero-title" class="hero__title">Websites that actually <span class="gradient-text">make you money.</span></h1>
                     <p class="subtitle">Built on the same battle-tested principles behind the book.</p>
-                    <a class="btn-pill" href="#contact">Get a site that pays for itself</a>
+                    <div class="hero__actions">
+                        <a class="btn-pill btn-pill--filled" href="#">Learn more</a>
+                        <a class="btn-pill" href="#contact">Go Nuclear</a>
+                    </div>
                 </div>
                 <div class="compare-grow">
                 <div class="compare" data-compare role="img" aria-label="Sample website before and after redesign comparison">
