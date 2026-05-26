@@ -1727,6 +1727,22 @@
            SUPPORT FAQ — modern accordion, no dividers,
            one open at a time, panel animates via grid-rows.
            =========================================== */
+        /* Wrap that lets the entire FAQ collapse/expand via grid-rows trick.
+           Default is collapsed (0fr → no space taken); .is-open reveals it. */
+        .support-faq-wrap {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.4s ease;
+        }
+        .support-faq-wrap.is-open {
+            grid-template-rows: 1fr;
+        }
+        .support-faq-wrap__inner {
+            overflow: hidden;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .support-faq-wrap { transition: none; }
+        }
         .support-faq {
             max-width: var(--measure-wrapper);
             margin: var(--space-xl) auto 0;
@@ -2123,8 +2139,11 @@
                         <p class="section__eyebrow">Websites</p>
                         <h2 id="websites-card-title" class="section__title">Support, handled.</h2>
                         <p class="section__body">Whether you&rsquo;re running a single site, managing multiple, or building a full web app, our team keeps you covered. From broken pages and downtime to setup help and security, every plan includes it.</p>
+                        <a class="learn-more" href="#websites-faq" aria-expanded="false" aria-controls="websites-faq" data-toggle-faq="websites-faq">Learn more</a>
                     </div>
                 </div>
+                <div class="support-faq-wrap" id="websites-faq">
+                    <div class="support-faq-wrap__inner">
                 <div class="support-faq">
                     <div class="support-faq__list">
                         <div class="support-faq__item">
@@ -2182,6 +2201,8 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
                     </div>
                 </div>
             </div>
@@ -2443,6 +2464,20 @@
                 });
             }, { threshold: 0.5 });
             io.observe(status);
+        })();
+
+        // FAQ reveal — "Learn more" link toggles the .support-faq-wrap
+        // grid-rows from 0fr to 1fr so the FAQ block expands/collapses.
+        (function () {
+            document.querySelectorAll('[data-toggle-faq]').forEach(function (trigger) {
+                var target = document.getElementById(trigger.dataset.toggleFaq);
+                if (!target) return;
+                trigger.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    var isOpen = target.classList.toggle('is-open');
+                    trigger.setAttribute('aria-expanded', String(isOpen));
+                });
+            });
         })();
 
         // FAQ accordion — one item open per .support-faq group.
