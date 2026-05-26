@@ -1435,10 +1435,88 @@
             padding-top: var(--space-md);
             border-top: 1px solid var(--color-border-subtle);
         }
+        .site-footer__bottom {
+            margin-top: var(--space-xl);
+            padding-top: var(--space-md);
+            border-top: 1px solid var(--color-border-subtle);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--space-md);
+            flex-wrap: wrap;
+        }
         .site-footer__copyright {
             font-size: var(--text-sm);
             color: var(--color-text-tertiary);
             margin: 0;
+        }
+
+        /* ===========================================
+           SITE STATUS — loading dots → green pulse
+           Purely cosmetic; setTimeout flips data-state.
+           =========================================== */
+        .site-status {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            font-size: var(--text-sm);
+            color: var(--color-text-tertiary);
+        }
+        .site-status__indicator {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1rem;
+            height: 1rem;
+        }
+        .site-status__dots {
+            display: inline-flex;
+            gap: 3px;
+        }
+        .site-status__dots > span {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: var(--color-text-tertiary);
+            animation: status-dot-bounce 1.2s ease-in-out infinite;
+        }
+        .site-status__dots > span:nth-child(2) { animation-delay: 0.15s; }
+        .site-status__dots > span:nth-child(3) { animation-delay: 0.3s; }
+        @keyframes status-dot-bounce {
+            0%, 60%, 100% { transform: scale(0.6); opacity: 0.45; }
+            30%           { transform: scale(1);   opacity: 1; }
+        }
+        .site-status__pulse {
+            position: relative;
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--color-success);
+        }
+        .site-status__pulse::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: var(--color-success);
+            animation: status-pulse 2s ease-out infinite;
+        }
+        @keyframes status-pulse {
+            0%   { transform: scale(1);   opacity: 0.55; }
+            100% { transform: scale(2.6); opacity: 0;    }
+        }
+        /* State-driven visibility — one indicator + one label at a time */
+        .site-status[data-state="loading"] .site-status__pulse,
+        .site-status[data-state="loading"] .site-status__text--ready,
+        .site-status[data-state="ready"]   .site-status__dots,
+        .site-status[data-state="ready"]   .site-status__text--loading {
+            display: none;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .site-status__dots > span,
+            .site-status__pulse::before { animation: none; }
         }
     </style>
 </head>
@@ -1890,6 +1968,14 @@
             </div>
             <div class="site-footer__bottom">
                 <p class="site-footer__copyright">&copy; 2026 Nuclear Websites. All rights reserved.</p>
+                <div class="site-status" data-state="loading" role="status" aria-live="polite">
+                    <span class="site-status__indicator" aria-hidden="true">
+                        <span class="site-status__dots"><span></span><span></span><span></span></span>
+                        <span class="site-status__pulse"></span>
+                    </span>
+                    <span class="site-status__text site-status__text--loading">Loading status</span>
+                    <span class="site-status__text site-status__text--ready">All systems operational</span>
+                </div>
             </div>
         </div>
     </footer>
@@ -2020,6 +2106,18 @@
                 });
             }, { rootMargin: '200px' });
             io.observe(video);
+        })();
+
+        // Site status — flip footer indicator from loading to ready
+        // ~1.2s after the page finishes loading. Purely cosmetic.
+        (function () {
+            var status = document.querySelector('.site-status');
+            if (!status) return;
+            var ready = function () {
+                setTimeout(function () { status.setAttribute('data-state', 'ready'); }, 1200);
+            };
+            if (document.readyState === 'complete') ready();
+            else window.addEventListener('load', ready);
         })();
     </script>
 </body>
