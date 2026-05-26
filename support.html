@@ -1616,7 +1616,7 @@
         }
         .support-search__form {
             position: relative;
-            max-width: 50rem;
+            max-width: var(--measure-wrapper);
             margin-inline: auto;
         }
         .support-search__icon {
@@ -1666,6 +1666,9 @@
         }
         .support-card {
             padding-block: var(--space-md);
+        }
+        .support-card .container {
+            max-width: var(--measure-wrapper);
         }
         .support-card__inner {
             display: grid;
