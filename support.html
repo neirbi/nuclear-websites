@@ -1601,6 +1601,60 @@
         }
 
         /* ===========================================
+           SUPPORT SEARCH — Apple-style centered search bar.
+           Visual shell only; not wired to a real search engine.
+           =========================================== */
+        .support-search {
+            text-align: center;
+            padding-block: var(--space-md);
+        }
+        .support-search__title {
+            font-size: var(--text-xxl);
+            font-weight: var(--weight-bold);
+            line-height: 1.1;
+            margin: 0 0 var(--space-lg);
+        }
+        .support-search__form {
+            position: relative;
+            max-width: 50rem;
+            margin-inline: auto;
+        }
+        .support-search__icon {
+            position: absolute;
+            left: var(--space-md);
+            top: 50%;
+            transform: translateY(-50%);
+            display: inline-flex;
+            align-items: center;
+            color: var(--color-text-tertiary);
+            pointer-events: none;
+        }
+        .support-search__icon svg {
+            width: 1.125rem;
+            height: 1.125rem;
+        }
+        .support-search__input {
+            width: 100%;
+            padding-block: var(--space-md);
+            padding-inline: calc(var(--space-md) * 2 + 1.125rem) var(--space-md);
+            font-family: inherit;
+            font-size: var(--text-md);
+            font-weight: var(--weight-regular);
+            color: var(--color-text-primary);
+            background: var(--color-bg-surface);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: 999px;
+            outline: none;
+            transition: border-color var(--transition-base);
+        }
+        .support-search__input::placeholder {
+            color: var(--color-text-tertiary);
+        }
+        .support-search__input:focus-visible {
+            border-color: var(--color-accent-primary);
+        }
+
+        /* ===========================================
            SUPPORT CARDS — three product cards under the hero.
            Two-column grid; image fills its half to the card edges,
            content gets padding and left-aligned text.
@@ -1636,6 +1690,7 @@
         }
         .support-card__content .section__title {
             margin-top: 0;
+            font-size: var(--text-xxl);
         }
         .support-card__content .section__body {
             margin-inline: 0;
@@ -1949,6 +2004,22 @@
                         </li>
                     </ul>
                 </div>
+            </div>
+        </section>
+
+        <section class="section support-search" aria-labelledby="support-search-title">
+            <div class="container">
+                <h2 id="support-search-title" class="support-search__title">Search for More Topics</h2>
+                <form class="support-search__form" role="search" action="#" method="get" onsubmit="return false;">
+                    <label class="visually-hidden" for="support-search-input">Search Support</label>
+                    <span class="support-search__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="7"/>
+                            <path d="m20 20-3.5-3.5"/>
+                        </svg>
+                    </span>
+                    <input id="support-search-input" type="search" class="support-search__input" placeholder="Search Support" autocomplete="off">
+                </form>
             </div>
         </section>
 
