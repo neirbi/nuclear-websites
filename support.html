@@ -1606,13 +1606,13 @@
            =========================================== */
         .support-search {
             text-align: center;
-            padding-block: var(--space-md);
+            padding-block: var(--space-xl);
         }
         .support-search__title {
             font-size: var(--text-xxl);
             font-weight: var(--weight-bold);
             line-height: 1.1;
-            margin: 0 0 var(--space-lg);
+            margin: 0 0 var(--space-xl);
         }
         .support-search__form {
             position: relative;
@@ -1656,10 +1656,14 @@
 
         /* ===========================================
            SUPPORT CARDS — three product cards under the hero.
-           Two-column grid; image fills its half to the card edges,
-           content gets padding and left-aligned text.
-           Reverse modifier flips sides (left/right/left).
+           Wrapper (.support-cards) gets bg-surface to create the
+           Apple-style "off grey strip"; cards inside use bg-primary
+           so they appear as lighter tiles floating on the strip.
            =========================================== */
+        .support-cards {
+            background: var(--color-bg-surface);
+            padding-block: var(--space-xl);
+        }
         .support-card {
             padding-block: var(--space-md);
         }
@@ -1668,7 +1672,7 @@
             grid-template-areas: "media content";
             grid-template-columns: 1fr 1fr;
             align-items: stretch;
-            background: var(--color-bg-surface);
+            background: var(--color-bg-primary);
             border-radius: var(--radius-xl);
             overflow: hidden;
             min-height: 22rem;
@@ -1678,7 +1682,7 @@
         }
         .support-card__media {
             grid-area: media;
-            background: var(--color-bg-primary);
+            background: var(--color-bg-surface);
         }
         .support-card__content {
             grid-area: content;
@@ -2023,6 +2027,7 @@
             </div>
         </section>
 
+        <div class="support-cards">
         <section class="section support-card" id="websites" aria-labelledby="websites-card-title">
             <div class="container">
                 <div class="support-card__inner">
@@ -2061,6 +2066,7 @@
                 </div>
             </div>
         </section>
+        </div>
     </main>
 
     <!-- ===========================================
