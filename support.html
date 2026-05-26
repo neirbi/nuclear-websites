@@ -1642,17 +1642,22 @@
             font-weight: var(--weight-regular);
             color: var(--color-text-primary);
             background: var(--color-bg-surface);
-            border: 1px solid var(--color-border-subtle);
+            border: 2px solid var(--color-border-subtle);
             border-radius: var(--radius-md);
             outline: none;
-            transition: border-color var(--transition-base), box-shadow var(--transition-base);
+            transition: border-color var(--transition-base);
         }
         .support-search__input::placeholder {
             color: var(--color-text-tertiary);
         }
+        /* Focus: gradient border via dual-background trick.
+           Layer 1 (padding-box) is the input bg; layer 2 (border-box)
+           is the brand gradient, showing through where border is transparent. */
         .support-search__input:focus-visible {
-            border-color: var(--color-accent-primary);
-            box-shadow: 0 0 0 2px var(--color-accent-primary);
+            border-color: transparent;
+            background:
+                linear-gradient(var(--color-bg-surface), var(--color-bg-surface)) padding-box,
+                var(--gradient-primary) border-box;
         }
 
         /* ===========================================
@@ -1725,6 +1730,7 @@
         .support-faq {
             max-width: var(--measure-wrapper);
             margin: var(--space-xl) auto 0;
+            text-align: left;
         }
         .support-faq__list {
             display: flex;
@@ -1746,13 +1752,17 @@
             background: none;
             border: 0;
             cursor: pointer;
-            transition: color var(--transition-base);
         }
-        .support-faq__question:hover {
-            color: var(--color-accent-primary);
-        }
-        .support-faq__item.is-open .support-faq__question {
-            color: var(--color-accent-primary);
+        /* Apply brand gradient to the question text on hover or when open.
+           Targets the <span> so the chevron (SVG, uses currentColor) stays
+           a solid color and doesn't disappear under transparent text-fill. */
+        .support-faq__question:hover > span,
+        .support-faq__item.is-open .support-faq__question > span {
+            background-image: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
         }
         .support-faq__chevron {
             width: 1.125rem;
