@@ -1782,6 +1782,65 @@
         @media (prefers-reduced-motion: reduce) {
             .faq-toggle__chevron { transition: none; }
         }
+
+        /* ===========================================
+           EXPLORE SOLUTIONS — two-card grid sending support
+           visitors back to product pages. Image on top, title +
+           body + chevron link below. Two cols desktop, one mobile.
+           =========================================== */
+        .explore-solutions {
+            padding-block: var(--space-xl);
+        }
+        .explore-solutions__title {
+            font-size: var(--text-xxl);
+            font-weight: var(--weight-bold);
+            line-height: 1.1;
+            text-align: center;
+            margin: 0 0 var(--space-xl);
+        }
+        .explore-solutions__grid {
+            max-width: var(--measure-wrapper);
+            margin-inline: auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-lg);
+        }
+        @media (max-width: 47.99em) {
+            .explore-solutions__grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .explore-solutions__card {
+            background: var(--color-bg-surface);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            text-align: center;
+            padding-bottom: var(--space-xl);
+        }
+        .explore-solutions__media {
+            display: block;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            background: var(--color-bg-primary);
+        }
+        .explore-solutions__card-title {
+            font-size: var(--text-lg);
+            font-weight: var(--weight-bold);
+            line-height: 1.2;
+            margin: var(--space-lg) var(--space-md) var(--space-sm);
+        }
+        .explore-solutions__card-body {
+            font-size: var(--text-base);
+            color: var(--color-text-secondary);
+            line-height: var(--line-height-base);
+            margin: 0 auto var(--space-md);
+            max-width: 32rem;
+            padding-inline: var(--space-md);
+        }
+        .explore-solutions__card .learn-more {
+            margin-top: 0;
+        }
         .support-faq {
             max-width: var(--measure-wrapper);
             margin: var(--space-xl) auto 0;
@@ -2410,6 +2469,26 @@
             </div>
         </section>
         </div>
+
+        <section class="section explore-solutions" aria-labelledby="explore-solutions-title">
+            <div class="container">
+                <h2 id="explore-solutions-title" class="explore-solutions__title">Explore Solutions</h2>
+                <div class="explore-solutions__grid">
+                    <article class="explore-solutions__card">
+                        <div class="explore-solutions__media" aria-hidden="true"></div>
+                        <h3 class="explore-solutions__card-title">Nuclear Websites</h3>
+                        <p class="explore-solutions__card-body">World-class, high-converting sites built on first principles. The kind of site you&rsquo;d pay Apple a billion dollars to build.</p>
+                        <a class="learn-more" href="/">Explore Websites</a>
+                    </article>
+                    <article class="explore-solutions__card">
+                        <div class="explore-solutions__media" aria-hidden="true"></div>
+                        <h3 class="explore-solutions__card-title">Nuclear Apps</h3>
+                        <p class="explore-solutions__card-body">Web and mobile apps that ship on day one and scale from there. Built like the best, ready for production.</p>
+                        <a class="learn-more" href="/">Explore Apps</a>
+                    </article>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- ===========================================
