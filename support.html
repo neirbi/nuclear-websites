@@ -1602,8 +1602,9 @@
 
         /* ===========================================
            SUPPORT CARDS — three product cards under the hero.
-           Two-column layout (media | content); reverse modifier flips
-           sides so order is left / right / left.
+           Two-column grid; image fills its half to the card edges,
+           content gets padding and left-aligned text.
+           Reverse modifier flips sides (left/right/left).
            =========================================== */
         .support-card {
             padding-block: var(--space-md);
@@ -1612,32 +1613,42 @@
             display: grid;
             grid-template-areas: "media content";
             grid-template-columns: 1fr 1fr;
-            gap: var(--space-xl);
-            align-items: center;
+            align-items: stretch;
             background: var(--color-bg-surface);
             border-radius: var(--radius-xl);
-            padding: var(--space-xl);
+            overflow: hidden;
+            min-height: 22rem;
         }
         .support-card--reverse .support-card__inner {
             grid-template-areas: "content media";
         }
         .support-card__media {
             grid-area: media;
-            aspect-ratio: 4 / 3;
             background: var(--color-bg-primary);
-            border-radius: var(--radius-lg);
         }
         .support-card__content {
             grid-area: content;
+            padding: var(--space-xl);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
         .support-card__content .section__title {
             margin-top: 0;
+        }
+        .support-card__content .section__body {
+            margin-inline: 0;
+            max-width: none;
         }
         @media (max-width: 47.99em) {
             .support-card__inner,
             .support-card--reverse .support-card__inner {
                 grid-template-areas: "media" "content";
                 grid-template-columns: 1fr;
+                min-height: 0;
+            }
+            .support-card__media {
+                aspect-ratio: 16 / 9;
             }
         }
     </style>
