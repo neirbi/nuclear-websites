@@ -1530,6 +1530,75 @@
             .site-status__dots > span,
             .site-status__pulse::before { animation: none; }
         }
+
+        /* ===========================================
+           SUPPORT HERO
+           Trefoil icon + heading + subtitle + category icons row.
+           Mirrors .hero / .section spacing patterns.
+           =========================================== */
+        .support-hero {
+            text-align: center;
+            padding-block: var(--space-xl);
+        }
+        .support-hero__inner {
+            max-width: 56rem;
+            margin-inline: auto;
+        }
+        .support-hero__icon {
+            display: block;
+            width: 5rem;
+            height: 5rem;
+            margin: 0 auto var(--space-lg);
+        }
+        .support-hero__icon svg { width: 100%; height: 100%; }
+        .support-hero__title {
+            font-size: var(--text-display);
+            font-weight: var(--weight-bold);
+            line-height: 1.1;
+            margin: 0 0 var(--space-md);
+        }
+        .support-hero__subtitle {
+            font-size: var(--text-md);
+            font-weight: var(--weight-semibold);
+            color: var(--color-text-secondary);
+            line-height: 1.2;
+            margin: 0 auto;
+            max-width: 38rem;
+        }
+        .support-hero__categories {
+            list-style: none;
+            padding: 0;
+            margin: var(--space-xl) auto 0;
+            max-width: 32rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-md);
+        }
+        .support-hero__category-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-sm);
+            color: var(--color-text-primary);
+            text-decoration: none;
+            transition: opacity var(--transition-base);
+        }
+        .support-hero__category-link:hover {
+            color: var(--color-text-primary);
+            opacity: 0.7;
+        }
+        .support-hero__category-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 3rem;
+            height: 3rem;
+        }
+        .support-hero__category-icon svg { width: 100%; height: 100%; }
+        .support-hero__category-label {
+            font-size: var(--text-base);
+            font-weight: var(--weight-medium);
+        }
     </style>
 </head>
 <body>
@@ -1766,7 +1835,65 @@
          MAIN CONTENT
          =========================================== -->
     <main id="main-content">
-        <!-- Support page content goes here -->
+        <section class="section support-hero" aria-labelledby="support-hero-title">
+            <div class="container">
+                <div class="support-hero__inner">
+                    <span class="support-hero__icon" aria-hidden="true">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="support-hero-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="var(--color-teal-300)"/>
+                                    <stop offset="100%" stop-color="var(--color-teal-500)"/>
+                                </linearGradient>
+                                <path id="support-hero-blade" fill="var(--color-bg-primary)" d="M 42.5 37 A 15 15 0 0 0 57.5 37 L 71 13.6 A 42 42 0 0 1 29 13.6 Z"/>
+                            </defs>
+                            <circle cx="50" cy="50" r="50" fill="url(#support-hero-grad)"/>
+                            <circle cx="50" cy="50" r="11" fill="var(--color-bg-primary)"/>
+                            <use href="#support-hero-blade"/>
+                            <use href="#support-hero-blade" transform="rotate(120 50 50)"/>
+                            <use href="#support-hero-blade" transform="rotate(240 50 50)"/>
+                        </svg>
+                    </span>
+                    <h1 id="support-hero-title" class="support-hero__title">Nuclear Support</h1>
+                    <p class="support-hero__subtitle">Need help? Start here.</p>
+                    <ul class="support-hero__categories">
+                        <li>
+                            <a class="support-hero__category-link" href="#websites">
+                                <span class="support-hero__category-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="3" y="4" width="18" height="16" rx="2"/>
+                                        <path d="M3 9h18"/>
+                                    </svg>
+                                </span>
+                                <span class="support-hero__category-label">Websites</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="support-hero__category-link" href="#apps">
+                                <span class="support-hero__category-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="6" y="2" width="12" height="20" rx="2.5"/>
+                                        <path d="M10 18h4"/>
+                                    </svg>
+                                </span>
+                                <span class="support-hero__category-label">Apps</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="support-hero__category-link" href="#books">
+                                <span class="support-hero__category-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/>
+                                        <path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/>
+                                    </svg>
+                                </span>
+                                <span class="support-hero__category-label">Books</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- ===========================================
