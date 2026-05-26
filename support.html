@@ -1635,7 +1635,7 @@
         }
         .support-search__input {
             width: 100%;
-            padding-block: var(--space-md);
+            padding-block: var(--space-sm);
             padding-inline: calc(var(--space-md) * 2 + 1.125rem) var(--space-md);
             font-family: inherit;
             font-size: var(--text-md);
@@ -1645,13 +1645,14 @@
             border: 1px solid var(--color-border-subtle);
             border-radius: var(--radius-md);
             outline: none;
-            transition: border-color var(--transition-base);
+            transition: border-color var(--transition-base), box-shadow var(--transition-base);
         }
         .support-search__input::placeholder {
             color: var(--color-text-tertiary);
         }
         .support-search__input:focus-visible {
             border-color: var(--color-accent-primary);
+            box-shadow: 0 0 0 2px var(--color-accent-primary);
         }
 
         /* ===========================================
