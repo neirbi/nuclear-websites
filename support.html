@@ -1743,6 +1743,45 @@
         @media (prefers-reduced-motion: reduce) {
             .support-faq-wrap { transition: none; }
         }
+
+        /* ===========================================
+           FAQ TOGGLE — link-style button under card body that
+           reveals/hides the FAQ block. Chevron rotates 180° on
+           open (same idiom as FAQ items themselves); label text
+           swaps via data-text-show / data-text-hide on the button.
+           =========================================== */
+        .faq-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            margin-top: var(--space-md);
+            padding: 0;
+            background: none;
+            border: 0;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: var(--text-md);
+            font-weight: var(--weight-regular);
+            line-height: 1.2;
+            color: var(--color-blue-link);
+            transition: opacity var(--transition-base);
+        }
+        :root[data-theme="dark"] .faq-toggle {
+            color: var(--color-blue-link-bright);
+        }
+        .faq-toggle:hover { opacity: 0.7; }
+        .faq-toggle__chevron {
+            width: 1.125rem;
+            height: 1.125rem;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+        .faq-toggle[aria-expanded="true"] .faq-toggle__chevron {
+            transform: rotate(180deg);
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .faq-toggle__chevron { transition: none; }
+        }
         .support-faq {
             max-width: var(--measure-wrapper);
             margin: var(--space-xl) auto 0;
@@ -2139,7 +2178,10 @@
                         <p class="section__eyebrow">Websites</p>
                         <h2 id="websites-card-title" class="section__title">Support, handled.</h2>
                         <p class="section__body">Whether you&rsquo;re running a single site, managing multiple, or building a full web app, our team keeps you covered. From broken pages and downtime to setup help and security, every plan includes it.</p>
-                        <a class="learn-more" href="#websites-faq" aria-expanded="false" aria-controls="websites-faq" data-toggle-faq="websites-faq">Website FAQs</a>
+                        <button type="button" class="faq-toggle" aria-expanded="false" aria-controls="websites-faq" data-toggle-faq="websites-faq" data-text-show="Website FAQs" data-text-hide="Hide Website FAQs">
+                            <span class="faq-toggle__label">Website FAQs</span>
+                            <svg class="faq-toggle__chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7.5l5 5 5-5"/></svg>
+                        </button>
                     </div>
                 </div>
                 <div class="support-faq-wrap" id="websites-faq">
@@ -2216,7 +2258,10 @@
                         <p class="section__eyebrow">Apps</p>
                         <h2 id="apps-card-title" class="section__title">Your app, shipping.</h2>
                         <p class="section__body">From bug reports and updates to store distribution, we keep your Nuclear-built app moving. Whatever comes up between builds and release, we&rsquo;ll handle it.</p>
-                        <a class="learn-more" href="#apps-faq" aria-expanded="false" aria-controls="apps-faq" data-toggle-faq="apps-faq">App FAQs</a>
+                        <button type="button" class="faq-toggle" aria-expanded="false" aria-controls="apps-faq" data-toggle-faq="apps-faq" data-text-show="App FAQs" data-text-hide="Hide App FAQs">
+                            <span class="faq-toggle__label">App FAQs</span>
+                            <svg class="faq-toggle__chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7.5l5 5 5-5"/></svg>
+                        </button>
                     </div>
                 </div>
                 <div class="support-faq-wrap" id="apps-faq">
@@ -2293,7 +2338,10 @@
                         <p class="section__eyebrow">Books</p>
                         <h2 id="books-card-title" class="section__title">Your order, taken care of.</h2>
                         <p class="section__body">From order tracking and delivery to returns, refunds, and billing questions, we&rsquo;ll sort out anything between checkout and your doorstep. Help is always one message away.</p>
-                        <a class="learn-more" href="#books-faq" aria-expanded="false" aria-controls="books-faq" data-toggle-faq="books-faq">Book FAQs</a>
+                        <button type="button" class="faq-toggle" aria-expanded="false" aria-controls="books-faq" data-toggle-faq="books-faq" data-text-show="Book FAQs" data-text-hide="Hide Book FAQs">
+                            <span class="faq-toggle__label">Book FAQs</span>
+                            <svg class="faq-toggle__chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7.5l5 5 5-5"/></svg>
+                        </button>
                     </div>
                 </div>
                 <div class="support-faq-wrap" id="books-faq">
@@ -2594,26 +2642,35 @@
             io.observe(status);
         })();
 
-        // FAQ reveal — each card's link toggles its .support-faq-wrap;
-        // only one wrap is open at a time (opening one closes the others).
+        // FAQ reveal — each card's toggle button reveals its .support-faq-wrap.
+        // Only one wrap is open at a time. Button label swaps between
+        // data-text-show and data-text-hide on toggle.
         (function () {
             var pairs = [].slice.call(document.querySelectorAll('[data-toggle-faq]'))
                 .map(function (trigger) {
-                    return { trigger: trigger, target: document.getElementById(trigger.dataset.toggleFaq) };
+                    return {
+                        trigger: trigger,
+                        target: document.getElementById(trigger.dataset.toggleFaq),
+                        label: trigger.querySelector('.faq-toggle__label')
+                    };
                 })
                 .filter(function (p) { return p.target; });
+
+            function setOpen(pair, open) {
+                pair.target.classList.toggle('is-open', open);
+                pair.trigger.setAttribute('aria-expanded', String(open));
+                if (pair.label) {
+                    var t = open ? pair.trigger.dataset.textHide : pair.trigger.dataset.textShow;
+                    if (t) pair.label.textContent = t;
+                }
+            }
+
             pairs.forEach(function (pair) {
                 pair.trigger.addEventListener('click', function (e) {
                     e.preventDefault();
-                    var wasOpen = pair.target.classList.contains('is-open');
-                    pairs.forEach(function (other) {
-                        other.target.classList.remove('is-open');
-                        other.trigger.setAttribute('aria-expanded', 'false');
-                    });
-                    if (!wasOpen) {
-                        pair.target.classList.add('is-open');
-                        pair.trigger.setAttribute('aria-expanded', 'true');
-                    }
+                    var willOpen = !pair.target.classList.contains('is-open');
+                    pairs.forEach(function (other) { setOpen(other, false); });
+                    if (willOpen) setOpen(pair, true);
                 });
             });
         })();
