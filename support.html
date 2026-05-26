@@ -1,0 +1,2145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ===========================================
+         CHARSET & VIEWPORT
+         =========================================== -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+
+    <!-- ===========================================
+         PRIMARY META TAGS
+         =========================================== -->
+    <title>Nuclear Websites - Websites that actually make you money</title>
+    <meta name="title" content="Nuclear Websites - Websites that actually make you money">
+    <meta name="description" content="World-class, high-converting websites built on first principles. The kind of site you'd pay Apple a billion dollars to build, for a fraction of the price.">
+    <meta name="author" content="Nuclear Websites">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#12B8C9">
+
+    <!-- ===========================================
+         CANONICAL URL
+         =========================================== -->
+    <link rel="canonical" href="https://nuclearwebsites.com/">
+
+    <!-- ===========================================
+         OPEN GRAPH / FACEBOOK
+         =========================================== -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://nuclearwebsites.com/">
+    <meta property="og:title" content="Nuclear Websites - Websites that actually make you money">
+    <meta property="og:description" content="World-class, high-converting websites built on first principles. The kind of site you'd pay Apple a billion dollars to build, for a fraction of the price.">
+    <meta property="og:image" content="https://nuclearwebsites.com/assets/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Nuclear Websites - high-converting websites built on first principles">
+    <meta property="og:site_name" content="Nuclear Websites">
+    <meta property="og:locale" content="en_US">
+
+    <!-- ===========================================
+         TWITTER / X CARD
+         =========================================== -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://nuclearwebsites.com/">
+    <meta name="twitter:title" content="Nuclear Websites - Websites that actually make you money">
+    <meta name="twitter:description" content="World-class, high-converting websites built on first principles. The kind of site you'd pay Apple a billion dollars to build, for a fraction of the price.">
+    <meta name="twitter:image" content="https://nuclearwebsites.com/assets/og-image.jpg">
+    <meta name="twitter:image:alt" content="Nuclear Websites - high-converting websites built on first principles">
+
+    <!-- ===========================================
+         FAVICONS & WEB CLIPS (Apple Touch Icons)
+         =========================================== -->
+    <link rel="icon" type="image/png" href="/assets/favicons/nuclear-websites-favicon-gradient.png">
+    <link rel="apple-touch-icon" href="/assets/webclips/nuclear-websites-webclip-dark.png">
+
+    <!-- ===========================================
+         FONTS — Inter (preconnect + non-blocking load)
+         System font shows first, Inter swaps in when ready
+         =========================================== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" onload="this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap">
+    </noscript>
+
+    <!-- ===========================================
+         THEME BOOTSTRAP — runs before paint to avoid FOUC
+         =========================================== -->
+    <script>
+        (() => {
+            const stored = localStorage.getItem('theme');
+            const prefersDark = matchMedia('(prefers-color-scheme: dark)').matches;
+            document.documentElement.setAttribute('data-theme', stored || (prefersDark ? 'dark' : 'light'));
+        })();
+    </script>
+
+    <!-- ===========================================
+         INLINE STYLES — Design Tokens & Base
+         =========================================== -->
+    <style>
+        /* ===========================================
+           DESIGN TOKENS — :root
+           All tokens defined here for global access
+           =========================================== */
+        :root {
+            /* --- BRAND COLORS --- */
+            --color-teal-300: #6FE0EA;       /* Bright cyan — gradient light stop */
+            --color-teal-400: #12B8C9;
+            --color-teal-500: #0B8A99;       /* Vivid mid-teal — gradient dark stop, passes AA */
+            --color-teal-800: #0A5565;
+            --color-green-300: #7FE3B0;      /* Bright mint — gradient light stop */
+            --color-green-500: #2FAE6F;
+            --color-blue-500: #0071E3;       /* Apple-style blue */
+            --color-blue-link: #0066CC;      /* light-mode link blue */
+            --color-blue-link-bright: #2997FF; /* dark-mode link blue */
+            --color-on-accent: #FBFBFD;      /* near-white text on filled accent */
+
+            /* --- TEXT COLORS --- */
+            --color-text-primary: #1D1D1F;
+            --color-text-secondary: #6E6E73;
+            --color-text-tertiary: #8E8E93;
+            --color-text-faded: color-mix(in srgb, var(--color-text-secondary) 25%, transparent);
+
+            /* --- BACKGROUND COLORS --- */
+            --color-bg-primary: #FBFBFD;
+            --color-bg-surface: #F5F5F7;
+            --color-bg-surface-strong: #FFFEFC;
+
+            /* --- LINES & FILLS --- */
+            --color-border-subtle: rgba(60, 60, 67, 0.18);
+            --color-fill-subtle: rgba(120, 120, 128, 0.12);
+
+            /* --- BRAND ACCENTS --- */
+            --color-accent-primary: #12B8C9;
+            --color-accent-strong: #0A5565;
+            --color-success: #2FAE6F;
+
+            /* --- GRADIENTS --- */
+            --gradient-primary: linear-gradient(90deg, var(--color-teal-300) 0%, var(--color-teal-500) 100%);
+            --gradient-success: linear-gradient(90deg, var(--color-green-300) 0%, var(--color-green-500) 100%);
+
+            /* --- FONTS ---
+               System stack loads instantly; Inter swaps in on load */
+            --font-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif;
+            --font-primary: "Inter", var(--font-system);
+            --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+            /* --- TYPOGRAPHY SCALE (Major Third — 1.25 ratio) --- */
+            --text-sm:   0.875rem;   /* 14px — small text, nav links */
+            --text-base: 1rem;       /* 16px — body */
+            --text-md:   1.25rem;    /* 20px — H4 */
+            --text-lg:   1.563rem;   /* 25px — H3 */
+            --text-xl:   1.953rem;   /* 31px — H2 */
+            --text-xxl:  2.441rem;   /* 39px — H1 */
+
+            /* Display type — large marketing headlines that scale with
+               viewport. Apple-style range: ~40px mobile -> ~72px wide
+               desktop. Off-scale on purpose; sits above the systematic
+               type ratio for hero/section-intro headlines. */
+            --text-display: clamp(2.5rem, 5vw, 4.5rem);
+
+            /* --- VERTICAL RHYTHM --- */
+            --heading-margin-top: 2em;
+            --heading-margin-bottom: 1em;
+            --line-height-base: 1.6;
+            --line-height-heading: 1.2;
+
+            /* --- FONT WEIGHTS --- */
+            --weight-regular: 400;
+            --weight-medium: 500;
+            --weight-semibold: 600;
+            --weight-bold: 700;
+            --weight-black: 900;
+
+            /* --- SPACING SCALE --- */
+            --space-xs: 0.5rem;      /* 8px */
+            --space-sm: 1rem;        /* 16px */
+            --space-md: 1.5rem;      /* 24px */
+            --space-lg: 2.5rem;      /* 40px */
+            --space-xl: 4rem;        /* 64px */
+
+            /* --- BORDER RADIUS --- */
+            --radius-sm: 0.375rem;   /* 6px */
+            --radius-md: 0.75rem;    /* 12px */
+            --radius-lg: 1.25rem;    /* 20px */
+            --radius-xl: 1.75rem;    /* 28px — large Apple-style cards */
+
+            /* --- TRANSITIONS --- */
+            --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+
+            /* --- LAYOUT --- */
+            --container-max-width: 87.5rem;  /* 1400px */
+            --container-padding: var(--space-md);
+            --measure-wrapper: 61rem;        /* 976px — content wrapper for reading sections */
+            --measure-body: 41rem;           /* 656px — running text column for readability */
+            --nav-dropdown-bg: var(--color-bg-surface-strong);
+            --nav-height: 2.75rem;           /* 44px */
+            --nav-dropdown-height: 22rem;    /* total curtain height when open */
+            --ribbon-height: 3.25rem;        /* 52px */
+
+            /* --- FROSTED GLASS (frosted nav, dropdown, mobile menu panel) --- */
+            --frost-bg: rgba(255, 255, 255, 0.72);
+            --frost-filter: saturate(180%) blur(20px);
+        }
+
+        /* ===========================================
+           RESET & BASE
+           Minimal modern reset
+           =========================================== */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* UA gives ul/ol padding-inline-start: 40px (for bullet space).
+           Logical properties aren't reset by `padding: 0`, so handle explicitly. */
+        ul, ol {
+            list-style: none;
+            padding-inline-start: 0;
+        }
+
+        html {
+            font-size: 100%;        /* respects user's browser default */
+            -webkit-text-size-adjust: 100%;
+            scrollbar-gutter: stable;
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+            html { scroll-behavior: smooth; }
+        }
+
+        body {
+            font-family: var(--font-primary);
+            font-size: var(--text-base);
+            font-weight: var(--weight-regular);
+            line-height: var(--line-height-base);
+            color: var(--color-text-primary);
+            background-color: var(--color-bg-primary);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
+
+        /* ===========================================
+           TYPOGRAPHY DEFAULTS
+           =========================================== */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-primary);
+            font-weight: var(--weight-semibold);
+            line-height: var(--line-height-heading);
+            color: var(--color-text-primary);
+            margin-top: var(--heading-margin-top);
+            margin-bottom: var(--heading-margin-bottom);
+        }
+        h1 { font-size: var(--text-xxl); }
+        h2 { font-size: var(--text-xl); }
+        h3 { font-size: var(--text-lg); }
+        h4 { font-size: var(--text-md); }
+
+        h1:first-child, h2:first-child, h3:first-child,
+        h4:first-child, h5:first-child, h6:first-child {
+            margin-top: 0;
+        }
+
+        p { margin-bottom: var(--space-sm); }
+
+        a {
+            color: var(--color-accent-primary);
+            text-decoration: none;
+            transition: color var(--transition-base);
+        }
+        a:hover { color: var(--color-accent-strong); }
+
+        :focus-visible {
+            outline: 2px solid var(--color-accent-primary);
+            outline-offset: 2px;
+            border-radius: var(--radius-sm);
+        }
+
+        img, picture, svg, video {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* ===========================================
+           LAYOUT — Container
+           Wrapper with max-width and auto margin
+           =========================================== */
+        .container {
+            width: 100%;
+            max-width: var(--container-max-width);
+            margin-inline: auto;
+            padding-inline: var(--container-padding);
+        }
+
+        /* ===========================================
+           UTILITY — State classes
+           =========================================== */
+        .is-hidden { display: none !important; }
+
+        /* Gradient text — clips background gradient to text glyphs.
+           Apply to a span around the words to highlight. */
+        .gradient-text {
+            background-image: var(--gradient-primary);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+        }
+        .gradient-text--success {
+            background-image: var(--gradient-success);
+        }
+
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* ===========================================
+           SITE HEADER — Apple-style frosted nav
+           =========================================== */
+        .site-header {
+            position: fixed;
+            inset: 0 0 auto 0;
+            z-index: 50;
+            background-color: var(--frost-bg);
+            -webkit-backdrop-filter: var(--frost-filter);
+            backdrop-filter: var(--frost-filter);
+            height: var(--nav-height);
+            overflow: hidden;
+            transition: height 350ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body { padding-top: var(--nav-height); }
+
+        .site-nav {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            height: var(--nav-height);
+        }
+
+        .site-nav__logo {
+            justify-self: start;
+            color: var(--color-text-primary);
+            font-size: 1.0625rem;
+            font-weight: var(--weight-semibold);
+        }
+        .site-nav__logo:hover { color: var(--color-text-primary); }
+
+        .site-nav__links {
+            justify-self: center;
+            display: flex;
+            align-items: stretch;
+            gap: var(--space-md);
+        }
+        /* <li>s stretch to full nav height so there's no hover gap
+           between the trigger and the dropdown panel below. */
+        .site-nav__links > li {
+            display: flex;
+            align-items: center;
+        }
+
+        .site-nav__link {
+            color: var(--color-text-primary);
+            font-size: var(--text-sm);
+            opacity: 0.8;
+            transition: opacity var(--transition-base);
+        }
+        .site-nav__link:hover {
+            color: var(--color-text-primary);
+            opacity: 1;
+        }
+
+        .nav-actions {
+            justify-self: end;
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+
+        /* ===========================================
+           NAV DROPDOWN — sibling of .site-header
+           Solid curtain that drops below the nav. One .nav-dropdown
+           contains a .nav-dropdown__group per trigger, all stacked
+           in place; group opacity drives sibling cross-fade.
+           The .nav-scrim frosts the page area below the curtain.
+           =========================================== */
+        .nav-dropdown {
+            position: fixed;
+            top: var(--nav-height);
+            left: 0;
+            right: 0;
+            z-index: 50;
+            height: 0;
+            overflow: hidden;
+            background-color: var(--nav-dropdown-bg);
+            transition: height 350ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .nav-dropdown[data-active],
+        body:has(.site-nav__item--has-dropdown:hover) .nav-dropdown,
+        body:has(.site-nav__item--has-dropdown:focus-within) .nav-dropdown,
+        .nav-dropdown:focus-within {
+            height: calc(var(--nav-dropdown-height) - var(--nav-height));
+            transition-delay: 0s;
+        }
+
+        /* Group-level opacity drives the cross-fade between siblings
+           (Websites <-> Apps). Pointer-events follow the same state. */
+        .nav-dropdown__group {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 200ms ease;
+        }
+        .nav-dropdown[data-active="websites"] .nav-dropdown__group[data-group="websites"],
+        .nav-dropdown[data-active="apps"] .nav-dropdown__group[data-group="apps"],
+        .nav-dropdown[data-active="support"] .nav-dropdown__group[data-group="support"],
+        .nav-dropdown__group:focus-within {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Staggered child reveal — runs only on cold-open (closed -> open).
+           JS toggles .is-opening on the panel: added when transitioning
+           from no active group to having one, removed on sibling switch
+           and close. So switches use the group cross-fade above without
+           re-staggering, and cold opens get the polished sequential
+           reveal. --i drives each child's animation-delay. */
+        @keyframes nav-dropdown-stagger-in {
+            from { opacity: 0; transform: translateY(6px); }
+        }
+        .nav-dropdown.is-opening[data-active="websites"] .nav-dropdown__group[data-group="websites"] :is(.nav-dropdown__eyebrow, .nav-dropdown__list > li, .nav-dropdown__caption),
+        .nav-dropdown.is-opening[data-active="apps"] .nav-dropdown__group[data-group="apps"] :is(.nav-dropdown__eyebrow, .nav-dropdown__list > li, .nav-dropdown__caption),
+        .nav-dropdown.is-opening[data-active="support"] .nav-dropdown__group[data-group="support"] :is(.nav-dropdown__eyebrow, .nav-dropdown__list > li, .nav-dropdown__caption) {
+            animation: nav-dropdown-stagger-in 250ms ease backwards;
+            animation-delay: calc(var(--i, 0) * 40ms);
+        }
+
+        /* Stagger order: eyebrow -> list items -> caption */
+        .nav-dropdown__group .nav-dropdown__eyebrow { --i: 1; }
+        .nav-dropdown__group .nav-dropdown__list > li:nth-child(1) { --i: 2; }
+        .nav-dropdown__group .nav-dropdown__list > li:nth-child(2) { --i: 3; }
+        .nav-dropdown__group .nav-dropdown__list > li:nth-child(3) { --i: 4; }
+        .nav-dropdown__group .nav-dropdown__caption { --i: 5; }
+
+        .nav-dropdown .container {
+            padding-block: var(--space-lg);
+        }
+        .nav-dropdown__eyebrow {
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+            font-weight: var(--weight-regular);
+            margin: 0 0 var(--space-md);
+        }
+        .nav-dropdown__list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xs);
+            margin-bottom: var(--space-md);
+        }
+        .nav-dropdown__link {
+            color: var(--color-text-primary);
+            font-size: var(--text-lg);
+            font-weight: var(--weight-semibold);
+            opacity: 0.9;
+            transition: opacity var(--transition-base);
+        }
+        .nav-dropdown__link:hover {
+            color: var(--color-text-primary);
+            opacity: 1;
+        }
+        .nav-dropdown__caption {
+            font-size: var(--text-sm);
+            margin: 0;
+        }
+        .nav-dropdown__caption a {
+            color: var(--color-text-secondary);
+        }
+        .nav-dropdown__caption a:hover { color: var(--color-text-primary); }
+
+        @media (prefers-reduced-motion: reduce) {
+            .nav-dropdown { transition: none; }
+            .nav-dropdown.is-opening :is(.nav-dropdown__eyebrow, .nav-dropdown__list > li, .nav-dropdown__caption) {
+                animation: none;
+            }
+            .nav-scrim { transition: opacity 0s, visibility 0s; }
+        }
+
+        /* Scrim — frosts the page area below the open curtain.
+           Mirrors the curtain's open-state triggers so the two
+           always animate together. pointer-events:none so cursor
+           leaving the trigger zone closes both. */
+        .nav-scrim {
+            position: fixed;
+            inset: var(--nav-height) 0 0 0;
+            z-index: 49;
+            background-color: var(--frost-bg);
+            -webkit-backdrop-filter: var(--frost-filter);
+            backdrop-filter: var(--frost-filter);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 350ms ease, visibility 0s linear 350ms;
+        }
+        body:has(.nav-dropdown[data-active]) .nav-scrim,
+        body:has(.site-nav__item--has-dropdown:hover) .nav-scrim,
+        body:has(.site-nav__item--has-dropdown:focus-within) .nav-scrim,
+        body:has(.nav-dropdown:focus-within) .nav-scrim {
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 350ms ease 0s, visibility 0s linear 0s;
+        }
+
+        /* Shared icon button — base for theme + nav toggles */
+        .icon-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2rem;
+            height: 2rem;
+            padding: 0;
+            background: transparent;
+            border: 0;
+            color: var(--color-text-primary);
+            cursor: pointer;
+            opacity: 0.8;
+            transition: opacity var(--transition-base);
+        }
+        .icon-btn:hover { opacity: 1; }
+        .icon-btn:focus-visible {
+            outline: 2px solid var(--color-blue-500);
+            outline-offset: 2px;
+            border-radius: var(--radius-sm);
+            opacity: 1;
+        }
+
+        .theme-toggle svg { width: 1.125rem; height: 1.125rem; }
+        .theme-toggle .icon-sun { display: none; }
+        .theme-toggle .icon-moon { display: block; }
+        :root[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+        :root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
+        .nav-toggle {
+            display: none;
+            position: relative;
+        }
+        .nav-toggle__bar {
+            position: absolute;
+            left: 7px;
+            right: 7px;
+            height: 1.5px;
+            background: currentColor;
+            border-radius: 2px;
+            transition: top 250ms ease, transform 250ms ease;
+        }
+        .nav-toggle__bar:nth-child(1) { top: 12px; }
+        .nav-toggle__bar:nth-child(2) { top: 19px; }
+        .site-nav[data-open="true"] .nav-toggle__bar {
+            top: 15.5px;
+        }
+        .site-nav[data-open="true"] .nav-toggle__bar:nth-child(1) {
+            transform: rotate(45deg);
+        }
+        .site-nav[data-open="true"] .nav-toggle__bar:nth-child(2) {
+            transform: rotate(-45deg);
+        }
+
+        /* ===========================================
+           NAV — Mobile (< 768px)
+           =========================================== */
+        @media (max-width: 47.99em) {
+            .site-nav { grid-template-columns: 1fr auto; }
+            .nav-toggle { display: inline-flex; }
+
+            /* Mobile uses the longer curtain pull for the full-viewport menu */
+            .site-header { transition-duration: 500ms; }
+            .site-header:has(.site-nav[data-open="true"]) {
+                height: 100vh;
+                height: 100dvh;
+            }
+
+            /* Mobile menu — block layout (canonical stacked-list pattern).
+               justify-self override is required: per CSS Grid spec, abspos grid items
+               honor justify-self, so desktop's `justify-self: center` would shrink
+               and center this element even though it's position: fixed. */
+            .site-nav__links {
+                display: block;
+                position: fixed;
+                inset: calc(var(--nav-height) + 0.375rem) 0 0 0;
+                justify-self: stretch;
+                overflow-y: auto;
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity var(--transition-base),
+                            visibility 0s linear 200ms;
+            }
+            .site-nav[data-open="true"] .site-nav__links {
+                opacity: 1;
+                visibility: visible;
+                transition: opacity 250ms ease 250ms,
+                            visibility 0s linear 0s;
+            }
+            .site-nav__link {
+                display: block;
+                padding: var(--space-sm) var(--nav-height);
+                font-size: 1.5rem;
+                font-weight: var(--weight-semibold);
+                opacity: 1;
+            }
+
+            /* Logo + theme toggle fade as the bar expands */
+            .site-nav__logo,
+            .theme-toggle {
+                transition: opacity var(--transition-base);
+            }
+            .site-nav[data-open="true"] :is(.site-nav__logo, .theme-toggle) {
+                opacity: 0;
+                pointer-events: none;
+            }
+
+            /* Lock body scroll while menu is open */
+            body:has(.site-nav[data-open="true"]) { overflow: hidden; }
+
+            /* Mobile-only CTA link — shown only in the open drawer */
+            .site-nav__item--mobile-cta { display: block; }
+
+            /* Desktop dropdowns + scrim are hidden on mobile */
+            .nav-dropdown,
+            .nav-scrim { display: none; }
+        }
+
+        /* ===========================================
+           DARK MODE
+           =========================================== */
+        :root[data-theme="dark"] {
+            --color-text-primary: #F5F5F7;
+            --color-text-secondary: #A1A1A6;
+            --color-bg-primary: #0A0A0C;
+            --color-bg-surface: #1D1D1F;
+            --color-bg-surface-strong: #161618;
+            --frost-bg: rgba(29, 29, 31, 0.72);
+        }
+
+        /* ===========================================
+           RIBBON — promo bar (independent section)
+           =========================================== */
+        .ribbon {
+            --ribbon-bg:            var(--color-bg-surface);
+            --ribbon-color:         var(--color-text-primary);
+            --ribbon-link-color:    var(--color-blue-link);
+
+            --ribbon-bg-initial:    var(--color-blue-500);
+            --ribbon-color-initial: var(--color-on-accent);
+            --ribbon-link-initial:  var(--color-on-accent);
+
+            font-size: var(--text-sm);
+            overflow: hidden;
+        }
+
+        .ribbon__inner {
+            width: 100%;
+            height: var(--ribbon-height);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--ribbon-bg);
+            color: var(--ribbon-color);
+        }
+
+        .ribbon__inner p { margin: 0; }
+
+        .ribbon__link {
+            color: var(--ribbon-link-color);
+            margin-left: 0.1875rem;
+        }
+        .ribbon__link:hover,
+        .ribbon__link:active {
+            opacity: 0.7;
+            color: var(--ribbon-link-color);
+        }
+
+        @keyframes ribbon-drop {
+            from { transform: translateY(-100%); }
+            to   { transform: translateY(0); }
+        }
+        @keyframes ribbon-bg-to-default {
+            from {
+                background-color: var(--ribbon-bg-initial);
+                color:            var(--ribbon-color-initial);
+            }
+            to {
+                background-color: var(--ribbon-bg);
+                color:            var(--ribbon-color);
+            }
+        }
+        @keyframes ribbon-link-to-default {
+            from { color: var(--ribbon-link-initial); }
+            to   { color: var(--ribbon-link-color); }
+        }
+
+        .ribbon--animate .ribbon__inner {
+            animation:
+                ribbon-drop          0.8s ease-in-out 0s   1 both,
+                ribbon-bg-to-default 1s   ease-in-out 1.8s 1 both;
+        }
+        .ribbon--animate .ribbon__link {
+            animation: ribbon-link-to-default 1s ease-in-out 1.8s 1 both;
+        }
+
+        .ribbon--blue {
+            --ribbon-bg:         var(--color-blue-500);
+            --ribbon-color:      var(--color-on-accent);
+            --ribbon-link-color: var(--color-on-accent);
+        }
+        .ribbon--blue.ribbon--animate .ribbon__inner {
+            animation: ribbon-drop 0.8s ease-in-out 0s 1 both;
+        }
+        .ribbon--blue.ribbon--animate .ribbon__link { animation: none; }
+
+        /* Neutral ribbon: bg & text auto-theme via tokens; only link color shifts */
+        :root[data-theme="dark"] .ribbon--neutral {
+            --ribbon-link-color: var(--color-blue-link-bright);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .ribbon--animate .ribbon__inner,
+            .ribbon--animate .ribbon__link {
+                animation: none;
+            }
+        }
+
+        /* ===========================================
+           SECTION — generic centered-content section
+           Inherits page background; constrains content to a readable
+           measure within the 1400px container.
+           =========================================== */
+        .section {
+            text-align: center;
+            padding-block: var(--space-xl);
+        }
+        .section__inner {
+            max-width: 56rem;
+            margin-inline: auto;
+        }
+        .section__eyebrow {
+            font-size: var(--text-base);
+            font-weight: var(--weight-bold);
+            color: var(--color-text-secondary);
+            line-height: 1.15;
+            margin: 0 0 var(--space-md);
+        }
+        .section__title {
+            font-size: var(--text-display);
+            font-weight: var(--weight-bold);
+            line-height: 1.1;
+            margin: 0 0 var(--space-md);
+        }
+        .section__body {
+            font-size: var(--text-md);
+            font-weight: var(--weight-semibold);
+            color: var(--color-text-secondary);
+            line-height: 1.2;
+            margin: 0 auto;
+            max-width: 38rem;
+        }
+        .section__body-emphasis {
+            color: var(--color-text-primary);
+        }
+        .section--left {
+            text-align: left;
+        }
+        .section--left .section__body {
+            margin-inline: 0;
+        }
+        .section--reading .section__inner {
+            max-width: var(--measure-wrapper);
+        }
+        .section--reading .section__body {
+            max-width: var(--measure-body);
+        }
+        .section--reading.section--left .section__body {
+            margin-inline: 0;
+        }
+        .section--card .section__inner {
+            background: linear-gradient(
+                to right,
+                var(--color-bg-surface) 0%,
+                var(--color-bg-surface) 50%,
+                var(--color-bg-primary) 100%
+            );
+            border-radius: var(--radius-xl);
+            padding: var(--space-xl);
+            max-width: calc(var(--measure-body) + 2 * var(--space-xl));
+            margin-inline: 0 auto;
+        }
+        .section--card .section__eyebrow,
+        .section--card .section__title {
+            max-width: var(--measure-wrapper);
+        }
+        .section--card > .container {
+            display: flex;
+            align-items: stretch;
+            gap: var(--space-lg);
+        }
+        .section--card .section__inner {
+            flex-shrink: 0;
+        }
+        /* Aside sits next to the card and stretches to its height.
+           A padded absolute frame anchors the row that holds the images,
+           so the frame's height equals the card's content area
+           (card height minus its vertical padding) — images at
+           height:100% then deterministically match the content height
+           without inflating the row via their intrinsic size. */
+        .section__aside {
+            flex: 1;
+            position: relative;
+            min-width: 0;
+        }
+        .section__aside__frame {
+            position: absolute;
+            inset: var(--space-xl) 0;
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+        .section__aside__frame img {
+            display: block;
+            flex: 0 0 auto;
+            width: auto;
+            height: 100%;
+        }
+        @media (max-width: 47.99em) {
+            .section--card > .container {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+            }
+            /* Unwrap the card so its children become direct flex items of the
+               container; lets us interleave the aside between body and list. */
+            .section--card .section__inner {
+                display: contents;
+            }
+            .section--card .section__list {
+                order: 1;
+                margin-top: 0;
+            }
+            /* Same architecture as desktop — frame fills aside, images at height:100%.
+               Aside needs an explicit height since there's no sibling to stretch from.
+               Resetting flex so the column doesn't override the explicit height. */
+            /* Size by width via aspect-ratio so the box doesn't move when
+               iOS Safari's address bar collapses/expands. Width is stable;
+               height is derived. */
+            .section__aside {
+                flex: 0 0 auto;
+                width: 100%;
+                height: auto;
+                aspect-ratio: 1 / 1;
+                margin-block: var(--space-lg);
+            }
+            .section__aside__frame {
+                inset: 0;
+                justify-content: flex-start;
+            }
+        }
+        .section__list {
+            list-style: none;
+            padding: 0;
+            margin: var(--space-md) 0 0;
+            max-width: var(--measure-body);
+            font-size: var(--text-lg);
+            font-weight: var(--weight-semibold);
+            color: var(--color-text-secondary);
+            line-height: 1.4;
+        }
+        .section__list li + li {
+            margin-top: var(--space-xs);
+        }
+        .section__list strong {
+            color: var(--color-text-primary);
+            font-weight: var(--weight-semibold);
+        }
+
+        /* Section media image — sits as a sibling of section__inner inside
+           container so it fills the full container width (up to 1400px),
+           not the narrower reading column. */
+        .section__media {
+            display: block;
+            width: 100%;
+            height: auto;
+            margin-top: var(--space-xl);
+        }
+
+        /* Scroll-driven sentence reveal — each sentence crossfades from
+           faded body color to its gradient as it passes the viewport's
+           vertical centre. Regular sentences use the success gradient;
+           the --cta modifier uses the primary brand gradient. */
+        .reveal-sentences__text {
+            font-size: var(--text-display);
+            font-weight: var(--weight-bold);
+            line-height: 1.2;
+            margin: 0;
+            max-width: var(--measure-wrapper);
+            margin-inline: auto;
+            text-align: left;
+        }
+        /* Best-practice gradient text reveal via @property.
+           The gradient is always painted; its colors' ALPHA is animated via
+           a registered typed custom property (which @property makes
+           interpolatable). The text color crossfades from full body color
+           to transparent simultaneously. No background-image swap = no
+           discrete step = no flicker, either direction. */
+        @property --reveal-grad-alpha {
+            syntax: '<number>';
+            inherits: false;
+            initial-value: 0;
+        }
+        .reveal-sentence {
+            background-image: linear-gradient(
+                90deg,
+                rgb(from var(--color-green-300) r g b / var(--reveal-grad-alpha)) 0%,
+                rgb(from var(--color-green-500) r g b / var(--reveal-grad-alpha)) 100%
+            );
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: var(--color-text-faded);
+            -webkit-text-fill-color: var(--color-text-faded);
+            transition:
+                color 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+                -webkit-text-fill-color 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+                --reveal-grad-alpha 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-sentence.is-active {
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+            --reveal-grad-alpha: 1;
+        }
+        .reveal-sentence--cta {
+            background-image: linear-gradient(
+                90deg,
+                rgb(from var(--color-teal-300) r g b / var(--reveal-grad-alpha)) 0%,
+                rgb(from var(--color-teal-500) r g b / var(--reveal-grad-alpha)) 100%
+            );
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .reveal-sentence {
+                color: transparent;
+                -webkit-text-fill-color: transparent;
+                --reveal-grad-alpha: 1;
+                transition: none;
+            }
+        }
+
+        /* Page-end CTA — video is masked to render ONLY inside the text
+           glyphs; the media box itself is the solid background colour.
+           No overlay veil, so edge bleed is impossible by construction. */
+        .page-end-cta__media {
+            position: relative;
+            aspect-ratio: 2048 / 750;
+            overflow: hidden;
+            background-color: var(--color-bg-primary);
+        }
+        .page-end-cta__video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+            -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2048 750' preserveAspectRatio='xMidYMid slice'><text x='1024' y='375' text-anchor='middle' dominant-baseline='middle' font-family='-apple-system,BlinkMacSystemFont,Inter,Roboto,sans-serif' font-weight='900' fill='white'><tspan x='1024' dy='-0.45em' font-size='300' textLength='2048' lengthAdjust='spacingAndGlyphs'>Are You Ready</tspan><tspan x='1024' dy='1.05em' font-size='300' textLength='2048' lengthAdjust='spacingAndGlyphs'>To Go Nuclear?</tspan></text></svg>");
+            mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2048 750' preserveAspectRatio='xMidYMid slice'><text x='1024' y='375' text-anchor='middle' dominant-baseline='middle' font-family='-apple-system,BlinkMacSystemFont,Inter,Roboto,sans-serif' font-weight='900' fill='white'><tspan x='1024' dy='-0.45em' font-size='300' textLength='2048' lengthAdjust='spacingAndGlyphs'>Are You Ready</tspan><tspan x='1024' dy='1.05em' font-size='300' textLength='2048' lengthAdjust='spacingAndGlyphs'>To Go Nuclear?</tspan></text></svg>");
+            -webkit-mask-size: 100% 100%;
+            mask-size: 100% 100%;
+            -webkit-mask-position: center;
+            mask-position: center;
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            -webkit-mask-mode: luminance;
+            mask-mode: luminance;
+        }
+        /* Shared row for pill CTAs. One or many pills, any section. */
+        .btn-row {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-md);
+            margin-top: var(--space-lg);
+            flex-wrap: wrap;
+        }
+        /* Left-aligned variant for left-aligned sections. */
+        .section--left .btn-row {
+            justify-content: flex-start;
+        }
+
+        /* Apple-style inline "Learn more" link. */
+        .learn-more {
+            display: inline-block;
+            margin-top: var(--space-md);
+            color: var(--color-blue-link);
+            font-size: var(--text-md);
+            font-weight: var(--weight-regular);
+            transition: opacity var(--transition-base);
+        }
+        :root[data-theme="dark"] .learn-more {
+            color: var(--color-blue-link-bright);
+        }
+        .learn-more:hover {
+            color: var(--color-blue-link);
+            opacity: 0.7;
+        }
+        :root[data-theme="dark"] .learn-more:hover {
+            color: var(--color-blue-link-bright);
+        }
+        .learn-more::after,
+        .ribbon__link::after {
+            content: " \203A";
+            display: inline-block;
+            margin-left: 0.25rem;
+            transition: transform var(--transition-base);
+        }
+        .learn-more:hover::after,
+        .ribbon__link:hover::after {
+            transform: translateX(0.25rem);
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .learn-more::after,
+            .ribbon__link::after { transition: none; }
+            .learn-more:hover::after,
+            .ribbon__link:hover::after { transform: none; }
+        }
+
+        /* ===========================================
+           HERO — centered content
+           =========================================== */
+        .hero {
+            text-align: center;
+            padding-bottom: var(--space-xl);
+        }
+
+        .hero__inner {
+            max-width: 52rem;
+            margin-inline: auto;
+            padding-block: var(--space-xl);
+        }
+
+        .hero__title {
+            font-size: var(--text-display);
+            font-weight: var(--weight-bold);
+            line-height: 1.1;
+            margin: 0 0 var(--space-md);
+        }
+        .hero__title-or-die {
+            display: block;
+        }
+
+        .subtitle {
+            font-size: var(--text-md);
+            font-weight: var(--weight-semibold);
+            color: var(--color-text-secondary);
+            line-height: 1.2;
+            margin: 0 auto var(--space-lg);
+            max-width: 38rem;
+        }
+
+        /* Pill button system.
+           Palette is controlled by three locals so any new variant only
+           needs to remap them — no rewriting hover rules.
+             --pill-accent       — border + fill color
+             --pill-on-accent    — text color when filled
+             --pill-accent-hover — fill color for the filled variant on hover */
+        .btn-pill {
+            --pill-accent: var(--color-green-500);
+            --pill-on-accent: var(--color-on-accent);
+            --pill-accent-hover: color-mix(in srgb, var(--pill-accent), white 15%);
+
+            display: inline-block;
+            padding: 0.875rem 1.75rem;
+            border-radius: 999px;
+            border: 1.5px solid var(--pill-accent);
+            color: var(--pill-accent);
+            background: transparent;
+            font-family: inherit;
+            font-size: var(--text-base);
+            font-weight: var(--weight-medium);
+            line-height: var(--line-height-base);
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color var(--transition-base), color var(--transition-base);
+        }
+        .btn-pill:hover,
+        .btn-pill:focus-visible {
+            background-color: var(--pill-accent);
+            color: var(--pill-on-accent);
+        }
+        /* Filled variant — looks like the outline's hover state by default;
+           lightens on hover without affecting the text. */
+        .btn-pill--filled {
+            background-color: var(--pill-accent);
+            color: var(--pill-on-accent);
+        }
+        .btn-pill--filled:hover,
+        .btn-pill--filled:focus-visible {
+            background-color: var(--pill-accent-hover);
+            color: var(--pill-on-accent);
+        }
+        /* Monochrome palette — off-black in light, off-white in dark. */
+        .btn-pill--mono {
+            --pill-accent: var(--color-text-primary);
+            --pill-on-accent: var(--color-bg-primary);
+        }
+
+        /* ===========================================
+           BEFORE / AFTER COMPARE — draggable slider
+           Two stacked images. The "after" is clipped from the left by
+           --split, registered with @property so percentage tweens cleanly.
+           =========================================== */
+        @property --split {
+            syntax: '<percentage>';
+            inherits: true;
+            initial-value: 50%;
+        }
+        @media (prefers-reduced-motion: no-preference) {
+            .compare.is-hinting {
+                animation: sliderHint 1.6s cubic-bezier(.4,0,.2,1) forwards;
+            }
+        }
+        @keyframes sliderHint {
+            0%   { --split: 50%; }
+            35%  { --split: 22%; }
+            65%  { --split: 78%; }
+            100% { --split: 50%; }
+        }
+        .compare {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 2362 / 1440;
+            margin-top: var(--space-lg);
+            cursor: col-resize;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: pan-y pinch-zoom;
+        }
+        /* Scroll-expanding wrapper — compositor-only scale via view() timeline. */
+        @keyframes compare-grow {
+            from { transform: scale(var(--compare-start-scale, 0.3)); }
+            to   { transform: scale(1); }
+        }
+        .compare-grow {
+            width: 100%;
+            transform-origin: center top;
+            will-change: transform;
+            animation: compare-grow linear both;
+            animation-timeline: view();
+            animation-range: entry 0% cover 45%;
+        }
+        @supports not (animation-timeline: view()) {
+            .compare-grow { transform: none; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .compare-grow { animation: none; transform: none; }
+        }
+        .compare__frame {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            pointer-events: none;
+            z-index: 2;
+            -webkit-user-drag: none;
+        }
+        .compare__img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            pointer-events: none;
+            -webkit-user-drag: none;
+        }
+        .compare__img--after {
+            clip-path: inset(0 0 0 var(--split, 50%));
+        }
+        .compare__handle {
+            position: absolute;
+            top: 5px;
+            bottom: 15px;
+            left: var(--split, 50%);
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            pointer-events: none;
+            width: 44px;
+        }
+        .compare__handle:focus-visible {
+            outline: 2px solid var(--color-blue-500);
+            outline-offset: 4px;
+            border-radius: var(--radius-sm);
+        }
+        .compare__line {
+            flex: 1;
+            width: 2px;
+            background: #fff;
+            box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+        }
+        .compare__circle {
+            flex-shrink: 0;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            color: #333;
+        }
+        .compare__circle svg {
+            width: 14px;
+            height: 14px;
+            flex-shrink: 0;
+        }
+
+
+        /* ===========================================
+           DIALOG — native <dialog> modal card
+           Reuses section tokens; ::backdrop frosts page behind.
+           Animated open/close via @starting-style + allow-discrete.
+           =========================================== */
+        .dialog {
+            width: 100%;
+            max-width: var(--container-max-width);
+            max-height: calc(100dvh - 2 * var(--space-xl));
+            margin: auto;
+            padding: var(--space-xl);
+            border: 0;
+            border-radius: var(--radius-xl);
+            background: var(--color-bg-surface);
+            color: var(--color-text-primary);
+            overflow-y: auto;
+            overscroll-behavior: contain;
+            scrollbar-width: none;
+            opacity: 0;
+            transform: translateY(8px);
+            transition:
+                opacity 200ms ease,
+                transform 200ms ease,
+                overlay 200ms ease allow-discrete,
+                display 200ms ease allow-discrete;
+        }
+        .dialog::-webkit-scrollbar { display: none; }
+        /* Lock body scroll while any dialog is open */
+        body:has(dialog[open]) { overflow: hidden; }
+        .dialog[open] {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        @starting-style {
+            .dialog[open] {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+        }
+        .dialog::backdrop {
+            background-color: rgba(0, 0, 0, 0.5);
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+            overscroll-behavior: contain;
+            opacity: 0;
+            transition:
+                opacity 200ms ease,
+                overlay 200ms ease allow-discrete,
+                display 200ms ease allow-discrete;
+        }
+        .dialog[open]::backdrop { opacity: 1; }
+        @starting-style {
+            .dialog[open]::backdrop { opacity: 0; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .dialog,
+            .dialog::backdrop { transition: none; }
+            .dialog { transform: none; }
+        }
+
+        .dialog__close {
+            position: absolute;
+            top: var(--space-md);
+            right: var(--space-md);
+            z-index: 1;
+            width: 3rem;
+            height: 3rem;
+        }
+        .dialog__close svg {
+            width: 1.75rem;
+            height: 1.75rem;
+        }
+        .dialog__subtitle {
+            font-size: var(--text-md);
+            font-weight: var(--weight-semibold);
+            color: var(--color-text-secondary);
+            line-height: 1.2;
+            margin: 0;
+        }
+        .dialog__principles {
+            list-style: none;
+            padding: 0;
+            margin: var(--space-xl) 0 0;
+            display: grid;
+            gap: var(--space-lg);
+        }
+        .dialog__principle__title {
+            font-size: var(--text-lg);
+            font-weight: var(--weight-bold);
+            line-height: 1.2;
+            margin: 0 0 var(--space-xs);
+        }
+        .dialog__principle__body {
+            font-size: var(--text-md);
+            font-weight: var(--weight-semibold);
+            color: var(--color-text-secondary);
+            line-height: 1.2;
+            margin: 0;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: var(--space-xs);
+            left: var(--space-xs);
+            padding: var(--space-xs) var(--space-sm);
+            background: var(--color-bg-surface);
+            color: var(--color-text-primary);
+            border-radius: var(--radius-sm);
+            transform: translateY(-200%);
+            transition: transform var(--transition-base);
+            z-index: 100;
+        }
+        .skip-link:focus { transform: translateY(0); }
+
+        /* ===========================================
+           BREAKPOINT — Tablet (768px)
+           =========================================== */
+        @media (min-width: 48em) {
+            :root {
+                --container-padding: var(--space-lg);
+            }
+            .site-nav__links > li.site-nav__item--mobile-cta { display: none; }
+            /* Close-delay bridges cursor sweeps between adjacent dropdown
+               triggers (e.g. Websites -> Apps). Open state overrides this
+               back to 0s so re-entering snaps the curtain wide again. */
+            .nav-dropdown { transition-delay: 100ms; }
+            .nav-scrim { transition: opacity 350ms ease 100ms, visibility 0s linear 450ms; }
+        }
+
+        /* ===========================================
+           BREAKPOINT — Desktop (1200px)
+           =========================================== */
+        @media (min-width: 75em) {
+            :root {
+                --container-padding: var(--space-xl);
+            }
+        }
+
+        /* ===========================================
+           SITE FOOTER
+           Brand + AI icons on the left, nav-mirror link
+           columns to the right. Hairline + copyright row below.
+           =========================================== */
+        .site-footer {
+            padding-block: var(--space-xl);
+            color: var(--color-text-secondary);
+        }
+        .site-footer__grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--space-xl);
+        }
+        @media (min-width: 48em) {
+            .site-footer__grid {
+                grid-template-columns: 1.4fr repeat(2, 1fr);
+            }
+        }
+        @media (min-width: 64em) {
+            .site-footer__grid {
+                grid-template-columns: 1.4fr repeat(5, 1fr);
+            }
+        }
+        .site-footer__brand {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+        .site-footer__logo {
+            color: var(--color-text-primary);
+            font-size: 1.0625rem;
+            font-weight: var(--weight-semibold);
+        }
+        .site-footer__logo:hover { color: var(--color-text-primary); }
+        .site-footer__ai {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+        .site-footer__ai-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-secondary);
+            opacity: 0.7;
+            transition: opacity var(--transition-base), color var(--transition-base);
+        }
+        .site-footer__ai-link:hover {
+            color: var(--color-text-primary);
+            opacity: 1;
+        }
+        .site-footer__ai-link svg {
+            width: 1.25rem;
+            height: 1.25rem;
+            fill: currentColor;
+        }
+        .site-footer__heading {
+            font-size: var(--text-sm);
+            font-weight: var(--weight-semibold);
+            color: var(--color-text-primary);
+            margin: 0 0 var(--space-md);
+        }
+        .site-footer__list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xs);
+        }
+        .site-footer__link {
+            color: var(--color-text-secondary);
+            font-size: var(--text-sm);
+            transition: color var(--transition-base);
+        }
+        .site-footer__link:hover { color: var(--color-text-primary); }
+        .site-footer__bottom {
+            margin-top: var(--space-xl);
+            padding-top: var(--space-md);
+            border-top: 1px solid var(--color-border-subtle);
+        }
+        .site-footer__bottom {
+            margin-top: var(--space-xl);
+            padding-top: var(--space-md);
+            border-top: 1px solid var(--color-border-subtle);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--space-md);
+            flex-wrap: wrap;
+        }
+        .site-footer__copyright {
+            font-size: var(--text-sm);
+            color: var(--color-text-tertiary);
+            margin: 0;
+        }
+
+        /* ===========================================
+           SITE STATUS — loading dots → green pulse
+           Purely cosmetic; setTimeout flips data-state.
+           =========================================== */
+        .site-status {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            font-size: var(--text-sm);
+            color: var(--color-text-tertiary);
+        }
+        .site-status__indicator {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1rem;
+            height: 1rem;
+        }
+        .site-status__dots {
+            display: inline-flex;
+            gap: 3px;
+        }
+        .site-status__dots > span {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: var(--color-text-tertiary);
+            animation: status-dot-bounce 1.2s ease-in-out infinite;
+        }
+        .site-status__dots > span:nth-child(2) { animation-delay: 0.15s; }
+        .site-status__dots > span:nth-child(3) { animation-delay: 0.3s; }
+        @keyframes status-dot-bounce {
+            0%, 60%, 100% { transform: scale(0.6); opacity: 0.45; }
+            30%           { transform: scale(1);   opacity: 1; }
+        }
+        .site-status__pulse {
+            position: relative;
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--color-success);
+        }
+        .site-status__pulse::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: var(--color-success);
+            animation: status-pulse 2s ease-out infinite;
+        }
+        @keyframes status-pulse {
+            0%   { transform: scale(1);   opacity: 0.55; }
+            100% { transform: scale(2.6); opacity: 0;    }
+        }
+        /* Stack labels in one grid cell — container width = longer label,
+           so swapping doesn't shift the indicator's horizontal position. */
+        .site-status__labels {
+            display: grid;
+            grid-template-areas: "label";
+        }
+        .site-status__text { grid-area: label; }
+
+        /* State-driven visibility — keep layout for inactive label
+           via visibility:hidden; indicator parts can still display:none
+           since their container has a fixed width. */
+        .site-status[data-state="loading"] .site-status__pulse,
+        .site-status[data-state="ready"]   .site-status__dots {
+            display: none;
+        }
+        .site-status[data-state="loading"] .site-status__text--ready,
+        .site-status[data-state="ready"]   .site-status__text--loading {
+            visibility: hidden;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .site-status__dots > span,
+            .site-status__pulse::before { animation: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <!-- ===========================================
+         HEADER
+         =========================================== -->
+    <header id="site-header" class="site-header">
+        <div class="container">
+            <nav id="primary-nav" class="site-nav" aria-label="Primary navigation">
+                <a href="/" class="site-nav__logo">Nuclear Websites</a>
+                <ul id="site-nav-links" class="site-nav__links">
+                    <li><a class="site-nav__link" href="#problem">Problem</a></li>
+                    <li><a class="site-nav__link" href="#why">Why</a></li>
+                    <li><a class="site-nav__link" href="#how">How</a></li>
+                    <li><a class="site-nav__link" href="#what">What</a></li>
+                    <li><a class="site-nav__link" href="#book">Our Book</a></li>
+                    <li class="site-nav__item--has-dropdown" data-dropdown="websites"><a class="site-nav__link" href="#websites" aria-haspopup="menu" aria-expanded="false" aria-controls="nav-dropdown-panel">Websites</a></li>
+                    <li class="site-nav__item--has-dropdown" data-dropdown="apps"><a class="site-nav__link" href="#apps" aria-haspopup="menu" aria-expanded="false" aria-controls="nav-dropdown-panel">Apps</a></li>
+                    <li class="site-nav__item--has-dropdown" data-dropdown="support"><a class="site-nav__link" href="#support" aria-haspopup="menu" aria-expanded="false" aria-controls="nav-dropdown-panel">Support</a></li>
+                    <li class="site-nav__item--mobile-cta"><a class="site-nav__link" href="#contact"><span class="gradient-text">I'm Ready For a Nuclear Website &rarr;</span></a></li>
+                </ul>
+                <div class="nav-actions">
+                <button type="button" class="icon-btn theme-toggle" id="theme-toggle" aria-label="Toggle light and dark mode">
+                    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                    </svg>
+                    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="4"/>
+                        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+                    </svg>
+                </button>
+                <button type="button" class="icon-btn nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-nav-links">
+                    <span class="nav-toggle__bar"></span>
+                    <span class="nav-toggle__bar"></span>
+                </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="nav-dropdown" id="nav-dropdown-panel" aria-hidden="true">
+            <div class="nav-dropdown__group" data-group="websites">
+                <div class="container">
+                    <p class="nav-dropdown__eyebrow">Explore Websites</p>
+                    <ul class="nav-dropdown__list">
+                        <li><a class="nav-dropdown__link" href="#standard">Standard</a></li>
+                        <li><a class="nav-dropdown__link" href="#premium">Premium</a></li>
+                        <li><a class="nav-dropdown__link" href="#enterprise">Enterprise</a></li>
+                    </ul>
+                    <p class="nav-dropdown__caption"><a href="#compare-websites">Compare websites</a></p>
+                </div>
+            </div>
+            <div class="nav-dropdown__group" data-group="apps">
+                <div class="container">
+                    <p class="nav-dropdown__eyebrow">Explore Apps</p>
+                    <ul class="nav-dropdown__list">
+                        <li><a class="nav-dropdown__link" href="#web-apps">Web Apps</a></li>
+                        <li><a class="nav-dropdown__link" href="#mobile-apps">Mobile Apps</a></li>
+                        <li><a class="nav-dropdown__link" href="#multi-platform-apps">Multi-Platform Apps</a></li>
+                    </ul>
+                    <p class="nav-dropdown__caption"><a href="#compare-apps">Compare Apps</a></p>
+                </div>
+            </div>
+            <div class="nav-dropdown__group" data-group="support">
+                <div class="container">
+                    <p class="nav-dropdown__eyebrow">Explore Support</p>
+                    <ul class="nav-dropdown__list">
+                        <li><a class="nav-dropdown__link" href="#support-websites">Websites</a></li>
+                        <li><a class="nav-dropdown__link" href="#support-apps">Apps</a></li>
+                        <li><a class="nav-dropdown__link" href="#support-books">Books</a></li>
+                    </ul>
+                </div>
+            </div>
+    </div>
+
+    <div class="nav-scrim" aria-hidden="true"></div>
+
+    <script>
+        (() => {
+            const root = document.documentElement;
+            const themeToggle = document.getElementById('theme-toggle');
+            const nav = document.getElementById('primary-nav');
+            const navToggle = document.getElementById('nav-toggle');
+
+            themeToggle.addEventListener('click', () => {
+                const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                root.setAttribute('data-theme', next);
+                localStorage.setItem('theme', next);
+            });
+
+            const setNavOpen = (open) => {
+                nav.setAttribute('data-open', String(open));
+                navToggle.setAttribute('aria-expanded', String(open));
+            };
+
+            navToggle.addEventListener('click', () => {
+                setNavOpen(nav.getAttribute('data-open') !== 'true');
+            });
+
+            nav.querySelectorAll('.site-nav__link').forEach((a) => {
+                a.addEventListener('click', () => setNavOpen(false));
+            });
+
+            // Persist the active dropdown group while the cursor is in
+            // the header. The .is-opening class triggers the staggered
+            // child reveal; it's added only on cold-open (closed -> open)
+            // and removed on sibling switches and close so switches use
+            // the group cross-fade without re-staggering.
+            const header = document.getElementById('site-header');
+            const dropdown = document.querySelector('.nav-dropdown');
+            if (dropdown) {
+                const triggerItems = [...nav.querySelectorAll('.site-nav__item--has-dropdown')];
+                const triggerLinks = triggerItems.map((item) => item.querySelector('.site-nav__link'));
+                const syncAria = () => {
+                    const active = dropdown.dataset.active;
+                    triggerItems.forEach((item, i) => {
+                        triggerLinks[i].setAttribute('aria-expanded', String(item.dataset.dropdown === active));
+                    });
+                };
+
+                // Closing is debounced so brief cursor gaps (between the
+                // trigger and the opening panel, between adjacent triggers
+                // during a sibling switch, etc.) don't drop the active state.
+                let closeTimer = null;
+                const cancelClose = () => {
+                    if (closeTimer) {
+                        clearTimeout(closeTimer);
+                        closeTimer = null;
+                    }
+                };
+                const closeNow = () => {
+                    cancelClose();
+                    delete dropdown.dataset.active;
+                    dropdown.classList.remove('is-opening');
+                    syncAria();
+                };
+                const scheduleClose = () => {
+                    if (closeTimer) return;
+                    closeTimer = setTimeout(() => {
+                        delete dropdown.dataset.active;
+                        dropdown.classList.remove('is-opening');
+                        closeTimer = null;
+                        syncAria();
+                    }, 150);
+                };
+
+                // Trigger entry: open the panel or cross-fade between siblings.
+                triggerItems.forEach((item) => {
+                    item.addEventListener('mouseenter', () => {
+                        cancelClose();
+                        const target = item.dataset.dropdown;
+                        const wasInactive = !dropdown.dataset.active;
+                        if (wasInactive) {
+                            // Cold open — restart the stagger animation.
+                            dropdown.classList.remove('is-opening');
+                            // Force reflow so the animation re-triggers if
+                            // the class was already on a moment ago.
+                            void dropdown.offsetWidth;
+                            dropdown.classList.add('is-opening');
+                        } else if (dropdown.dataset.active !== target) {
+                            // Sibling switch — group cross-fade only.
+                            dropdown.classList.remove('is-opening');
+                        }
+                        dropdown.dataset.active = target;
+                        syncAria();
+                    });
+                });
+
+                // Escape closes the dropdown.
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && dropdown.dataset.active) {
+                        closeNow();
+                        const active = triggerItems.find((item) =>
+                            dropdown.contains(document.activeElement) ||
+                            item.contains(document.activeElement)
+                        );
+                        if (active) active.querySelector('.site-nav__link').focus();
+                    }
+                });
+
+                // Open zones:
+                //   1. Trigger band: the horizontal span from the first
+                //      dropdown trigger's left edge to the last trigger's
+                //      right edge, full nav-bar height.
+                //   2. The dropdown panel itself (when open).
+                // Cursor inside either zone keeps the menu open; anywhere
+                // else schedules a close. Single mousemove listener is the
+                // source of truth — avoids mouseover/mouseenter ordering
+                // edge cases and handles cursor stationary in a region.
+                const inRect = (x, y, r) =>
+                    x >= r.left && x <= r.right && y >= r.top && y <= r.bottom;
+                const isInOpenZone = (x, y) => {
+                    if (triggerItems.length) {
+                        const first = triggerItems[0].getBoundingClientRect();
+                        const last = triggerItems[triggerItems.length - 1].getBoundingClientRect();
+                        if (
+                            x >= first.left && x <= last.right &&
+                            y >= first.top && y <= last.bottom
+                        ) return true;
+                    }
+                    if (dropdown.dataset.active && inRect(x, y, dropdown.getBoundingClientRect())) {
+                        return true;
+                    }
+                    return false;
+                };
+                document.addEventListener('mousemove', (e) => {
+                    if (!dropdown.dataset.active && !closeTimer) return;
+                    if (isInOpenZone(e.clientX, e.clientY)) {
+                        cancelClose();
+                    } else {
+                        scheduleClose();
+                    }
+                });
+            }
+
+        })();
+    </script>
+
+    <!-- ===========================================
+         RIBBON SLOT — move this section anywhere in the page
+         =========================================== -->
+    <section id="ribbon-slot">
+        <div class="ribbon ribbon--animate ribbon--neutral" id="promo-bar">
+            <div class="ribbon__inner">
+                <p>Learn to Build Your Own Website for Free. <a href="/shop" class="ribbon__link">Shop</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         MAIN CONTENT
+         =========================================== -->
+    <main id="main-content">
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="container">
+                <div class="hero__inner">
+                    <p class="section__eyebrow">Nuclear Websites</p>
+                    <h1 id="hero-title" class="hero__title">Websites that actually <span class="gradient-text">make you money.</span></h1>
+                    <p class="subtitle">Built on the same battle-tested principles behind the book.</p>
+                    <div class="btn-row">
+                        <a class="btn-pill btn-pill--filled" href="#">Learn more</a>
+                        <a class="btn-pill" href="#contact">Go Nuclear</a>
+                    </div>
+                </div>
+                <div class="compare-grow">
+                <div class="compare" data-compare role="img" aria-label="Sample website before and after redesign comparison">
+                    <img class="compare__img compare__img--before" src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/showcase/arcdental-before-comparison.avif" alt="Sample website, before redesign" draggable="false">
+                    <img class="compare__img compare__img--after" src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/showcase/arcdental-after-comparison.avif" alt="Sample website, after redesign" draggable="false">
+                    <div class="compare__handle" role="slider" aria-label="Compare before and after" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" tabindex="0">
+                        <div class="compare__line"></div>
+                        <div class="compare__circle" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M15 18l-6-6 6-6"/>
+                            </svg>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 18l6-6-6-6"/>
+                            </svg>
+                        </div>
+                        <div class="compare__line"></div>
+                    </div>
+                    <img class="compare__frame" src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/showcase/mackbook-pro-empty-screen.avif" alt="" draggable="false">
+                </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section--reading section--left" id="problem" aria-label="Problem">
+            <div class="container">
+                <div class="section__inner">
+                    <p class="section__eyebrow">Problem</p>
+                    <p class="reveal-sentences__text">
+                        <span class="reveal-sentence reveal-sentence--cta">Your website is costing you money.</span>
+                        <span class="reveal-sentence">Fine is the most expensive word in business.</span>
+                        <span class="reveal-sentence">Like pouring fuel into a leaking engine.</span>
+                        <span class="reveal-sentence">You don&rsquo;t need more fuel.</span>
+                        <span class="reveal-sentence">You need a better engine.</span>
+                        <span class="reveal-sentence">Your site is probably fine.</span>
+                        <span class="reveal-sentence">Fine is expensive.</span>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section--reading" id="why" aria-labelledby="why-title">
+            <div class="container">
+                <div class="section__inner">
+                    <p class="section__eyebrow">Why</p>
+                    <h2 id="why-title" class="section__title"><span class="gradient-text">Pretty is profitable.</span><br>Make it both.</h2>
+                    <p class="section__body">It&rsquo;s not 2003. You don&rsquo;t have to choose between fast and pretty. <span class="section__body-emphasis">That tradeoff died with dial-up.</span> The tools changed. The playing field leveled. You can have your cake and eat it too.</p>
+                </div>
+                <img class="section__media" src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/iphone%20horizontal.png" alt="" loading="lazy" decoding="async">
+            </div>
+        </section>
+
+        <section class="section section--reading section--left" id="how" aria-labelledby="how-title">
+            <div class="container">
+                <div class="section__inner">
+                    <p class="section__eyebrow">How</p>
+                    <h2 id="how-title" class="section__title"><span class="gradient-text">We build on principles,</span><br>not trends.</h2>
+                    <p class="section__body">Your visitor only cares about one thing. What&rsquo;s in it for them? Slow, ugly, bloated websites scare them away. They&rsquo;re gone before they can find out. <span class="section__body-emphasis">Every element must move the sale forward.</span> What&rsquo;s left is fast and beautiful. A money-making machine.</p>
+                    <div class="btn-row">
+                        <button type="button" class="btn-pill btn-pill--mono" aria-haspopup="dialog" aria-controls="nuclear-principles-dialog" data-dialog-open="nuclear-principles-dialog">Go inside Nuclear Principles</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <dialog id="nuclear-principles-dialog" class="dialog" closedby="any" aria-labelledby="nuclear-principles-title" aria-describedby="nuclear-principles-desc">
+                <button type="button" class="icon-btn dialog__close" aria-label="Close dialog" autofocus data-dialog-close>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="18" height="18">
+                        <path d="M18 6 6 18M6 6l12 12"/>
+                    </svg>
+                </button>
+                <p class="section__eyebrow">Nuclear Principles</p>
+                <h2 id="nuclear-principles-title" class="section__title"><span class="gradient-text">First Principles</span></h2>
+                <p id="nuclear-principles-desc" class="dialog__subtitle">The five truths of web-design.</p>
+                <ol class="dialog__principles">
+                    <li>
+                        <h3 class="dialog__principle__title"><span class="gradient-text gradient-text--success">Convert attention into value.</span></h3>
+                        <p class="dialog__principle__body"><span class="section__body-emphasis">A website has one job.</span> Every element either moves the sale forward, or it doesn&rsquo;t belong.</p>
+                    </li>
+                    <li>
+                        <h3 class="dialog__principle__title"><span class="gradient-text gradient-text--success">The body decides.</span></h3>
+                        <p class="dialog__principle__body"><span class="section__body-emphasis">They judge before they read.</span> A feeling, not a thought. Lose them here and the words never get a turn.</p>
+                    </li>
+                    <li>
+                        <h3 class="dialog__principle__title"><span class="gradient-text gradient-text--success">Every screen answers.</span></h3>
+                        <p class="dialog__principle__body"><span class="section__body-emphasis">Is this real?</span> Is this for me? What now? Leave one open and they&rsquo;re gone.</p>
+                    </li>
+                    <li>
+                        <h3 class="dialog__principle__title"><span class="gradient-text gradient-text--success">Words convert; design directs.</span></h3>
+                        <p class="dialog__principle__body"><span class="section__body-emphasis">Words close the sale.</span> Design just points the way. Pretty that says nothing sells nothing.</p>
+                    </li>
+                    <li>
+                        <h3 class="dialog__principle__title"><span class="gradient-text gradient-text--success">Move the sale forward.</span></h3>
+                        <p class="dialog__principle__body"><span class="section__body-emphasis">Every element earns its place.</span> Not taste. Not ego. It moves the sale, or it&rsquo;s cut.</p>
+                    </li>
+                </ol>
+        </dialog>
+
+        <section class="section section--reading section--left section--card" id="what" aria-labelledby="what-title">
+            <div class="container">
+                <div class="section__inner">
+                    <p class="section__eyebrow">What</p>
+                    <h2 id="what-title" class="section__title"><span class="gradient-text">A website that</span><br>pays for itself.</h2>
+                    <p class="section__body">Most websites are broken. Fast but hideous. Gorgeous but slow. Modern but useless. You wonder why nothing sells. We create world-class websites. <span class="section__body-emphasis">The kind you&rsquo;d pay Apple a billion dollars to build.</span> The website you&rsquo;ve always wanted.</p>
+                    <ul class="section__list">
+                        <li class="gradient-text gradient-text--success">Loads before they blink.</li>
+                        <li class="gradient-text gradient-text--success">A site they enjoy looking at.</li>
+                        <li class="gradient-text gradient-text--success">Everything works, not just for show.</li>
+                        <li class="gradient-text gradient-text--success">It turns visitors into customers.</li>
+                    </ul>
+                </div>
+                <div class="section__aside" aria-hidden="true">
+                    <div class="section__aside__frame">
+                        <img src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/iphone%20front.png" alt="" loading="lazy" decoding="async">
+                        <img src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/iphone%20right.png" alt="" loading="lazy" decoding="async">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section page-end-cta" id="page-end-cta" aria-labelledby="page-end-cta-title">
+            <h2 id="page-end-cta-title" class="visually-hidden">Are You Ready To Go Nuclear?</h2>
+            <div class="container">
+                <div class="page-end-cta__media">
+                    <video class="page-end-cta__video" muted loop playsinline preload="none" aria-hidden="true">
+                        <source data-src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/large%20video.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="btn-row">
+                    <a class="btn-pill btn-pill--filled" href="#contact">Learn more</a>
+                </div>
+                <a class="learn-more" href="#">Go Nuclear</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===========================================
+         FOOTER
+         =========================================== -->
+    <footer id="site-footer" class="site-footer">
+        <div class="container">
+            <div class="site-footer__grid">
+                <div class="site-footer__brand">
+                    <a href="/" class="site-footer__logo">Nuclear Websites</a>
+                    <ul class="site-footer__ai" aria-label="Ask an AI about Nuclear Websites">
+                        <li><a href="#" class="site-footer__ai-link" aria-label="Ask Claude about Nuclear Websites">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></svg>
+                        </a></li>
+                        <li><a href="#" class="site-footer__ai-link" aria-label="Ask ChatGPT about Nuclear Websites">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M22.282 9.821a5.985 5.985 0 00-.516-4.91 6.046 6.046 0 00-6.51-2.9A6.065 6.065 0 004.981 4.18a5.985 5.985 0 00-3.998 2.9 6.046 6.046 0 00.743 7.097 5.98 5.98 0 00.51 4.911 6.051 6.051 0 006.515 2.9A5.985 5.985 0 0013.26 24a6.056 6.056 0 005.772-4.206 5.99 5.99 0 003.997-2.9 6.056 6.056 0 00-.747-7.073zM13.26 22.43a4.476 4.476 0 01-2.876-1.04l.141-.081 4.779-2.758a.795.795 0 00.392-.681v-6.737l2.02 1.168a.071.071 0 01.038.052v5.583a4.504 4.504 0 01-4.494 4.494zM3.6 18.304a4.47 4.47 0 01-.535-3.014l.142.085 4.783 2.759a.771.771 0 00.78 0l5.843-3.369v2.332a.08.08 0 01-.033.062L9.74 19.95a4.5 4.5 0 01-6.14-1.646zM2.34 7.896a4.485 4.485 0 012.366-1.973V11.6a.766.766 0 00.388.676l5.815 3.355-2.02 1.168a.076.076 0 01-.071 0l-4.83-2.786A4.504 4.504 0 012.34 7.896zm16.597 3.855l-5.833-3.387L15.119 7.2a.076.076 0 01.071 0l4.83 2.791a4.494 4.494 0 01-.676 8.105v-5.678a.79.79 0 00-.407-.667zm2.01-3.023l-.141-.085-4.774-2.782a.776.776 0 00-.785 0L9.409 9.23V6.897a.066.066 0 01.028-.061l4.83-2.787a4.5 4.5 0 016.68 4.66zm-12.64 4.135l-2.02-1.164a.08.08 0 01-.038-.057V6.075a4.5 4.5 0 017.375-3.453l-.142.08L8.704 5.46a.795.795 0 00-.393.681zm1.097-2.365l2.602-1.5 2.607 1.496v2.999l-2.597 1.5-2.607-1.496-.005-2.999z"/></svg>
+                        </a></li>
+                        <li><a href="#" class="site-footer__ai-link" aria-label="Ask Gemini about Nuclear Websites">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81"/></svg>
+                        </a></li>
+                        <li><a href="#" class="site-footer__ai-link" aria-label="Ask Perplexity about Nuclear Websites">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M22.3977 7.0896h-2.3106V.0676l-7.5094 6.3542V.1577h-1.1554v6.1966L4.4904 0v7.0896H1.6023v10.3976h2.8882V24l6.932-6.3591v6.2005h1.1554v-6.0469l6.9318 6.1807v-6.4879h2.8882V7.0896zm-3.4657-4.531v4.531h-5.355l5.355-4.531zm-13.2862.0676 4.8691 4.4634H5.6458V2.6262zM2.7576 16.332V8.245h7.8476l-6.1149 6.1147v1.9723H2.7576zm2.8882 5.0404v-3.8852h.0001v-2.6488l5.7763-5.7764v7.0111l-5.7764 5.2993zm12.7086.0248-5.7766-5.1509V9.0618l5.7766 5.7766v6.5588zm2.8882-5.0652h-1.733v-1.9723L13.3948 8.245h7.8478v8.087z"/></svg>
+                        </a></li>
+                        <li><a href="#" class="site-footer__ai-link" aria-label="Ask Grok about Nuclear Websites">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M9.27 15.29l7.978-5.897c.391-.29.95-.177 1.137.272.98 2.369.542 5.215-1.41 7.169-1.951 1.954-4.667 2.382-7.149 1.406l-2.711 1.257c3.889 2.661 8.611 2.003 11.562-.953 2.341-2.344 3.066-5.539 2.388-8.42l.006.007c-.983-4.232.242-5.924 2.75-9.383.06-.082.12-.164.179-.248l-3.301 3.305v-.01L9.267 15.292M7.623 16.723c-2.792-2.67-2.31-6.801.071-9.184 1.761-1.763 4.647-2.483 7.166-1.425l2.705-1.25a7.808 7.808 0 00-1.829-1A8.975 8.975 0 005.984 5.83c-2.533 2.536-3.33 6.436-1.962 9.764 1.022 2.487-.653 4.246-2.34 6.022-.599.63-1.199 1.259-1.682 1.925l7.62-6.815"/></svg>
+                        </a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="site-footer__heading">Company</p>
+                    <ul class="site-footer__list">
+                        <li><a class="site-footer__link" href="#problem">Problem</a></li>
+                        <li><a class="site-footer__link" href="#why">Why</a></li>
+                        <li><a class="site-footer__link" href="#how">How</a></li>
+                        <li><a class="site-footer__link" href="#what">What</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="site-footer__heading">Books</p>
+                    <ul class="site-footer__list">
+                        <li><a class="site-footer__link" href="#soft-cover">Soft Cover</a></li>
+                        <li><a class="site-footer__link" href="#hard-cover">Hard Cover</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="site-footer__heading">Websites</p>
+                    <ul class="site-footer__list">
+                        <li><a class="site-footer__link" href="#standard">Standard</a></li>
+                        <li><a class="site-footer__link" href="#premium">Premium</a></li>
+                        <li><a class="site-footer__link" href="#enterprise">Enterprise</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="site-footer__heading">Apps</p>
+                    <ul class="site-footer__list">
+                        <li><a class="site-footer__link" href="#web-apps">Web Apps</a></li>
+                        <li><a class="site-footer__link" href="#mobile-apps">Mobile Apps</a></li>
+                        <li><a class="site-footer__link" href="#multi-platform-apps">Multi-Platform Apps</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="site-footer__heading">Support</p>
+                    <ul class="site-footer__list">
+                        <li><a class="site-footer__link" href="#support-websites">Websites</a></li>
+                        <li><a class="site-footer__link" href="#support-apps">Apps</a></li>
+                        <li><a class="site-footer__link" href="#support-books">Books</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="site-footer__bottom">
+                <div class="site-status" data-state="loading" role="status" aria-live="polite">
+                    <span class="site-status__indicator" aria-hidden="true">
+                        <span class="site-status__dots"><span></span><span></span><span></span></span>
+                        <span class="site-status__pulse"></span>
+                    </span>
+                    <span class="site-status__labels">
+                        <span class="site-status__text site-status__text--loading">Loading status</span>
+                        <span class="site-status__text site-status__text--ready">All systems operational</span>
+                    </span>
+                </div>
+                <p class="site-footer__copyright">&copy; 2026 Nuclear Websites. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Compare slider — placed after the element so querySelectorAll finds it.
+        (function () {
+            document.querySelectorAll('[data-compare]').forEach(function (slider) {
+                var handle = slider.querySelector('.compare__handle');
+                var active = false;
+                var clamp = function (v, lo, hi) { return Math.min(Math.max(v, lo), hi); };
+
+                function setPos(clientX) {
+                    var rect = slider.getBoundingClientRect();
+                    var pct = clamp((clientX - rect.left) / rect.width * 100, 9.74, 90.26);
+                    slider.style.setProperty('--split', pct.toFixed(2) + '%');
+                    if (handle) handle.setAttribute('aria-valuenow', Math.round(pct));
+                }
+
+                slider.addEventListener('mousedown', function (e) { active = true; setPos(e.clientX); });
+                window.addEventListener('mousemove',  function (e) { if (active) setPos(e.clientX); });
+                window.addEventListener('mouseup',    function ()  { active = false; });
+
+                slider.addEventListener('touchstart', function (e) { active = true; setPos(e.touches[0].clientX); }, { passive: true });
+                window.addEventListener('touchmove',  function (e) { if (active) setPos(e.touches[0].clientX); },     { passive: true });
+                window.addEventListener('touchend',   function ()  { active = false; });
+                window.addEventListener('touchcancel', function () { active = false; });
+
+                if (handle) {
+                    handle.addEventListener('keydown', function (e) {
+                        var cur = parseFloat(slider.style.getPropertyValue('--split') || '50');
+                        var step = e.shiftKey ? 10 : 2;
+                        if (e.key === 'ArrowLeft')  { slider.style.setProperty('--split', clamp(cur - step, 9.74, 90.26).toFixed(2) + '%'); handle.setAttribute('aria-valuenow', Math.round(clamp(cur - step, 9.74, 90.26))); e.preventDefault(); }
+                        else if (e.key === 'ArrowRight') { slider.style.setProperty('--split', clamp(cur + step, 9.74, 90.26).toFixed(2) + '%'); handle.setAttribute('aria-valuenow', Math.round(clamp(cur + step, 9.74, 90.26))); e.preventDefault(); }
+                    });
+                }
+
+                // One-shot hint: wait for idle + 1500ms, then animate once
+                var hinted = false;
+                function fireHint() {
+                    if (hinted) return;
+                    hinted = true;
+                    slider.classList.add('is-hinting');
+                    slider.addEventListener('animationend', function () {
+                        slider.classList.remove('is-hinting');
+                    }, { once: true });
+                }
+                if ('requestIdleCallback' in window) {
+                    requestIdleCallback(function () { setTimeout(fireHint, 1500); });
+                } else {
+                    setTimeout(fireHint, 1500);
+                }
+            });
+        })();
+
+        // Sentence scrollspy — activates the sentence nearest the viewport centre.
+        (function () {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            var sentences = [].slice.call(document.querySelectorAll('.reveal-sentence'));
+            if (!sentences.length) return;
+
+            function update() {
+                var focus = window.innerHeight * 0.5;
+                var closest = null;
+                var closestDist = Infinity;
+                sentences.forEach(function (el) {
+                    var rect = el.getBoundingClientRect();
+                    if (rect.bottom < -50 || rect.top > window.innerHeight + 50) return;
+                    var dist = Math.abs((rect.top + rect.height / 2) - focus);
+                    if (dist < closestDist) { closestDist = dist; closest = el; }
+                });
+                sentences.forEach(function (el) {
+                    el.classList.toggle('is-active', el === closest);
+                });
+            }
+            window.addEventListener('scroll', update, { passive: true });
+            update();
+        })();
+
+        // Dialog — open via [data-dialog-open], close via [data-dialog-close].
+        // Native <dialog> handles ESC + focus trap. Backdrop close is native
+        // via closedby="any" where supported (Chrome/Edge/Firefox); the JS
+        // rect fallback only runs on Safari until Interop 2026 ships it.
+        (function () {
+            document.querySelectorAll('[data-dialog-open]').forEach(function (trigger) {
+                var dialog = document.getElementById(trigger.dataset.dialogOpen);
+                if (!dialog) return;
+                trigger.addEventListener('click', function () { dialog.showModal(); });
+            });
+            var supportsClosedBy = 'closedBy' in HTMLDialogElement.prototype;
+            document.querySelectorAll('dialog').forEach(function (dialog) {
+                dialog.querySelectorAll('[data-dialog-close]').forEach(function (btn) {
+                    btn.addEventListener('click', function () { dialog.close(); });
+                });
+                if (supportsClosedBy) return;
+                dialog.addEventListener('click', function (e) {
+                    var r = dialog.getBoundingClientRect();
+                    var inside = e.clientX >= r.left && e.clientX <= r.right
+                              && e.clientY >= r.top  && e.clientY <= r.bottom;
+                    if (!inside) dialog.close();
+                });
+            });
+        })();
+
+        // Page-end CTA video — load on intersection, play when visible.
+        (function () {
+            var video = document.querySelector('.page-end-cta__video');
+            if (!video) return;
+            var source = video.querySelector('source[data-src]');
+            if (!source) return;
+            if (!('IntersectionObserver' in window)) {
+                source.src = source.dataset.src;
+                video.load();
+                video.play().catch(function () {});
+                return;
+            }
+            var io = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        if (!source.src) {
+                            source.src = source.dataset.src;
+                            video.load();
+                        }
+                        video.play().catch(function () {});
+                    } else {
+                        video.pause();
+                    }
+                });
+            }, { rootMargin: '200px' });
+            io.observe(video);
+        })();
+
+        // Site status — when the footer indicator scrolls into view,
+        // hold "Loading status" for 1.2s, then flip to "All systems
+        // operational". One-shot via IntersectionObserver so every
+        // visitor sees the transition regardless of scroll speed.
+        (function () {
+            var status = document.querySelector('.site-status');
+            if (!status) return;
+            var flip = function () {
+                setTimeout(function () { status.setAttribute('data-state', 'ready'); }, 1200);
+            };
+            if (!('IntersectionObserver' in window)) { flip(); return; }
+            var io = new IntersectionObserver(function (entries, obs) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) { flip(); obs.disconnect(); }
+                });
+            }, { threshold: 0.5 });
+            io.observe(status);
+        })();
+    </script>
+</body>
+</html>
