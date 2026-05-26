@@ -1770,17 +1770,44 @@
             color: var(--color-blue-link-bright);
         }
         .faq-toggle:hover { opacity: 0.7; }
-        .faq-toggle__chevron {
-            width: 1.125rem;
-            height: 1.125rem;
+        /* Two-bar arrow icon (matches nav-toggle construction).
+           Closed = down arrow (v); open = up arrow (^).
+           Each bar pivots at the apex (center) and rotates +/- 45deg
+           to morph between the two shapes. */
+        .faq-toggle__arrow {
+            position: relative;
+            display: inline-block;
+            width: 16px;
+            height: 10px;
             flex-shrink: 0;
+        }
+        .faq-toggle__arrow__bar {
+            position: absolute;
+            top: calc(50% - 0.75px);
+            height: 1.5px;
+            width: 9px;
+            background: currentColor;
+            border-radius: 1px;
             transition: transform 0.3s ease;
         }
-        .faq-toggle[aria-expanded="true"] .faq-toggle__chevron {
-            transform: rotate(180deg);
+        .faq-toggle__arrow__bar:nth-child(1) {
+            left: 0;
+            transform-origin: right center;
+            transform: rotate(-45deg);
+        }
+        .faq-toggle__arrow__bar:nth-child(2) {
+            right: 0;
+            transform-origin: left center;
+            transform: rotate(45deg);
+        }
+        .faq-toggle[aria-expanded="true"] .faq-toggle__arrow__bar:nth-child(1) {
+            transform: rotate(45deg);
+        }
+        .faq-toggle[aria-expanded="true"] .faq-toggle__arrow__bar:nth-child(2) {
+            transform: rotate(-45deg);
         }
         @media (prefers-reduced-motion: reduce) {
-            .faq-toggle__chevron { transition: none; }
+            .faq-toggle__arrow__bar { transition: none; }
         }
         .support-faq {
             max-width: var(--measure-wrapper);
@@ -2180,7 +2207,10 @@
                         <p class="section__body">Whether you&rsquo;re running a single site, managing multiple, or building a full web app, our team keeps you covered. From broken pages and downtime to setup help and security, every plan includes it.</p>
                         <button type="button" class="faq-toggle" aria-expanded="false" aria-controls="websites-faq" data-toggle-faq="websites-faq" data-text-show="Website FAQs" data-text-hide="Hide Website FAQs">
                             <span class="faq-toggle__label">Website FAQs</span>
-                            <svg class="faq-toggle__chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7.5l5 5 5-5"/></svg>
+                            <span class="faq-toggle__arrow" aria-hidden="true">
+                                <span class="faq-toggle__arrow__bar"></span>
+                                <span class="faq-toggle__arrow__bar"></span>
+                            </span>
                         </button>
                     </div>
                 </div>
@@ -2260,7 +2290,10 @@
                         <p class="section__body">From bug reports and updates to store distribution, we keep your Nuclear-built app moving. Whatever comes up between builds and release, we&rsquo;ll handle it.</p>
                         <button type="button" class="faq-toggle" aria-expanded="false" aria-controls="apps-faq" data-toggle-faq="apps-faq" data-text-show="App FAQs" data-text-hide="Hide App FAQs">
                             <span class="faq-toggle__label">App FAQs</span>
-                            <svg class="faq-toggle__chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7.5l5 5 5-5"/></svg>
+                            <span class="faq-toggle__arrow" aria-hidden="true">
+                                <span class="faq-toggle__arrow__bar"></span>
+                                <span class="faq-toggle__arrow__bar"></span>
+                            </span>
                         </button>
                     </div>
                 </div>
@@ -2340,7 +2373,10 @@
                         <p class="section__body">From order tracking and delivery to returns, refunds, and billing questions, we&rsquo;ll sort out anything between checkout and your doorstep. Help is always one message away.</p>
                         <button type="button" class="faq-toggle" aria-expanded="false" aria-controls="books-faq" data-toggle-faq="books-faq" data-text-show="Book FAQs" data-text-hide="Hide Book FAQs">
                             <span class="faq-toggle__label">Book FAQs</span>
-                            <svg class="faq-toggle__chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7.5l5 5 5-5"/></svg>
+                            <span class="faq-toggle__arrow" aria-hidden="true">
+                                <span class="faq-toggle__arrow__bar"></span>
+                                <span class="faq-toggle__arrow__bar"></span>
+                            </span>
                         </button>
                     </div>
                 </div>
