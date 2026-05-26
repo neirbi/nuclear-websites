@@ -2594,16 +2594,26 @@
             io.observe(status);
         })();
 
-        // FAQ reveal — "Learn more" link toggles the .support-faq-wrap
-        // grid-rows from 0fr to 1fr so the FAQ block expands/collapses.
+        // FAQ reveal — each card's link toggles its .support-faq-wrap;
+        // only one wrap is open at a time (opening one closes the others).
         (function () {
-            document.querySelectorAll('[data-toggle-faq]').forEach(function (trigger) {
-                var target = document.getElementById(trigger.dataset.toggleFaq);
-                if (!target) return;
-                trigger.addEventListener('click', function (e) {
+            var pairs = [].slice.call(document.querySelectorAll('[data-toggle-faq]'))
+                .map(function (trigger) {
+                    return { trigger: trigger, target: document.getElementById(trigger.dataset.toggleFaq) };
+                })
+                .filter(function (p) { return p.target; });
+            pairs.forEach(function (pair) {
+                pair.trigger.addEventListener('click', function (e) {
                     e.preventDefault();
-                    var isOpen = target.classList.toggle('is-open');
-                    trigger.setAttribute('aria-expanded', String(isOpen));
+                    var wasOpen = pair.target.classList.contains('is-open');
+                    pairs.forEach(function (other) {
+                        other.target.classList.remove('is-open');
+                        other.trigger.setAttribute('aria-expanded', 'false');
+                    });
+                    if (!wasOpen) {
+                        pair.target.classList.add('is-open');
+                        pair.trigger.setAttribute('aria-expanded', 'true');
+                    }
                 });
             });
         })();
