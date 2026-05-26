@@ -1507,12 +1507,24 @@
             0%   { transform: scale(1);   opacity: 0.55; }
             100% { transform: scale(2.6); opacity: 0;    }
         }
-        /* State-driven visibility — one indicator + one label at a time */
+        /* Stack labels in one grid cell — container width = longer label,
+           so swapping doesn't shift the indicator's horizontal position. */
+        .site-status__labels {
+            display: grid;
+            grid-template-areas: "label";
+        }
+        .site-status__text { grid-area: label; }
+
+        /* State-driven visibility — keep layout for inactive label
+           via visibility:hidden; indicator parts can still display:none
+           since their container has a fixed width. */
         .site-status[data-state="loading"] .site-status__pulse,
-        .site-status[data-state="loading"] .site-status__text--ready,
-        .site-status[data-state="ready"]   .site-status__dots,
-        .site-status[data-state="ready"]   .site-status__text--loading {
+        .site-status[data-state="ready"]   .site-status__dots {
             display: none;
+        }
+        .site-status[data-state="loading"] .site-status__text--ready,
+        .site-status[data-state="ready"]   .site-status__text--loading {
+            visibility: hidden;
         }
         @media (prefers-reduced-motion: reduce) {
             .site-status__dots > span,
@@ -1973,8 +1985,10 @@
                         <span class="site-status__dots"><span></span><span></span><span></span></span>
                         <span class="site-status__pulse"></span>
                     </span>
-                    <span class="site-status__text site-status__text--loading">Loading status</span>
-                    <span class="site-status__text site-status__text--ready">All systems operational</span>
+                    <span class="site-status__labels">
+                        <span class="site-status__text site-status__text--loading">Loading status</span>
+                        <span class="site-status__text site-status__text--ready">All systems operational</span>
+                    </span>
                 </div>
             </div>
         </div>
