@@ -1717,6 +1717,77 @@
                 aspect-ratio: 16 / 9;
             }
         }
+
+        /* ===========================================
+           SUPPORT FAQ — modern accordion, no dividers,
+           one open at a time, panel animates via grid-rows.
+           =========================================== */
+        .support-faq {
+            max-width: var(--measure-wrapper);
+            margin: var(--space-xl) auto 0;
+        }
+        .support-faq__list {
+            display: flex;
+            flex-direction: column;
+        }
+        .support-faq__question {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-md);
+            padding-block: var(--space-md);
+            text-align: left;
+            font-family: inherit;
+            font-size: var(--text-md);
+            font-weight: var(--weight-medium);
+            line-height: 1.4;
+            color: var(--color-text-primary);
+            background: none;
+            border: 0;
+            cursor: pointer;
+            transition: color var(--transition-base);
+        }
+        .support-faq__question:hover {
+            color: var(--color-accent-primary);
+        }
+        .support-faq__item.is-open .support-faq__question {
+            color: var(--color-accent-primary);
+        }
+        .support-faq__chevron {
+            width: 1.125rem;
+            height: 1.125rem;
+            flex-shrink: 0;
+            color: var(--color-text-secondary);
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+        .support-faq__item.is-open .support-faq__chevron {
+            transform: rotate(180deg);
+            color: var(--color-accent-primary);
+        }
+        .support-faq__panel {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.35s ease;
+        }
+        .support-faq__item.is-open .support-faq__panel {
+            grid-template-rows: 1fr;
+        }
+        .support-faq__panel-inner {
+            overflow: hidden;
+        }
+        .support-faq__answer {
+            padding-bottom: var(--space-md);
+            font-size: var(--text-base);
+            line-height: var(--line-height-base);
+            color: var(--color-text-secondary);
+            margin: 0;
+            max-width: 65ch;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .support-faq__chevron,
+            .support-faq__panel { transition: none; }
+        }
     </style>
 </head>
 <body>
@@ -2044,6 +2115,65 @@
                         <p class="section__body">Whether you&rsquo;re running a single site, managing multiple, or building a full web app, our team keeps you covered. From broken pages and downtime to setup help and security, every plan includes it.</p>
                     </div>
                 </div>
+                <div class="support-faq">
+                    <div class="support-faq__list">
+                        <div class="support-faq__item">
+                            <button class="support-faq__question" id="faq-w-q1" aria-expanded="false" aria-controls="faq-w-p1">
+                                <span>Lorem ipsum dolor sit amet?</span>
+                                <svg class="support-faq__chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7.5l5 5 5-5"/></svg>
+                            </button>
+                            <div class="support-faq__panel" id="faq-w-p1" role="region" aria-labelledby="faq-w-q1">
+                                <div class="support-faq__panel-inner">
+                                    <p class="support-faq__answer">Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="support-faq__item">
+                            <button class="support-faq__question" id="faq-w-q2" aria-expanded="false" aria-controls="faq-w-p2">
+                                <span>Duis aute irure dolor in reprehenderit?</span>
+                                <svg class="support-faq__chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7.5l5 5 5-5"/></svg>
+                            </button>
+                            <div class="support-faq__panel" id="faq-w-p2" role="region" aria-labelledby="faq-w-q2">
+                                <div class="support-faq__panel-inner">
+                                    <p class="support-faq__answer">In voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="support-faq__item">
+                            <button class="support-faq__question" id="faq-w-q3" aria-expanded="false" aria-controls="faq-w-p3">
+                                <span>Sed ut perspiciatis unde omnis iste natus?</span>
+                                <svg class="support-faq__chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7.5l5 5 5-5"/></svg>
+                            </button>
+                            <div class="support-faq__panel" id="faq-w-p3" role="region" aria-labelledby="faq-w-q3">
+                                <div class="support-faq__panel-inner">
+                                    <p class="support-faq__answer">Error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="support-faq__item">
+                            <button class="support-faq__question" id="faq-w-q4" aria-expanded="false" aria-controls="faq-w-p4">
+                                <span>Nemo enim ipsam voluptatem quia voluptas?</span>
+                                <svg class="support-faq__chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7.5l5 5 5-5"/></svg>
+                            </button>
+                            <div class="support-faq__panel" id="faq-w-p4" role="region" aria-labelledby="faq-w-q4">
+                                <div class="support-faq__panel-inner">
+                                    <p class="support-faq__answer">Aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="support-faq__item">
+                            <button class="support-faq__question" id="faq-w-q5" aria-expanded="false" aria-controls="faq-w-p5">
+                                <span>Quis autem vel eum iure reprehenderit?</span>
+                                <svg class="support-faq__chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7.5l5 5 5-5"/></svg>
+                            </button>
+                            <div class="support-faq__panel" id="faq-w-p5" role="region" aria-labelledby="faq-w-q5">
+                                <div class="support-faq__panel-inner">
+                                    <p class="support-faq__answer">Qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur. At vero eos et accusamus et iusto odio dignissimos.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -2303,6 +2433,27 @@
                 });
             }, { threshold: 0.5 });
             io.observe(status);
+        })();
+
+        // FAQ accordion — one item open per .support-faq group.
+        (function () {
+            document.querySelectorAll('.support-faq').forEach(function (faq) {
+                var items = [].slice.call(faq.querySelectorAll('.support-faq__item'));
+                items.forEach(function (item) {
+                    var btn = item.querySelector('.support-faq__question');
+                    btn.addEventListener('click', function () {
+                        var isOpen = item.classList.contains('is-open');
+                        items.forEach(function (i) {
+                            i.classList.remove('is-open');
+                            i.querySelector('.support-faq__question').setAttribute('aria-expanded', 'false');
+                        });
+                        if (!isOpen) {
+                            item.classList.add('is-open');
+                            btn.setAttribute('aria-expanded', 'true');
+                        }
+                    });
+                });
+            });
         })();
     </script>
 </body>
