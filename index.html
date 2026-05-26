@@ -2108,16 +2108,23 @@
             io.observe(video);
         })();
 
-        // Site status — flip footer indicator from loading to ready
-        // ~1.2s after the page finishes loading. Purely cosmetic.
+        // Site status — when the footer indicator scrolls into view,
+        // hold "Loading status" for 1.2s, then flip to "All systems
+        // operational". One-shot via IntersectionObserver so every
+        // visitor sees the transition regardless of scroll speed.
         (function () {
             var status = document.querySelector('.site-status');
             if (!status) return;
-            var ready = function () {
+            var flip = function () {
                 setTimeout(function () { status.setAttribute('data-state', 'ready'); }, 1200);
             };
-            if (document.readyState === 'complete') ready();
-            else window.addEventListener('load', ready);
+            if (!('IntersectionObserver' in window)) { flip(); return; }
+            var io = new IntersectionObserver(function (entries, obs) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) { flip(); obs.disconnect(); }
+                });
+            }, { threshold: 0.5 });
+            io.observe(status);
         })();
     </script>
 </body>
