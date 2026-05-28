@@ -1663,8 +1663,19 @@
                         closeTimer = null;
                     }
                 };
+                // Drop focus from any link inside the curtain on close —
+                // otherwise .nav-dropdown:focus-within (CSS) pins the curtain
+                // and scrim open after JS removes data-active. Bites hardest
+                // on same-page anchor clicks to ids that don't exist: no
+                // navigation, no scroll, focus stays put.
+                const releaseFocus = () => {
+                    if (dropdown.contains(document.activeElement)) {
+                        document.activeElement.blur();
+                    }
+                };
                 const closeNow = () => {
                     cancelClose();
+                    releaseFocus();
                     delete dropdown.dataset.active;
                     dropdown.classList.remove('is-opening');
                     syncAria();
@@ -1672,6 +1683,7 @@
                 const scheduleClose = () => {
                     if (closeTimer) return;
                     closeTimer = setTimeout(() => {
+                        releaseFocus();
                         delete dropdown.dataset.active;
                         dropdown.classList.remove('is-opening');
                         closeTimer = null;
