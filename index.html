@@ -1251,11 +1251,12 @@
             max-height: none;
         }
         /* The visible card. Regular <div> — universal reset's border-box
-           is reliable here, so max-width caps the OUTER edge cleanly. */
+           is reliable here, so max-width caps the OUTER edge cleanly.
+           !important on width/max-width/box-sizing to defeat any override. */
         .dialog__inner {
-            box-sizing: border-box;
-            width: 100%;
-            max-width: var(--container-max-width);
+            box-sizing: border-box !important;
+            width: 100% !important;
+            max-width: var(--container-max-width) !important;
             max-height: calc(100dvh - 2 * var(--space-xl));
             margin-inline: auto;
             padding: var(--space-xl);
@@ -2101,7 +2102,18 @@
             document.querySelectorAll('[data-dialog-open]').forEach(function (trigger) {
                 var dialog = document.getElementById(trigger.dataset.dialogOpen);
                 if (!dialog) return;
-                trigger.addEventListener('click', function () { dialog.showModal(); });
+                trigger.addEventListener('click', function () {
+                    dialog.showModal();
+                    // TEMP DEBUG — log dialog/inner widths so we can verify
+                    requestAnimationFrame(function () {
+                        var inner = dialog.querySelector('.dialog__inner');
+                        var dRect = dialog.getBoundingClientRect();
+                        var iRect = inner ? inner.getBoundingClientRect() : null;
+                        console.log('[dialog] viewport:', window.innerWidth,
+                            '| .dialog outer:', Math.round(dRect.width),
+                            '| .dialog__inner outer:', iRect ? Math.round(iRect.width) : 'n/a');
+                    });
+                });
             });
             var supportsClosedBy = 'closedBy' in HTMLDialogElement.prototype;
             document.querySelectorAll('dialog').forEach(function (dialog) {
