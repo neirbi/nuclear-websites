@@ -1242,6 +1242,14 @@
                 overlay 200ms ease allow-discrete,
                 display 200ms ease allow-discrete;
         }
+        /* Chrome's UA applies max-width/max-height: calc(100% - 2em - 6px)
+           via dialog:-internal-dialog-in-top-layer (specificity 0,1,1).
+           :modal beats that (0,2,1) so the outer dialog can span the full
+           viewport — the size cap then comes from .dialog__inner's max-width. */
+        .dialog:modal {
+            max-width: none;
+            max-height: none;
+        }
         /* The visible card. Regular <div> — universal reset's border-box
            is reliable here, so max-width caps the OUTER edge cleanly. */
         .dialog__inner {
