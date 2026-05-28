@@ -170,8 +170,9 @@
             --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
 
             /* --- LAYOUT --- */
-            --container-max-width: 87.5rem;  /* 1400px */
+            --container-max-width: 87.5rem;  /* 1400px — outer container ceiling */
             --container-padding: var(--space-md);
+            --container-content-width: calc(var(--container-max-width) - 2 * var(--container-padding));  /* visible content edge (where nav text / body text / media all sit) */
             --measure-wrapper: 61rem;        /* 976px — content wrapper for reading sections */
             --measure-body: 41rem;           /* 656px — running text column for readability */
             --nav-dropdown-bg: var(--color-bg-surface-strong);
@@ -1251,12 +1252,11 @@
             max-height: none;
         }
         /* The visible card. Max-width matches the page's visible content
-           edges (where nav text, page text, page-end-cta video all sit) —
-           i.e. .container's max-width minus its horizontal padding. */
+           edges via the --container-content-width token. */
         .dialog__inner {
             box-sizing: border-box;
             width: 100%;
-            max-width: calc(var(--container-max-width) - 2 * var(--container-padding));
+            max-width: var(--container-content-width);
             max-height: calc(100dvh - 2 * var(--space-xl));
             margin-inline: auto;
             padding: var(--space-xl);
