@@ -1253,6 +1253,7 @@
         /* The visible card. Regular <div> — universal reset's border-box
            is reliable here, so max-width caps the OUTER edge cleanly. */
         .dialog__inner {
+            box-sizing: border-box;
             width: 100%;
             max-width: var(--container-max-width);
             max-height: calc(100dvh - 2 * var(--space-xl));
