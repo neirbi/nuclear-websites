@@ -409,7 +409,7 @@
         .nav-dropdown[data-active="websites"] .nav-dropdown__group[data-group="websites"],
         .nav-dropdown[data-active="apps"] .nav-dropdown__group[data-group="apps"],
         .nav-dropdown[data-active="support"] .nav-dropdown__group[data-group="support"],
-        .nav-dropdown__group:focus-within {
+        .nav-dropdown:not([data-active]) .nav-dropdown__group:focus-within {
             opacity: 1;
             pointer-events: auto;
         }
