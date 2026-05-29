@@ -1581,7 +1581,10 @@
         }
         .books-hero__image {
             position: absolute;
-            top: 16vh;
+            /* Anchor the book's top to where the second title line (WEBSITES)
+               starts — small-scale book covers WEBSITES, then translates down
+               past it as it grows to full size. */
+            top: calc(var(--space-xl) + var(--text-display));
             left: 0;
             right: 0;
             width: 100%;
@@ -1590,18 +1593,18 @@
             z-index: 2;
             transform-origin: top center;
             opacity: 0;
-            transform: translateY(0) scale(0.6);
+            transform: translateY(0) scale(0.7);
             animation: books-hero-book-in 2.5s ease-out forwards;
         }
 
         @keyframes books-hero-book-in {
             from {
                 opacity: 0;
-                transform: translateY(0) scale(0.6);
+                transform: translateY(0) scale(0.7);
             }
             to {
                 opacity: 1;
-                transform: translateY(15vh) scale(1);
+                transform: translateY(20vh) scale(1);
             }
         }
         @keyframes books-hero-title-reveal {
