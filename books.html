@@ -1552,6 +1552,7 @@
             position: relative;
             height: 100%;
             text-align: center;
+            isolation: isolate;
         }
         .books-hero__title {
             position: absolute;
@@ -1563,7 +1564,7 @@
             font-weight: var(--weight-bold);
             line-height: 1.0;
             text-transform: uppercase;
-            z-index: 1;
+            z-index: 0;
             /* Soft diagonal gradient mask — wide transition zone gives
                a feathered fade rather than a hard wipe edge. Starts
                positioned so the transparent half overlaps the element
@@ -1590,7 +1591,7 @@
             width: 100%;
             height: auto;
             display: block;
-            z-index: 2;
+            z-index: 10;
             transform-origin: top center;
             opacity: 0;
             transform: translateY(0) scale(0.7);
