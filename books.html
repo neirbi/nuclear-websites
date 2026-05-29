@@ -1533,22 +1533,24 @@
 
         /* ===========================================
            BOOKS HERO — foundation
-           Full-viewport section; uses the shared .container
-           wrapper so it aligns with nav/footer at 1400px.
+           Section is exactly one viewport tall; the book
+           image renders at its natural width-derived height
+           and is clipped at the section edge (Apple-style).
+           Uses shared .container so it aligns with nav/footer.
            =========================================== */
         .books-hero {
-            min-height: 100vh;
-            min-height: 100dvh;
-            display: flex;
-            align-items: center;
+            height: 100vh;
+            height: 100dvh;
+            overflow: hidden;
         }
         .books-hero > .container {
+            height: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
             gap: var(--space-lg);
-            padding-block: var(--space-xl);
+            padding-top: var(--space-xl);
         }
         .books-hero__title {
             font-size: var(--text-display);
@@ -1563,6 +1565,7 @@
             display: block;
             width: 100%;
             height: auto;
+            flex-shrink: 0;
         }
     </style>
 </head>
