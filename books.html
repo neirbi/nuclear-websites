@@ -1533,39 +1533,35 @@
 
         /* ===========================================
            BOOKS HERO — foundation
-           Full-viewport section, 1400px content cap.
-           Title sits above the book image; image is the
-           transparent product PNG, free to grow into the
-           big-background-word treatment later.
+           Full-viewport section; uses the shared .container
+           wrapper so it aligns with nav/footer at 1400px.
            =========================================== */
         .books-hero {
             min-height: 100vh;
             min-height: 100dvh;
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding-block: var(--space-xl);
         }
-        .books-hero__inner {
-            width: 100%;
-            max-width: 1400px;
-            margin-inline: auto;
-            padding-inline: var(--space-lg);
+        .books-hero > .container {
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
             gap: var(--space-lg);
+            padding-block: var(--space-xl);
         }
         .books-hero__title {
             font-size: var(--text-display);
             font-weight: var(--weight-bold);
-            line-height: 1.1;
+            line-height: 1.0;
             margin: 0;
+        }
+        .books-hero__title-line {
+            display: block;
         }
         .books-hero__image {
             display: block;
-            max-width: min(100%, 32rem);
+            width: 100%;
             height: auto;
         }
     </style>
@@ -1817,8 +1813,11 @@
          =========================================== -->
     <main id="main-content">
         <section class="books-hero" aria-labelledby="books-hero-title">
-            <div class="books-hero__inner">
-                <h1 id="books-hero-title" class="books-hero__title">Nuclear Websites</h1>
+            <div class="container">
+                <h1 id="books-hero-title" class="books-hero__title">
+                    <span class="books-hero__title-line gradient-text gradient-text--success">Nuclear</span>
+                    <span class="books-hero__title-line">Websites</span>
+                </h1>
                 <img
                     class="books-hero__image"
                     src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/NUCLEAR%20WEBSITES%20by%20AGUSTIS%20WAYNE%20Transparent%20Small.png"
