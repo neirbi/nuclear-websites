@@ -1588,19 +1588,21 @@
             height: auto;
             display: block;
             z-index: 2;
+            transform-origin: top center;
             opacity: 0;
-            animation:
-                books-hero-book-fade-in 1s ease-out forwards,
-                books-hero-book-drop 1.8s ease-out 1s forwards;
+            transform: translateY(0) scale(0.6);
+            animation: books-hero-book-in 2.5s ease-out forwards;
         }
 
-        @keyframes books-hero-book-fade-in {
-            from { opacity: 0; }
-            to   { opacity: 1; }
-        }
-        @keyframes books-hero-book-drop {
-            from { transform: translateY(0); }
-            to   { transform: translateY(15vh); }
+        @keyframes books-hero-book-in {
+            from {
+                opacity: 0;
+                transform: translateY(0) scale(0.6);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(15vh) scale(1);
+            }
         }
         @keyframes books-hero-title-reveal {
             from {
