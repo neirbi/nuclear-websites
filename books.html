@@ -1536,12 +1536,12 @@
            Section is one viewport tall; book overlays the
            title and gets clipped at the section edge.
 
-           Sequence (ping-pong, infinite):
-             1. Book fades in (text hidden behind it).
+           One-shot reveal (no loop, no reverse):
+             1. Book fades in (sitting over the title area).
              2. Book translates down to expose the title,
-                while the title's diagonal mask reveals it
-                top-left → bottom-right.
-             3. Reverses back to start and loops.
+                while the title's soft diagonal gradient mask
+                wipes top-left → bottom-right.
+             3. Holds the final state.
            =========================================== */
         .books-hero {
             height: 100vh;
@@ -1564,22 +1564,24 @@
             line-height: 1.0;
             text-transform: uppercase;
             z-index: 1;
-            /* Oversized diagonal mask: starts off-element bottom-right
-               (text hidden), animates to top-left (text fully revealed). */
-            -webkit-mask-image: linear-gradient(135deg, #000 0%, #000 50%, transparent 50%);
-                    mask-image: linear-gradient(135deg, #000 0%, #000 50%, transparent 50%);
-            -webkit-mask-size: 220% 220%;
-                    mask-size: 220% 220%;
+            /* Soft diagonal gradient mask — wide transition zone gives
+               a feathered fade rather than a hard wipe edge. Starts
+               positioned so the transparent half overlaps the element
+               (text hidden); animates to the opaque half (text shown). */
+            -webkit-mask-image: linear-gradient(135deg, #000 0%, #000 30%, transparent 70%, transparent 100%);
+                    mask-image: linear-gradient(135deg, #000 0%, #000 30%, transparent 70%, transparent 100%);
+            -webkit-mask-size: 240% 240%;
+                    mask-size: 240% 240%;
             -webkit-mask-position: 100% 100%;
                     mask-position: 100% 100%;
-            animation: books-hero-title-reveal 5s ease-in-out 1.2s infinite alternate;
+            animation: books-hero-title-reveal 1.8s ease-out 1s forwards;
         }
         .books-hero__title-line {
             display: block;
         }
         .books-hero__image {
             position: absolute;
-            top: 22vh;
+            top: 16vh;
             left: 0;
             right: 0;
             width: 100%;
@@ -1588,8 +1590,8 @@
             z-index: 2;
             opacity: 0;
             animation:
-                books-hero-book-fade-in 1.2s ease-out forwards,
-                books-hero-book-drop 5s ease-in-out 1.2s infinite alternate;
+                books-hero-book-fade-in 1s ease-out forwards,
+                books-hero-book-drop 1.8s ease-out 1s forwards;
         }
 
         @keyframes books-hero-book-fade-in {
