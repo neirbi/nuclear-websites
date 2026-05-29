@@ -1582,10 +1582,6 @@
         }
         .books-hero__image {
             position: absolute;
-            /* Anchor the image box to the top of the section — the PNG's
-               own transparent top-padding pushes the visible book down to
-               roughly the title area on its own. Adjust translate values
-               below to fine-tune the artwork's actual landing position. */
             top: 0;
             left: 0;
             right: 0;
@@ -1594,18 +1590,15 @@
             display: block;
             z-index: 10;
             transform-origin: top center;
-            opacity: 0;
             transform: translateY(0) scale(0.7);
             animation: books-hero-book-in 2.5s ease-out forwards;
         }
 
         @keyframes books-hero-book-in {
             from {
-                opacity: 0;
                 transform: translateY(0) scale(0.7);
             }
             to {
-                opacity: 1;
                 transform: translateY(25vh) scale(1);
             }
         }
