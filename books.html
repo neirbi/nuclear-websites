@@ -1544,27 +1544,22 @@
              3. Holds the final state.
            =========================================== */
         .books-hero {
-            height: 100vh;
-            height: 100dvh;
+            /* Section auto-grows beyond viewport so stage keeps its full
+               100dvh clip *and* the CTA can sit below it. */
         }
         .books-hero > .container {
-            height: 100%;
             text-align: center;
             isolation: isolate;
             padding-top: var(--space-xl);
             color: var(--color-text-primary);
             container-type: inline-size;
-            /* Two stacked wrappers: stage on top (title + book, clipped),
-               cta on the bottom (button + price, always on dark). */
-            display: flex;
-            flex-direction: column;
         }
         .books-hero__stage {
-            /* Fills viewport space above the CTA. overflow:hidden clips
-               the book at its bottom edge (Apple iPhone hero composition).
-               min-height:0 lets the flex item shrink so the CTA fits. */
-            flex: 1;
-            min-height: 0;
+            /* Stage takes a full viewport — book clips at its bottom edge
+               exactly like before (Apple iPhone hero composition). CTA
+               sits below the stage in flow; section grows to fit both. */
+            height: 100vh;
+            height: 100dvh;
             position: relative;
             overflow: hidden;
         }
