@@ -1604,6 +1604,15 @@
             gap: var(--space-sm);
             text-align: center;
         }
+        /* Portrait viewports: book finishes well above the section bottom,
+           leaving a large dark gap. Push the CTA up into that gap (closer
+           to the book's bottom edge) instead of leaving it stranded at the
+           very bottom of the viewport. */
+        @media (orientation: portrait) {
+            .books-hero__cta {
+                bottom: 22dvh;
+            }
+        }
         .books-hero__price {
             /* Mirror .section__body from the index page so body copy
                feels consistent across the site. */
