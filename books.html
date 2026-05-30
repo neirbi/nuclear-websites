@@ -1741,77 +1741,6 @@
             }
         }
 
-        /* ===========================================
-           TAGLINE MARKER — white-tape highlight blocks
-           recreating the book cover's marker treatment.
-           Sits on the page's default background. Rows
-           slide in from the right with a clip-path mask
-           reveal as the section enters viewport.
-           =========================================== */
-        .tagline-marker {
-            padding-block: calc(var(--space-xl) * 1.5);
-            overflow: hidden;
-        }
-        .tagline-marker__stack {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: var(--space-md);
-            text-align: center;
-        }
-        .tagline-marker__row {
-            display: inline-block;
-            padding: 0.35em 0.7em;
-            background: #FFFFFF;
-            color: #000000;
-            font-size: clamp(2rem, 7vw, 5rem);
-            font-weight: var(--weight-bold);
-            text-transform: uppercase;
-            line-height: 1.05;
-            letter-spacing: -0.02em;
-            /* Use individual transform properties so per-row rotation
-               composes with the animated translate without conflict. */
-            rotate: var(--row-rotate, 0deg);
-            /* End state (fallback when scroll-driven timeline unsupported):
-               fully revealed, not translated. */
-            translate: 0 0;
-            clip-path: inset(0 0 0 0);
-            animation: tagline-marker-slide-in 1ms linear both;
-            animation-timeline: view();
-        }
-        .tagline-marker__row:nth-child(1) {
-            --row-rotate: -1.5deg;
-            margin-right: 6%;
-            animation-range: entry 0% entry 50%;
-        }
-        .tagline-marker__row:nth-child(2) {
-            --row-rotate: 0.7deg;
-            animation-range: entry 15% entry 65%;
-        }
-        .tagline-marker__row:nth-child(3) {
-            --row-rotate: -0.8deg;
-            margin-left: 6%;
-            animation-range: entry 30% entry 80%;
-        }
-
-        @keyframes tagline-marker-slide-in {
-            from {
-                translate: 1.5em 0;
-                clip-path: inset(0 0 0 100%);
-            }
-            to {
-                translate: 0 0;
-                clip-path: inset(0 0 0 0);
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .tagline-marker__row {
-                animation: none;
-                translate: 0 0;
-                clip-path: none;
-            }
-        }
     </style>
 </head>
 <body>
@@ -2140,16 +2069,6 @@
             </div>
         </section>
 
-        <section class="tagline-marker" aria-labelledby="tagline-marker-title">
-            <div class="container">
-                <h2 id="tagline-marker-title" class="visually-hidden">How to build a website that actually makes you money</h2>
-                <div class="tagline-marker__stack" aria-hidden="true">
-                    <span class="tagline-marker__row">How to build a</span>
-                    <span class="tagline-marker__row">website that actually</span>
-                    <span class="tagline-marker__row">makes you money</span>
-                </div>
-            </div>
-        </section>
     </main>
 
     <!-- ===========================================
