@@ -1832,6 +1832,150 @@
                 grid-template-columns: repeat(2, 1fr);
             }
         }
+
+        /* ===========================================
+           BUY SECTION — Apple "Buy iPhone 17 Pro" layout,
+           minus the trade-in / monthly-pay pills and the
+           help-choosing footer. Just title + price at
+           top-left, media panel center, model options
+           right with a selectable outline state.
+           =========================================== */
+        .buy {
+            padding-block: var(--space-xl);
+            background-color: var(--color-bg-primary);
+        }
+        .buy__header {
+            margin-bottom: var(--space-xl);
+        }
+        .buy__title {
+            font-size: var(--text-xxl);
+            font-weight: var(--weight-bold);
+            line-height: 1.1;
+            margin: 0 0 var(--space-sm);
+        }
+        .buy__price {
+            font-size: var(--text-md);
+            font-weight: var(--weight-semibold);
+            color: var(--color-text-secondary);
+            margin: 0 0 var(--space-sm);
+        }
+        .buy__note {
+            margin: 0;
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+        }
+        .buy__note .learn-more {
+            margin-top: 0;
+            margin-left: var(--space-xs);
+            font-size: inherit;
+        }
+        .buy__stage {
+            display: grid;
+            grid-template-columns: 1fr 22rem;
+            gap: var(--space-xl);
+            align-items: start;
+        }
+        .buy__media {
+            background-color: var(--color-bg-surface);
+            border-radius: 1.5rem;
+            padding: var(--space-xl);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            aspect-ratio: 4 / 3;
+        }
+        .buy__media-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        .buy__options-title {
+            font-size: var(--text-xl);
+            font-weight: var(--weight-regular);
+            color: var(--color-text-secondary);
+            line-height: 1.2;
+            margin: 0 0 var(--space-md);
+        }
+        .buy__options-title strong {
+            color: var(--color-text-primary);
+            font-weight: var(--weight-bold);
+        }
+        .buy__option-list {
+            border: 0;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+        }
+        .buy__option {
+            display: block;
+            cursor: pointer;
+        }
+        .buy__option input[type="radio"] {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        .buy__option-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-md) var(--space-lg);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: 1rem;
+            background-color: var(--color-bg-primary);
+            transition: border-color var(--transition-base);
+        }
+        .buy__option:hover .buy__option-card {
+            border-color: var(--color-text-tertiary);
+        }
+        /* Selected state: thicker accent outline, compensate padding so
+           layout doesn't jump when the border grows from 1px to 2px. */
+        .buy__option input:checked + .buy__option-card {
+            border: 2px solid var(--color-blue-link);
+            padding: calc(var(--space-md) - 1px) calc(var(--space-lg) - 1px);
+        }
+        .buy__option input:focus-visible + .buy__option-card {
+            outline: 2px solid var(--color-blue-link);
+            outline-offset: 2px;
+        }
+        .buy__option-title {
+            display: block;
+            font-size: var(--text-md);
+            font-weight: var(--weight-bold);
+            line-height: 1.2;
+            margin-bottom: 0.2rem;
+        }
+        .buy__option-detail {
+            display: block;
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+            line-height: 1.3;
+        }
+        .buy__option-price {
+            font-size: var(--text-md);
+            font-weight: var(--weight-semibold);
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 47.99em) {
+            .buy__stage {
+                grid-template-columns: 1fr;
+            }
+            .buy__media {
+                padding: var(--space-lg);
+                aspect-ratio: 1 / 1;
+            }
+        }
     </style>
 </head>
 <body>
@@ -2204,6 +2348,52 @@
                         <h3 class="features-grid__footer-title">See it before you buy.</h3>
                         <p class="features-grid__footer-body">Read the introduction and the first chapter — no email required.</p>
                         <a class="learn-more" href="#preview">Read the preview</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="buy" aria-labelledby="buy-title">
+            <div class="container">
+                <header class="buy__header">
+                    <h2 id="buy-title" class="buy__title">Buy Nuclear Websites</h2>
+                    <p class="buy__price">From $20 to $30</p>
+                    <p class="buy__note">Free worldwide shipping.<a class="learn-more" href="#shipping">Learn more</a></p>
+                </header>
+                <div class="buy__stage">
+                    <div class="buy__media">
+                        <img
+                            class="buy__media-image"
+                            src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/NUCLEAR%20WEBSITES%20by%20AGUSTIS%20WAYNE%20Hardcover%20Side%20Transparent.png"
+                            alt="Nuclear Websites book"
+                            loading="lazy"
+                            decoding="async">
+                    </div>
+                    <div class="buy__options">
+                        <h3 class="buy__options-title"><strong>Cover.</strong> Which is right for you?</h3>
+                        <fieldset class="buy__option-list">
+                            <legend class="visually-hidden">Choose a cover</legend>
+                            <label class="buy__option">
+                                <input type="radio" name="buy-cover" value="soft" checked>
+                                <span class="buy__option-card">
+                                    <span class="buy__option-info">
+                                        <span class="buy__option-title">Soft cover</span>
+                                        <span class="buy__option-detail">Paperback, 200 pages</span>
+                                    </span>
+                                    <span class="buy__option-price">$20</span>
+                                </span>
+                            </label>
+                            <label class="buy__option">
+                                <input type="radio" name="buy-cover" value="hard">
+                                <span class="buy__option-card">
+                                    <span class="buy__option-info">
+                                        <span class="buy__option-title">Hard cover</span>
+                                        <span class="buy__option-detail">Hardback, 200 pages</span>
+                                    </span>
+                                    <span class="buy__option-price">$30</span>
+                                </span>
+                            </label>
+                        </fieldset>
                     </div>
                 </div>
             </div>
