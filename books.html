@@ -1555,6 +1555,11 @@
             isolation: isolate;
             padding-top: var(--space-xl);
             color: var(--color-text-primary);
+            /* Enable container query units (cqi = 1% of inline size) so
+               every layout/animation value below is container-width
+               relative — same composition mobile and desktop, no
+               viewport-unit drift. */
+            container-type: inline-size;
         }
         .books-hero__title {
             display: block;
@@ -1573,26 +1578,34 @@
         }
         .books-hero__image {
             display: block;
-            width: 100%;
+            /* Width: at least 100% of container, but on tall-and-narrow
+               viewports (phones) scale up enough that the book's natural
+               height pushes past the section bottom and clips like on
+               desktop. max() picks whichever sizing rule is bigger. */
+            width: max(100%, 90dvh * 0.66);
             height: auto;
-            /* Negative margin pulls the book up to overlap just the lower
-               portion of the WEBSITES line. ~8% of container width pulls
-               the book ~20% of the SVG height into the title, landing on
-               the bottom third of WEBSITES. */
-            margin-top: -8%;
+            margin-inline: auto;
+            /* End-state overlap with WEBSITES. -6cqi = 6% of container
+               width = book top lands at ~85% of the SVG title height
+               (i.e. covering bottom ~30% of the WEBSITES line). Same
+               proportional composition on every viewport. */
+            margin-top: -6cqi;
             position: relative;
             z-index: 10;
             transform-origin: top center;
-            transform: scale(0.85);
+            /* Start state: book sits higher (more overlap with title) and
+               smaller. translateY in cqi keeps the start/end positions
+               container-relative, not viewport-relative. */
+            transform: translateY(-8cqi) scale(0.85);
             animation: books-hero-book-in 2.5s ease-out forwards;
         }
 
         @keyframes books-hero-book-in {
             from {
-                transform: translateY(0) scale(0.85);
+                transform: translateY(-8cqi) scale(0.85);
             }
             to {
-                transform: translateY(6vh) scale(1);
+                transform: translateY(0) scale(1);
             }
         }
         @keyframes books-hero-title-reveal {
