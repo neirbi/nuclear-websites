@@ -1654,6 +1654,74 @@
                         mask-image: none;
             }
         }
+
+        /* ===========================================
+           BOOK FEATURES — Apple iPhone-spec-callout layout
+           Head copy top-left, hardcover side image in the
+           middle, three spec callouts on the right, body
+           caption below. Stacks on mobile.
+           =========================================== */
+        .book-features {
+            padding-block: var(--space-xl);
+        }
+        .book-features__head {
+            margin-bottom: var(--space-xl);
+            max-width: 36rem;
+        }
+        .book-features__title-line--muted {
+            display: block;
+            color: var(--color-text-secondary);
+        }
+        .book-features__stage {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-xl);
+            align-items: center;
+            margin-bottom: var(--space-xl);
+        }
+        .book-features__image {
+            display: block;
+            width: 100%;
+            max-width: 32rem;
+            height: auto;
+            margin-inline: auto;
+        }
+        .book-features__specs {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            gap: var(--space-xl);
+            align-self: stretch;
+        }
+        .book-features__spec-headline {
+            font-size: var(--text-xl);
+            font-weight: var(--weight-bold);
+            color: var(--color-text-primary);
+            margin: 0 0 var(--space-xs);
+            line-height: 1.1;
+        }
+        .book-features__spec-body {
+            font-size: var(--text-base);
+            color: var(--color-text-secondary);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .book-features__caption {
+            text-align: center;
+        }
+
+        @media (max-width: 47.99em) {
+            .book-features__stage {
+                grid-template-columns: 1fr;
+                gap: var(--space-lg);
+            }
+            .book-features__specs {
+                gap: var(--space-md);
+            }
+        }
     </style>
 </head>
 <body>
@@ -1944,6 +2012,41 @@
                     <a class="btn-pill btn-pill--filled" href="/books#waitlist">Buy</a>
                     <p class="books-hero__price">From $20 to $30</p>
                 </div>
+            </div>
+        </section>
+
+        <section class="book-features" aria-labelledby="book-features-title">
+            <div class="container">
+                <div class="book-features__head">
+                    <p class="section__eyebrow">Inside</p>
+                    <h2 id="book-features-title" class="section__title">
+                        Read once.
+                        <span class="book-features__title-line--muted">Build forever.</span>
+                    </h2>
+                </div>
+                <div class="book-features__stage">
+                    <img
+                        class="book-features__image"
+                        src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/NUCLEAR%20WEBSITES%20by%20AGUSTIS%20WAYNE%20Hardcover%20Side%20Transparent.png"
+                        alt="Nuclear Websites hardcover, side view"
+                        loading="lazy"
+                        decoding="async">
+                    <ul class="book-features__specs">
+                        <li>
+                            <p class="book-features__spec-headline">$380B</p>
+                            <p class="book-features__spec-body">In sales generated<br>by the system</p>
+                        </li>
+                        <li>
+                            <p class="book-features__spec-headline">3 frameworks</p>
+                            <p class="book-features__spec-body">Battle-tested across<br>every page that pays</p>
+                        </li>
+                        <li>
+                            <p class="book-features__spec-headline">200 pages</p>
+                            <p class="book-features__spec-body">No fluff, no filler<br>finish it in a weekend</p>
+                        </li>
+                    </ul>
+                </div>
+                <p class="section__body book-features__caption">Every page earns its place. The same system behind the websites quietly making the most money on the internet — printed, bound, and yours to keep.</p>
             </div>
         </section>
     </main>
