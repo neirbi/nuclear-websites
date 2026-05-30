@@ -1742,14 +1742,13 @@
         }
 
         /* ===========================================
-           TAGLINE MARKER — mimics the book cover's
-           white-tape highlight blocks over a cyan field,
-           with a scroll-driven marker-wipe entrance.
-           Pure CSS (animation-timeline: view()); falls
-           back to the final visible state where unsupported.
+           TAGLINE MARKER — white-tape highlight blocks
+           recreating the book cover's marker treatment.
+           Sits on the page's default background. Rows
+           slide in from the right with a clip-path mask
+           reveal as the section enters viewport.
            =========================================== */
         .tagline-marker {
-            background-color: var(--color-teal-300);
             padding-block: calc(var(--space-xl) * 1.5);
             overflow: hidden;
         }
@@ -1770,35 +1769,46 @@
             text-transform: uppercase;
             line-height: 1.05;
             letter-spacing: -0.02em;
-            /* Marker-wipe entrance: clip from a full-width inset (hidden)
-               to no inset (fully revealed) as the element scrolls into
-               view. Each row has its own animation-range so they stagger. */
-            animation: tagline-marker-wipe 1ms linear both;
+            /* Use individual transform properties so per-row rotation
+               composes with the animated translate without conflict. */
+            rotate: var(--row-rotate, 0deg);
+            /* End state (fallback when scroll-driven timeline unsupported):
+               fully revealed, not translated. */
+            translate: 0 0;
+            clip-path: inset(0 0 0 0);
+            animation: tagline-marker-slide-in 1ms linear both;
             animation-timeline: view();
         }
         .tagline-marker__row:nth-child(1) {
-            transform: rotate(-1.5deg);
+            --row-rotate: -1.5deg;
             margin-right: 6%;
-            animation-range: entry 10% cover 25%;
+            animation-range: entry 5% cover 20%;
         }
         .tagline-marker__row:nth-child(2) {
-            transform: rotate(0.7deg);
-            animation-range: entry 25% cover 40%;
+            --row-rotate: 0.7deg;
+            animation-range: entry 20% cover 35%;
         }
         .tagline-marker__row:nth-child(3) {
-            transform: rotate(-0.8deg);
+            --row-rotate: -0.8deg;
             margin-left: 6%;
-            animation-range: entry 40% cover 55%;
+            animation-range: entry 35% cover 50%;
         }
 
-        @keyframes tagline-marker-wipe {
-            from { clip-path: inset(0 100% 0 0); }
-            to   { clip-path: inset(0 0 0 0); }
+        @keyframes tagline-marker-slide-in {
+            from {
+                translate: 1.5em 0;
+                clip-path: inset(0 0 0 100%);
+            }
+            to {
+                translate: 0 0;
+                clip-path: inset(0 0 0 0);
+            }
         }
 
         @media (prefers-reduced-motion: reduce) {
             .tagline-marker__row {
                 animation: none;
+                translate: 0 0;
                 clip-path: none;
             }
         }
