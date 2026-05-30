@@ -1544,9 +1544,8 @@
              3. Holds the final state.
            =========================================== */
         .books-hero {
-            height: 100vh;
-            height: 100dvh;
-            overflow: hidden;
+            min-height: 100vh;
+            min-height: 100dvh;
         }
         .books-hero > .container {
             position: relative;
@@ -1578,52 +1577,43 @@
         }
         .books-hero__image {
             display: block;
-            /* On wide viewports 100% wins → book is container-width.
-               On tall-narrow viewports (phones) 75dvh wins → book becomes
-               taller than the section and clips at the bottom edge. The
-               book overflows horizontally too in that case and the section
-               overflow:hidden crops the sides — Apple iPhone hero pattern. */
-            width: max(100%, 75dvh);
+            width: 100%;
             height: auto;
-            /* End-state overlap with WEBSITES. */
+            margin-inline: auto;
             margin-top: -9cqi;
-            /* Centering for the wider-than-container case: push the left
-               edge to container center via margin, then translate left by
-               half the element's own width via transform. */
-            margin-left: 50%;
             position: relative;
             z-index: 10;
             transform-origin: top center;
-            transform: translateX(-50%) translateY(-8cqi) scale(0.85);
+            transform: translateY(-8cqi) scale(0.85);
             animation: books-hero-book-in 2.5s ease-out forwards;
         }
 
         .books-hero__cta {
-            /* Floats over the book near the bottom of the visible section
-               area — Apple's iPhone-17-Pro "Buy / From $1099" block. */
-            position: absolute;
-            left: 50%;
-            bottom: var(--space-xl);
-            transform: translateX(-50%);
-            z-index: 20;
+            /* Flow below the book on every viewport — keeps the CTA on
+               the dark background where contrast is clean. */
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: var(--space-sm);
+            margin-top: var(--space-lg);
             text-align: center;
         }
         .books-hero__price {
+            /* Mirror .section__body from the index page so body copy
+               feels consistent across the site. */
             margin: 0;
-            font-size: var(--text-base);
-            color: var(--color-text-primary);
+            font-size: var(--text-md);
+            font-weight: var(--weight-semibold);
+            color: var(--color-text-secondary);
+            line-height: 1.2;
         }
 
         @keyframes books-hero-book-in {
             from {
-                transform: translateX(-50%) translateY(-8cqi) scale(0.85);
+                transform: translateY(-8cqi) scale(0.85);
             }
             to {
-                transform: translateX(-50%) translateY(0) scale(1);
+                transform: translateY(0) scale(1);
             }
         }
         @keyframes books-hero-title-reveal {
