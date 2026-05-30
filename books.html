@@ -1674,9 +1674,12 @@
         }
         .book-features__stage {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: auto auto;
             gap: var(--space-xl);
+            justify-content: center;
             align-items: center;
+            max-width: 60rem;
+            margin-inline: auto;
             margin-bottom: var(--space-xl);
         }
         .book-features__image {
