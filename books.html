@@ -1562,7 +1562,7 @@
             margin: 0;
             font-size: var(--text-display);
             font-weight: var(--weight-bold);
-            line-height: 1.0;
+            line-height: 1.2;
             text-transform: uppercase;
             z-index: 0;
             /* Diagonal gradient mask. Tight transition zone (45%/55%) for
@@ -1580,10 +1580,10 @@
         }
         .books-hero__image {
             position: absolute;
-            /* Anchor the book to the title's vertical midpoint so it covers
-               WEBSITES (the bottom title line) from frame 1, mirroring
-               Apple's iPhone-covers-lower-half-of-PRO read. */
-            top: calc(var(--space-xl) + var(--text-display));
+            /* Anchor the book to the title's vertical midpoint (= top of the
+               WEBSITES line) so it covers the lower half from frame 1.
+               text-display * 1.2 matches the title's line-height. */
+            top: calc(var(--space-xl) + var(--text-display) * 1.2);
             left: 0;
             right: 0;
             width: 100%;
