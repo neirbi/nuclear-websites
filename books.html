@@ -1565,12 +1565,10 @@
             line-height: 1.0;
             text-transform: uppercase;
             z-index: 0;
-            /* Soft diagonal gradient mask — wide transition zone gives
-               a feathered fade rather than a hard wipe edge. Starts
-               positioned so the transparent half overlaps the element
-               (text hidden); animates to the opaque half (text shown). */
-            -webkit-mask-image: linear-gradient(135deg, #000 0%, #000 30%, transparent 70%, transparent 100%);
-                    mask-image: linear-gradient(135deg, #000 0%, #000 30%, transparent 70%, transparent 100%);
+            /* Diagonal gradient mask. Tight transition zone (45%/55%) for
+               a crisp reveal edge — wider gaps look blurry/out-of-focus. */
+            -webkit-mask-image: linear-gradient(135deg, #000 0%, #000 45%, transparent 55%, transparent 100%);
+                    mask-image: linear-gradient(135deg, #000 0%, #000 45%, transparent 55%, transparent 100%);
             -webkit-mask-size: 240% 240%;
                     mask-size: 240% 240%;
             -webkit-mask-position: 100% 100%;
