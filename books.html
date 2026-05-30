@@ -1544,8 +1544,9 @@
              3. Holds the final state.
            =========================================== */
         .books-hero {
-            min-height: 100vh;
-            min-height: 100dvh;
+            height: 100vh;
+            height: 100dvh;
+            overflow: hidden;
         }
         .books-hero > .container {
             position: relative;
@@ -1589,13 +1590,18 @@
         }
 
         .books-hero__cta {
-            /* Flow below the book on every viewport — keeps the CTA on
-               the dark background where contrast is clean. */
+            /* Sit at the bottom of the (clipped) section so the CTA lands
+               in the dark area on mobile (where the book naturally fits
+               above) and over the book on desktop (where it clips). */
+            position: absolute;
+            left: 50%;
+            bottom: var(--space-xl);
+            transform: translateX(-50%);
+            z-index: 20;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: var(--space-sm);
-            margin-top: var(--space-lg);
             text-align: center;
         }
         .books-hero__price {
@@ -1923,7 +1929,7 @@
                     fetchpriority="high">
                 <div class="books-hero__cta">
                     <a class="btn-pill btn-pill--filled" href="/books#waitlist">Buy</a>
-                    <p class="books-hero__price">From $20 or $30</p>
+                    <p class="books-hero__price">From $20 to $30</p>
                 </div>
             </div>
         </section>
