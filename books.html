@@ -1560,9 +1560,13 @@
             left: 0;
             right: 0;
             margin: 0;
-            font-size: var(--text-display);
+            /* Hero-only mega scale. --text-display caps at 72px which reads
+               small against the page-end CTA (that one's an SVG-mask trick,
+               not the token). Apple-product-hero range here: ~64px mobile
+               → ~208px wide desktop. */
+            font-size: clamp(4rem, 16vw, 13rem);
             font-weight: var(--weight-bold);
-            line-height: 1.2;
+            line-height: 1.05;
             text-transform: uppercase;
             z-index: 0;
             /* Diagonal gradient mask. Tight transition zone (45%/55%) for
@@ -1580,10 +1584,10 @@
         }
         .books-hero__image {
             position: absolute;
-            /* Anchor the book to the title's vertical midpoint (= top of the
-               WEBSITES line) so it covers the lower half from frame 1.
-               text-display * 1.2 matches the title's line-height. */
-            top: calc(var(--space-xl) + var(--text-display) * 1.2);
+            /* Anchor the book to the top of the second title line so it
+               covers WEBSITES from frame 1. Matches the title's
+               clamp(4rem, 16vw, 13rem) * line-height 1.05. */
+            top: calc(var(--space-xl) + clamp(4rem, 16vw, 13rem) * 1.05);
             left: 0;
             right: 0;
             width: 100%;
