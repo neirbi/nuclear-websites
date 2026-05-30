@@ -1575,11 +1575,11 @@
             display: block;
             width: 100%;
             height: auto;
-            /* Negative margin pulls the book up over the title's second line
-               so it covers WEBSITES from frame 1, mirroring Apple's
-               iPhone-over-PRO read. ~19% of container width ≈ 50% of the
-               title SVG's height (viewBox aspect 2048:800). */
-            margin-top: -19%;
+            /* Negative margin pulls the book up to overlap just the lower
+               portion of the WEBSITES line. ~8% of container width pulls
+               the book ~20% of the SVG height into the title, landing on
+               the bottom third of WEBSITES. */
+            margin-top: -8%;
             position: relative;
             z-index: 10;
             transform-origin: top center;
