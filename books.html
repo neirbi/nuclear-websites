@@ -1546,20 +1546,27 @@
         .books-hero {
             height: 100vh;
             height: 100dvh;
-            overflow: hidden;
         }
         .books-hero > .container {
-            position: relative;
             height: 100%;
             text-align: center;
             isolation: isolate;
             padding-top: var(--space-xl);
             color: var(--color-text-primary);
-            /* Enable container query units (cqi = 1% of inline size) so
-               every layout/animation value below is container-width
-               relative — same composition mobile and desktop, no
-               viewport-unit drift. */
             container-type: inline-size;
+            /* Two stacked wrappers: stage on top (title + book, clipped),
+               cta on the bottom (button + price, always on dark). */
+            display: flex;
+            flex-direction: column;
+        }
+        .books-hero__stage {
+            /* Fills viewport space above the CTA. overflow:hidden clips
+               the book at its bottom edge (Apple iPhone hero composition).
+               min-height:0 lets the flex item shrink so the CTA fits. */
+            flex: 1;
+            min-height: 0;
+            position: relative;
+            overflow: hidden;
         }
         .books-hero__title {
             display: block;
@@ -1590,28 +1597,14 @@
         }
 
         .books-hero__cta {
-            /* Sit at the bottom of the (clipped) section so the CTA lands
-               in the dark area on mobile (where the book naturally fits
-               above) and over the book on desktop (where it clips). */
-            position: absolute;
-            left: 50%;
-            bottom: var(--space-xl);
-            transform: translateX(-50%);
-            z-index: 20;
+            /* Sits below the clipped stage, in normal flow → always on
+               dark, never competes with the book's cyan for contrast. */
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: var(--space-sm);
+            padding-block: var(--space-lg);
             text-align: center;
-        }
-        /* Portrait viewports: book finishes well above the section bottom,
-           leaving a large dark gap. Push the CTA up into that gap (closer
-           to the book's bottom edge) instead of leaving it stranded at the
-           very bottom of the viewport. */
-        @media (orientation: portrait) {
-            .books-hero__cta {
-                bottom: 22dvh;
-            }
         }
         .books-hero__price {
             /* Mirror .section__body from the index page so body copy
@@ -1903,6 +1896,7 @@
         <section class="books-hero" aria-labelledby="books-hero-title">
             <div class="container">
                 <h1 id="books-hero-title" class="visually-hidden">Nuclear Websites</h1>
+                <div class="books-hero__stage">
                 <svg class="books-hero__title"
                      viewBox="0 0 2048 800"
                      preserveAspectRatio="xMidYMid meet"
@@ -1936,6 +1930,7 @@
                     alt="Nuclear Websites book by Agustis Wayne"
                     decoding="async"
                     fetchpriority="high">
+                </div>
                 <div class="books-hero__cta">
                     <a class="btn-pill btn-pill--filled" href="/books#waitlist">Buy</a>
                     <p class="books-hero__price">From $20 to $30</p>
