@@ -1731,6 +1731,68 @@
                 gap: var(--space-md);
             }
         }
+
+        /* ===========================================
+           TAGLINE MARKER — mimics the book cover's
+           white-tape highlight blocks over a cyan field,
+           with a scroll-driven marker-wipe entrance.
+           Pure CSS (animation-timeline: view()); falls
+           back to the final visible state where unsupported.
+           =========================================== */
+        .tagline-marker {
+            background-color: var(--color-teal-300);
+            padding-block: calc(var(--space-xl) * 1.5);
+            overflow: hidden;
+        }
+        .tagline-marker__stack {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-md);
+            text-align: center;
+        }
+        .tagline-marker__row {
+            display: inline-block;
+            padding: 0.35em 0.7em;
+            background: #FFFFFF;
+            color: #000000;
+            font-size: clamp(2rem, 7vw, 5rem);
+            font-weight: var(--weight-bold);
+            text-transform: uppercase;
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+            /* Marker-wipe entrance: clip from a full-width inset (hidden)
+               to no inset (fully revealed) as the element scrolls into
+               view. Each row has its own animation-range so they stagger. */
+            animation: tagline-marker-wipe 1ms linear both;
+            animation-timeline: view();
+        }
+        .tagline-marker__row:nth-child(1) {
+            transform: rotate(-1.5deg);
+            margin-right: 6%;
+            animation-range: entry 10% cover 25%;
+        }
+        .tagline-marker__row:nth-child(2) {
+            transform: rotate(0.7deg);
+            animation-range: entry 25% cover 40%;
+        }
+        .tagline-marker__row:nth-child(3) {
+            transform: rotate(-0.8deg);
+            margin-left: 6%;
+            animation-range: entry 40% cover 55%;
+        }
+
+        @keyframes tagline-marker-wipe {
+            from { clip-path: inset(0 100% 0 0); }
+            to   { clip-path: inset(0 0 0 0); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .tagline-marker__row {
+                animation: none;
+                clip-path: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -2056,6 +2118,17 @@
                     </ul>
                 </div>
                 <p class="section__body book-features__caption"><span class="section__body-emphasis">Every page earns its place.</span> The same system behind the websites quietly making the most money on the internet — printed, bound, and yours to keep.</p>
+            </div>
+        </section>
+
+        <section class="tagline-marker" aria-labelledby="tagline-marker-title">
+            <div class="container">
+                <h2 id="tagline-marker-title" class="visually-hidden">How to build a website that actually makes you money</h2>
+                <div class="tagline-marker__stack" aria-hidden="true">
+                    <span class="tagline-marker__row">How to build a</span>
+                    <span class="tagline-marker__row">website that actually</span>
+                    <span class="tagline-marker__row">makes you money</span>
+                </div>
             </div>
         </section>
     </main>
