@@ -1727,8 +1727,17 @@
                 grid-template-columns: 1fr;
                 gap: var(--space-lg);
             }
+            .book-features__image {
+                /* Override desktop grid-column:2 — stacked layout means
+                   the image gets its own row and can fill the width. */
+                grid-column: auto;
+                max-width: 100%;
+            }
             .book-features__specs {
+                grid-column: auto;
+                justify-self: stretch;
                 gap: var(--space-md);
+                text-align: center;
             }
         }
 
