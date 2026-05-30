@@ -1585,11 +1585,11 @@
             width: max(100%, 90dvh * 0.66);
             height: auto;
             margin-inline: auto;
-            /* End-state overlap with WEBSITES. -6cqi = 6% of container
-               width = book top lands at ~85% of the SVG title height
-               (i.e. covering bottom ~30% of the WEBSITES line). Same
-               proportional composition on every viewport. */
-            margin-top: -6cqi;
+            /* End-state overlap with WEBSITES. -9cqi pulls the book top up
+               into the bottom ~third of the WEBSITES letterforms — not
+               kissing the baseline like -6cqi, actually clipping into the
+               glyphs. Same proportional composition on every viewport. */
+            margin-top: -9cqi;
             position: relative;
             z-index: 10;
             transform-origin: top center;
