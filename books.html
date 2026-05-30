@@ -1544,15 +1544,16 @@
              3. Holds the final state.
            =========================================== */
         .books-hero {
-            /* Adaptive section size: width:height ratio 100:110 (slightly
-               portrait), capped at viewport height. On wide viewports the
-               cap wins → full 100dvh, book clips because it's bigger than
-               available height. On portrait phones/tablets the ratio wins
-               → section is shorter than viewport, so the book clips at
-               section bottom the same way without needing to be oversized
-               horizontally (no side cropping). */
-            aspect-ratio: 100 / 110;
-            max-height: 100dvh;
+            /* Adaptive height: 100dvh on wide viewports, but capped at
+               110% of viewport width on portrait so the section is
+               shorter than the viewport and the book clips at the
+               bottom edge naturally (no horizontal overflow needed).
+               Using min() on height directly instead of aspect-ratio
+               so the section width stays full-viewport — aspect-ratio
+               + max-height would auto-shrink the width to preserve
+               the ratio and leave the content left-aligned in the
+               viewport. */
+            height: min(100dvh, calc(100vw * 1.1));
             overflow: hidden;
         }
         .books-hero > .container {
