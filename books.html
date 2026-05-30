@@ -1672,13 +1672,14 @@
             display: block;
         }
         .book-features__stage {
+            /* Three-column grid: equal-width spacers on the outside
+               flanking the image, so the book sits perfectly centered
+               in the container (and therefore in the viewport). Specs
+               occupy the right spacer column. */
             display: grid;
-            grid-template-columns: auto auto;
+            grid-template-columns: 1fr auto 1fr;
             gap: var(--space-xl);
-            justify-content: center;
             align-items: center;
-            max-width: 60rem;
-            margin-inline: auto;
             margin-bottom: var(--space-xl);
         }
         .book-features__image {
@@ -1686,7 +1687,7 @@
             width: 100%;
             max-width: 32rem;
             height: auto;
-            margin-inline: auto;
+            grid-column: 2;
         }
         .book-features__specs {
             list-style: none;
@@ -1697,6 +1698,8 @@
             justify-content: space-around;
             gap: var(--space-xl);
             align-self: stretch;
+            grid-column: 3;
+            justify-self: start;
         }
         .book-features__spec-headline {
             font-size: var(--text-xl);
