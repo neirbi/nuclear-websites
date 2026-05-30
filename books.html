@@ -1741,6 +1741,83 @@
             }
         }
 
+        /* ===========================================
+           FEATURES GRID — Apple "Worth the upgrade?"
+           pattern: section bg (page color) → rounded panel
+           (surface color) → tiles inside (page color). The
+           contrast of panel-vs-tile gives the layered look.
+           =========================================== */
+        .features-grid {
+            padding-block: var(--space-xl);
+            background-color: var(--color-bg-primary);
+        }
+        .features-grid__panel {
+            background-color: var(--color-bg-surface);
+            border-radius: 1.5rem;
+            padding: var(--space-xl);
+        }
+        .features-grid__head {
+            max-width: 38rem;
+            margin-bottom: var(--space-xl);
+        }
+        .features-grid__head .section__body {
+            margin: var(--space-md) 0 0;
+        }
+        .features-grid__tiles {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-md);
+        }
+        .features-grid__tile {
+            background-color: var(--color-bg-primary);
+            border-radius: 1.25rem;
+            padding: var(--space-lg);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xs);
+        }
+        .features-grid__tile-eyebrow {
+            font-size: var(--text-sm);
+            font-weight: var(--weight-bold);
+            color: var(--color-text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin: 0;
+        }
+        .features-grid__tile-title {
+            font-size: var(--text-lg);
+            font-weight: var(--weight-bold);
+            line-height: 1.2;
+            margin: 0;
+        }
+        .features-grid__tile-body {
+            font-size: var(--text-base);
+            color: var(--color-text-secondary);
+            line-height: 1.4;
+            margin: 0;
+        }
+        .features-grid__tile .learn-more {
+            margin-top: auto;
+            padding-top: var(--space-sm);
+        }
+
+        @media (max-width: 47.99em) {
+            .features-grid__panel {
+                padding: var(--space-lg);
+                border-radius: 1.25rem;
+            }
+            .features-grid__tiles {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (min-width: 48em) and (max-width: 64em) {
+            .features-grid__tiles {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
     </style>
 </head>
 <body>
@@ -2066,6 +2143,56 @@
                     </ul>
                 </div>
                 <p class="section__body book-features__caption"><span class="section__body-emphasis">Every page earns its place.</span> The same system behind the websites quietly making the most money on the internet — printed, bound, and yours to keep.</p>
+            </div>
+        </section>
+
+        <section class="features-grid" aria-labelledby="features-grid-title">
+            <div class="container">
+                <div class="features-grid__panel">
+                    <div class="features-grid__head">
+                        <p class="section__eyebrow">A few ways</p>
+                        <h2 id="features-grid-title" class="section__title">Nuclear Websites gives you more.</h2>
+                        <p class="section__body">A quick tour of what's actually between the covers.</p>
+                    </div>
+                    <ul class="features-grid__tiles">
+                        <li class="features-grid__tile">
+                            <p class="features-grid__tile-eyebrow">Foundations</p>
+                            <h3 class="features-grid__tile-title">The 3 questions every page must answer</h3>
+                            <p class="features-grid__tile-body">Why the first five seconds decide everything else, and how to win them every time.</p>
+                            <a class="learn-more" href="#foundations">Learn more</a>
+                        </li>
+                        <li class="features-grid__tile">
+                            <p class="features-grid__tile-eyebrow">Conversion</p>
+                            <h3 class="features-grid__tile-title">Words that move money</h3>
+                            <p class="features-grid__tile-body">Copy frameworks for turning attention into action — without sounding like a billboard.</p>
+                            <a class="learn-more" href="#conversion">Learn more</a>
+                        </li>
+                        <li class="features-grid__tile">
+                            <p class="features-grid__tile-eyebrow">Speed</p>
+                            <h3 class="features-grid__tile-title">Fast is the new pretty</h3>
+                            <p class="features-grid__tile-body">How a half-second delay tanks revenue and the simplest fixes that claw it back.</p>
+                            <a class="learn-more" href="#speed">Learn more</a>
+                        </li>
+                        <li class="features-grid__tile">
+                            <p class="features-grid__tile-eyebrow">Trust</p>
+                            <h3 class="features-grid__tile-title">Proof beats promises</h3>
+                            <p class="features-grid__tile-body">The signals high-converting pages use to feel credible before a word is read.</p>
+                            <a class="learn-more" href="#trust">Learn more</a>
+                        </li>
+                        <li class="features-grid__tile">
+                            <p class="features-grid__tile-eyebrow">Layout</p>
+                            <h3 class="features-grid__tile-title">The grid that prints money</h3>
+                            <p class="features-grid__tile-body">The visual scaffold every page that sells is built on — and where most pages get it wrong.</p>
+                            <a class="learn-more" href="#layout">Learn more</a>
+                        </li>
+                        <li class="features-grid__tile">
+                            <p class="features-grid__tile-eyebrow">Funnels</p>
+                            <h3 class="features-grid__tile-title">From visit to purchase</h3>
+                            <p class="features-grid__tile-body">What actually has to happen between a click and a credit card — step by step.</p>
+                            <a class="learn-more" href="#funnels">Learn more</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </section>
 
