@@ -1553,21 +1553,13 @@
             height: 100%;
             text-align: center;
             isolation: isolate;
+            padding-top: var(--space-xl);
+            color: var(--color-text-primary);
         }
         .books-hero__title {
-            position: absolute;
-            top: var(--space-xl);
-            left: 0;
-            right: 0;
-            margin: 0;
-            /* Hero-only mega scale. --text-display caps at 72px which reads
-               small against the page-end CTA (that one's an SVG-mask trick,
-               not the token). Apple-product-hero range here: ~64px mobile
-               → ~208px wide desktop. */
-            font-size: clamp(4rem, 16vw, 13rem);
-            font-weight: var(--weight-bold);
-            line-height: 1.05;
-            text-transform: uppercase;
+            display: block;
+            width: 100%;
+            height: auto;
             z-index: 0;
             /* Diagonal gradient mask. Tight transition zone (45%/55%) for
                a crisp reveal edge — wider gaps look blurry/out-of-focus. */
@@ -1579,23 +1571,19 @@
                     mask-position: 100% 100%;
             animation: books-hero-title-reveal 2s ease-out 0.2s forwards;
         }
-        .books-hero__title-line {
-            display: block;
-        }
         .books-hero__image {
-            position: absolute;
-            /* Anchor the book to the top of the second title line so it
-               covers WEBSITES from frame 1. Matches the title's
-               clamp(4rem, 16vw, 13rem) * line-height 1.05. */
-            top: calc(var(--space-xl) + clamp(4rem, 16vw, 13rem) * 1.05);
-            left: 0;
-            right: 0;
+            display: block;
             width: 100%;
             height: auto;
-            display: block;
+            /* Negative margin pulls the book up over the title's second line
+               so it covers WEBSITES from frame 1, mirroring Apple's
+               iPhone-over-PRO read. ~19% of container width ≈ 50% of the
+               title SVG's height (viewBox aspect 2048:800). */
+            margin-top: -19%;
+            position: relative;
             z-index: 10;
             transform-origin: top center;
-            transform: translateY(0) scale(0.85);
+            transform: scale(0.85);
             animation: books-hero-book-in 2.5s ease-out forwards;
         }
 
@@ -1604,7 +1592,7 @@
                 transform: translateY(0) scale(0.85);
             }
             to {
-                transform: translateY(8vh) scale(1);
+                transform: translateY(6vh) scale(1);
             }
         }
         @keyframes books-hero-title-reveal {
@@ -1878,10 +1866,34 @@
     <main id="main-content">
         <section class="books-hero" aria-labelledby="books-hero-title">
             <div class="container">
-                <h1 id="books-hero-title" class="books-hero__title">
-                    <span class="books-hero__title-line gradient-text gradient-text--success">Nuclear</span>
-                    <span class="books-hero__title-line">Websites</span>
-                </h1>
+                <h1 id="books-hero-title" class="visually-hidden">Nuclear Websites</h1>
+                <svg class="books-hero__title"
+                     viewBox="0 0 2048 800"
+                     preserveAspectRatio="xMidYMid meet"
+                     aria-hidden="true">
+                    <defs>
+                        <linearGradient id="books-hero-nuclear-grad" x1="0" y1="0" x2="1" y2="0">
+                            <stop offset="0%" stop-color="#7FE3B0" />
+                            <stop offset="100%" stop-color="#2FAE6F" />
+                        </linearGradient>
+                    </defs>
+                    <text x="1024" y="400"
+                          text-anchor="middle"
+                          dominant-baseline="middle"
+                          font-family="Inter, -apple-system, BlinkMacSystemFont, Roboto, sans-serif"
+                          font-weight="900">
+                        <tspan x="1024" dy="-0.5em"
+                               font-size="360"
+                               textLength="2048"
+                               lengthAdjust="spacingAndGlyphs"
+                               fill="url(#books-hero-nuclear-grad)">NUCLEAR</tspan>
+                        <tspan x="1024" dy="1.0em"
+                               font-size="360"
+                               textLength="2048"
+                               lengthAdjust="spacingAndGlyphs"
+                               fill="currentColor">WEBSITES</tspan>
+                    </text>
+                </svg>
                 <img
                     class="books-hero__image"
                     src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/NUCLEAR%20WEBSITES%20by%20AGUSTIS%20WAYNE%20Transparent%20Small.png"
