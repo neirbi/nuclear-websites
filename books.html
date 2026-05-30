@@ -1555,13 +1555,22 @@
             container-type: inline-size;
         }
         .books-hero__stage {
-            /* Stage takes a full viewport — book clips at its bottom edge
-               exactly like before (Apple iPhone hero composition). CTA
-               sits below the stage in flow; section grows to fit both. */
-            height: 100vh;
-            height: 100dvh;
+            /* Mobile-first: stage hugs the book's natural height — no
+               empty dark gap before the CTA, since phone real estate is
+               at a premium. Desktop opts into the full-viewport clip
+               below via a media query. */
             position: relative;
             overflow: hidden;
+        }
+        @media (min-width: 48em) {
+            .books-hero__stage {
+                /* Desktop: stage takes a full viewport so the book clips
+                   at the bottom edge (Apple iPhone hero composition).
+                   CTA sits below the stage; section grows past 100dvh
+                   for the CTA in flow. */
+                height: 100vh;
+                height: 100dvh;
+            }
         }
         .books-hero__title {
             display: block;
