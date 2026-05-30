@@ -1555,21 +1555,20 @@
             container-type: inline-size;
         }
         .books-hero__stage {
-            /* Mobile-first: stage height is container-width-relative
-               (130% of container width via 130cqi) so the book's bottom
-               clips at the stage edge the same way it does on desktop —
-               just at the smaller container scale. Adjust the multiplier
-               to clip more (smaller, e.g. 115cqi) or less (larger). */
+            /* Mobile-first: clip via aspect-ratio (more reliable than cqi
+               since it doesn't depend on knowing the book's exact aspect).
+               4:5 = stage is 1.25× taller than wide; the book's natural
+               height exceeds that on mobile and clips at the bottom. */
             position: relative;
             overflow: hidden;
-            height: 130cqi;
+            aspect-ratio: 4 / 5;
         }
         @media (min-width: 48em) {
             .books-hero__stage {
-                /* Desktop: stage takes a full viewport so the book clips
-                   at the bottom edge (Apple iPhone hero composition).
-                   CTA sits below the stage; section grows past 100dvh
-                   for the CTA in flow. */
+                /* Desktop: drop the aspect-ratio, stage takes a full
+                   viewport so the book clips against the viewport bottom
+                   (Apple iPhone hero composition). */
+                aspect-ratio: auto;
                 height: 100vh;
                 height: 100dvh;
             }
