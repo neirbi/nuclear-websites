@@ -1555,12 +1555,14 @@
             container-type: inline-size;
         }
         .books-hero__stage {
-            /* Mobile-first: stage hugs the book's natural height — no
-               empty dark gap before the CTA, since phone real estate is
-               at a premium. Desktop opts into the full-viewport clip
-               below via a media query. */
+            /* Mobile-first: stage height is container-width-relative
+               (130% of container width via 130cqi) so the book's bottom
+               clips at the stage edge the same way it does on desktop —
+               just at the smaller container scale. Adjust the multiplier
+               to clip more (smaller, e.g. 115cqi) or less (larger). */
             position: relative;
             overflow: hidden;
+            height: 130cqi;
         }
         @media (min-width: 48em) {
             .books-hero__stage {
