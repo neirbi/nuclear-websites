@@ -1598,6 +1598,26 @@
             animation: books-hero-book-in 2.5s ease-out forwards;
         }
 
+        .books-hero__cta {
+            /* Floats over the book near the bottom of the visible section
+               area — Apple's iPhone-17-Pro "Buy / From $1099" block. */
+            position: absolute;
+            left: 50%;
+            bottom: var(--space-xl);
+            transform: translateX(-50%);
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-sm);
+            text-align: center;
+        }
+        .books-hero__price {
+            margin: 0;
+            font-size: var(--text-base);
+            color: var(--color-text-primary);
+        }
+
         @keyframes books-hero-book-in {
             from {
                 transform: translateX(-50%) translateY(-8cqi) scale(0.85);
@@ -1911,6 +1931,10 @@
                     alt="Nuclear Websites book by Agustis Wayne"
                     decoding="async"
                     fetchpriority="high">
+                <div class="books-hero__cta">
+                    <a class="btn-pill btn-pill--filled" href="/books#waitlist">Buy</a>
+                    <p class="books-hero__price">From $20 or $30</p>
+                </div>
             </div>
         </section>
     </main>
