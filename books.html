@@ -1555,13 +1555,17 @@
             container-type: inline-size;
         }
         .books-hero__stage {
-            /* Mobile-first: clip via aspect-ratio (more reliable than cqi
-               since it doesn't depend on knowing the book's exact aspect).
-               4:5 = stage is 1.25× taller than wide; the book's natural
-               height exceeds that on mobile and clips at the bottom. */
+            /* Mobile-first: square stage (aspect-ratio 1/1). Stage height
+               = container content width, which is shorter than the book's
+               natural rendered height once the title + book-overlap stack
+               on top, so the book's bottom (incl. 'Agustis Wayne') clips
+               at the stage edge. The book PNG's bounding box turned out
+               more square than expected due to the 3D angle, so 4/5 left
+               a gap — 1/1 actually clips. Dial the ratio looser
+               (e.g. 9/10, 5/6) to show more of the book. */
             position: relative;
             overflow: hidden;
-            aspect-ratio: 4 / 5;
+            aspect-ratio: 1 / 1;
         }
         @media (min-width: 48em) {
             .books-hero__stage {
