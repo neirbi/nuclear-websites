@@ -1116,7 +1116,10 @@
             display: inline-block;
             padding: 0.875rem 1.75rem;
             border: 0;
-            border-radius: var(--radius-lg);
+            /* Tighter radius than the selection cards (--radius-md vs
+               --radius-lg) — matches Apple, where the buttons read
+               crisper than the larger product/option tiles. */
+            border-radius: var(--radius-md);
             background-color: var(--cta-bg);
             color: var(--cta-fg);
             font-family: inherit;
@@ -2496,6 +2499,7 @@
         <section class="buy" aria-labelledby="buy-title">
             <div class="container">
                 <header class="buy__header">
+                    <p class="section__eyebrow">Order</p>
                     <h2 id="buy-title" class="buy__title">Buy Nuclear Websites</h2>
                     <p class="buy__price">From $20 to $30</p>
                     <p class="buy__note">Free worldwide shipping.<a class="learn-more" href="#shipping">Learn more</a></p>
@@ -2514,7 +2518,7 @@
                         <fieldset class="buy__option-list">
                             <legend class="visually-hidden">Choose a cover</legend>
                             <label class="buy__option">
-                                <input type="radio" name="buy-cover" value="soft" checked>
+                                <input type="radio" name="buy-cover" value="soft">
                                 <span class="buy__option-card">
                                     <span class="buy__option-info">
                                         <span class="buy__option-title">Soft cover</span>
@@ -2543,6 +2547,7 @@
             <div class="container">
                 <div class="order-summary__grid">
                     <div class="order-summary__column">
+                        <p class="section__eyebrow">Review</p>
                         <h2 id="order-summary-title" class="order-summary__title">
                             Your new Nuclear Websites.
                             <span class="order-summary__title-muted">Just the way you want it.</span>
