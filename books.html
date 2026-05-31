@@ -2616,8 +2616,8 @@
                                 </svg>
                                 <span class="order-summary__shipping-text">
                                     <strong>Order today. Delivers to <a class="order-summary__zip" href="#zip">85281</a></strong>
-                                    <span>Tomorrow 11:30 a.m. &ndash; 1:30 p.m. &mdash; $9.00</span>
-                                    <span>Tue, Jun 2 &mdash; Free</span>
+                                    <span><time data-shipping="paid-date">Tomorrow</time> 11:30 a.m. &ndash; 1:30 p.m. &mdash; $9.00</span>
+                                    <span><time data-shipping="free-date">Tue, Jun 2</time> &mdash; Free</span>
                                 </span>
                             </div>
                         </div>
@@ -2857,6 +2857,100 @@
                 });
             }, { threshold: 0.5 });
             io.observe(status);
+        })();
+    </script>
+
+    <script>
+        // Order-summary shipping dates — pure client-side calc. The
+        // page is static HTML, so 'today' has to come from the user's
+        // browser; we don't ship a backend just for this string.
+        //
+        // Strategy:
+        //   - paid: today + 3 business days, $9 window
+        //   - free: today + 5 business days (USPS-ish)
+        //   - skip Sat/Sun + US federal holidays
+        //   - past 2pm local → start counting from tomorrow (the order
+        //     misses today's carrier pickup)
+        //   - render via <time datetime=…> for a11y / SEO
+        //   - 'Today' / 'Tomorrow' labels when applicable
+        //   - holidays hardcoded for current + next year so a December
+        //     visitor doesn't get broken January dates
+        (() => {
+            'use strict';
+
+            const ORDER_CUTOFF_HOUR = 14;  // 2pm local
+            const PAID_BUSINESS_DAYS = 3;
+            const FREE_BUSINESS_DAYS = 5;
+
+            // US federal holidays (OPM observance dates). Refresh annually.
+            const FEDERAL_HOLIDAYS = new Set([
+                // 2026
+                '2026-01-01', '2026-01-19', '2026-02-16', '2026-05-25',
+                '2026-06-19', '2026-07-03', '2026-09-07', '2026-10-12',
+                '2026-11-11', '2026-11-26', '2026-12-25',
+                // 2027
+                '2027-01-01', '2027-01-18', '2027-02-15', '2027-05-31',
+                '2027-06-18', '2027-07-05', '2027-09-06', '2027-10-11',
+                '2027-11-11', '2027-11-25', '2027-12-24',
+            ]);
+
+            // YYYY-MM-DD in *local* time. toISOString() is UTC and would
+            // shift the date for users west of GMT — en-CA's locale format
+            // happens to be ISO-like and respects the local timezone.
+            const ymd = (d) => d.toLocaleDateString('en-CA');
+            const isWeekend = (d) => { const w = d.getDay(); return w === 0 || w === 6; };
+            const isHoliday = (d) => FEDERAL_HOLIDAYS.has(ymd(d));
+            const isBusinessDay = (d) => !isWeekend(d) && !isHoliday(d);
+
+            const stripTime = (d) => {
+                const c = new Date(d);
+                c.setHours(0, 0, 0, 0);
+                return c;
+            };
+
+            const addBusinessDays = (start, n) => {
+                const d = new Date(start);
+                let added = 0;
+                while (added < n) {
+                    d.setDate(d.getDate() + 1);
+                    if (isBusinessDay(d)) added++;
+                }
+                return d;
+            };
+
+            const dateFmt = new Intl.DateTimeFormat('en-US', {
+                weekday: 'short', month: 'short', day: 'numeric',
+            });
+
+            const label = (date, today) => {
+                const oneDay = 86400000;
+                const diff = Math.round((stripTime(date) - stripTime(today)) / oneDay);
+                if (diff === 0) return 'Today';
+                if (diff === 1) return 'Tomorrow';
+                return dateFmt.format(date);
+            };
+
+            const now = new Date();
+            let baseline = stripTime(now);
+            // Past cutoff → bump baseline one calendar day (the carrier
+            // pickup is gone for today). Business-day skip is applied by
+            // addBusinessDays() below.
+            if (now.getHours() >= ORDER_CUTOFF_HOUR) {
+                baseline.setDate(baseline.getDate() + 1);
+            }
+
+            const paidDate = addBusinessDays(baseline, PAID_BUSINESS_DAYS);
+            const freeDate = addBusinessDays(baseline, FREE_BUSINESS_DAYS);
+
+            const apply = (selector, date) => {
+                const el = document.querySelector(selector);
+                if (!el) return;
+                el.textContent = label(date, now);
+                el.setAttribute('datetime', ymd(date));
+            };
+
+            apply('[data-shipping="paid-date"]', paidDate);
+            apply('[data-shipping="free-date"]', freeDate);
         })();
     </script>
 </body>
