@@ -1106,9 +1106,12 @@
            so cards and CTAs feel like one family.
            .btn-cta--block fills its container (the 'Add to Bag' style). */
         .btn-cta {
-            --cta-bg: var(--color-blue-link);
+            /* Same green accent as .btn-pill so every button on the site
+               reads as one family — only the shape differs (rectangular
+               rounded vs full pill). */
+            --cta-bg: var(--color-green-500);
             --cta-fg: var(--color-on-accent);
-            --cta-bg-hover: color-mix(in srgb, var(--cta-bg), white 10%);
+            --cta-bg-hover: color-mix(in srgb, var(--cta-bg), white 15%);
 
             display: inline-block;
             padding: 0.875rem 1.75rem;
@@ -1129,9 +1132,6 @@
         .btn-cta:focus-visible {
             background-color: var(--cta-bg-hover);
             color: var(--cta-fg);
-        }
-        :root[data-theme="dark"] .btn-cta {
-            --cta-bg: var(--color-blue-link-bright);
         }
         .btn-cta--block {
             display: block;
