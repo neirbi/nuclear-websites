@@ -2067,6 +2067,31 @@
             color: var(--color-text-secondary);
             margin: 0;
         }
+
+        /* Variant-reactive labels.
+           The :checked state on the .buy radio inputs lives one section
+           away, but :has() lets the order summary respond to it without
+           any JS. Native form state is the single source of truth. */
+        .order-summary__variant { display: none; }
+        .order-summary__variant-default {
+            display: inline;
+            font-weight: var(--weight-regular);
+            color: var(--color-text-secondary);
+        }
+        body:has(input[name="buy-cover"][value="soft"]:checked) [data-variant="soft"] {
+            display: inline;
+        }
+        body:has(input[name="buy-cover"][value="hard"]:checked) [data-variant="hard"] {
+            display: inline;
+        }
+        body:has(input[name="buy-cover"]:checked) .order-summary__variant-default {
+            display: none;
+        }
+        /* Until something is picked, the waitlist CTA is muted but still
+           clickable — clear signal without locking the user out. */
+        body:not(:has(input[name="buy-cover"]:checked)) .order-summary__cta {
+            opacity: 0.55;
+        }
         .order-summary__shipping {
             display: flex;
             flex-direction: column;
@@ -2560,8 +2585,14 @@
                             decoding="async">
                     </div>
                     <div class="order-summary__column">
-                        <h3 class="order-summary__product-name">Nuclear Websites — Hard cover</h3>
-                        <p class="order-summary__price">$30.00</p>
+                        <h3 class="order-summary__product-name">
+                            Nuclear Websites<span class="order-summary__variant" data-variant="soft"> &mdash; Soft cover</span><span class="order-summary__variant" data-variant="hard"> &mdash; Hard cover</span>
+                        </h3>
+                        <p class="order-summary__price">
+                            <span class="order-summary__variant" data-variant="soft">$20.00</span>
+                            <span class="order-summary__variant" data-variant="hard">$30.00</span>
+                            <span class="order-summary__variant-default">Select a cover above</span>
+                        </p>
                         <p class="order-summary__payment-type">One-time payment</p>
                     </div>
                     <div class="order-summary__column order-summary__column--cta">
@@ -2580,7 +2611,7 @@
                                 </span>
                             </div>
                         </div>
-                        <a class="btn-cta btn-cta--block" href="/books#waitlist">Join the waitlist</a>
+                        <a class="btn-cta btn-cta--block order-summary__cta" href="/books#waitlist">Join the waitlist</a>
                     </div>
                 </div>
             </div>
