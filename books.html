@@ -2068,23 +2068,26 @@
             margin: 0;
         }
 
-        /* Variant-reactive labels.
+        /* Variant + state reactivity.
            The :checked state on the .buy radio inputs lives one section
            away, but :has() lets the order summary respond to it without
-           any JS. Native form state is the single source of truth. */
+           any JS. Two layers of toggling:
+             1. .order-summary__variant[data-variant=X]: per-variant copy
+                (soft vs hard) that swaps in when its radio is checked.
+             2. .is-shown-when-default / .is-shown-when-configured: state
+                swap (title text, CTA word) — Apple's "Your new iPhone
+                awaits" → "Your new iPhone 17 Pro Max" pattern. */
         .order-summary__variant { display: none; }
-        .order-summary__variant-default {
-            display: inline;
-            font-weight: var(--weight-regular);
-            color: var(--color-text-secondary);
-        }
         body:has(input[name="buy-cover"][value="soft"]:checked) [data-variant="soft"] {
             display: inline;
         }
         body:has(input[name="buy-cover"][value="hard"]:checked) [data-variant="hard"] {
             display: inline;
         }
-        body:has(input[name="buy-cover"]:checked) .order-summary__variant-default {
+        body:has(input[name="buy-cover"]:checked) .is-shown-when-default {
+            display: none;
+        }
+        body:not(:has(input[name="buy-cover"]:checked)) .is-shown-when-configured {
             display: none;
         }
         /* Until something is picked, the waitlist CTA is muted but still
@@ -2092,6 +2095,25 @@
         body:not(:has(input[name="buy-cover"]:checked)) .order-summary__cta {
             opacity: 0.55;
         }
+
+        /* Block-level main line + matching muted second line so both the
+           default and configured titles stack as two lines. */
+        .order-summary__title-line { display: block; }
+
+        /* Apple-style superscript footnote marker (think the ※ next to
+           price disclaimers). Inherits text color and stays small. */
+        .order-summary__footnote {
+            font-size: 0.55em;
+            color: var(--color-text-secondary);
+            margin-left: 0.15em;
+            font-weight: var(--weight-regular);
+        }
+        .order-summary__footnote a {
+            color: inherit;
+            text-decoration: none;
+            transition: color var(--transition-base);
+        }
+        .order-summary__footnote a:hover { color: var(--color-text-primary); }
         .order-summary__shipping {
             display: flex;
             flex-direction: column;
@@ -2587,8 +2609,10 @@
                     <div class="order-summary__column">
                         <p class="section__eyebrow">Review</p>
                         <h2 id="order-summary-title" class="order-summary__title">
-                            Your new Nuclear Websites.
-                            <span class="order-summary__title-muted">Just the way you want it.</span>
+                            <span class="order-summary__title-line is-shown-when-default">Your new Nuclear Websites awaits.</span>
+                            <span class="order-summary__title-line is-shown-when-configured">Your new Nuclear Websites<span class="order-summary__variant" data-variant="soft"> &mdash; Soft cover</span><span class="order-summary__variant" data-variant="hard"> &mdash; Hard cover</span>.</span>
+                            <span class="order-summary__title-muted is-shown-when-default">Make it yours.</span>
+                            <span class="order-summary__title-muted is-shown-when-configured">Just the way you want it.</span>
                         </h2>
                         <img
                             class="order-summary__image"
@@ -2602,9 +2626,10 @@
                             Nuclear Websites<span class="order-summary__variant" data-variant="soft"> &mdash; Soft cover</span><span class="order-summary__variant" data-variant="hard"> &mdash; Hard cover</span>
                         </h3>
                         <p class="order-summary__price">
+                            <span class="is-shown-when-default">From $20</span>
                             <span class="order-summary__variant" data-variant="soft">$20.00</span>
                             <span class="order-summary__variant" data-variant="hard">$30.00</span>
-                            <span class="order-summary__variant-default">Select a cover above</span>
+                            <sup class="order-summary__footnote" aria-label="See pricing notes"><a href="#pricing-fineprint">&lowast;</a></sup>
                         </p>
                         <p class="order-summary__payment-type">One-time payment</p>
                     </div>
@@ -2621,7 +2646,10 @@
                                 </span>
                             </div>
                         </div>
-                        <a class="btn-cta btn-cta--block order-summary__cta" href="/books#waitlist">Join the waitlist</a>
+                        <a class="btn-cta btn-cta--block order-summary__cta" href="/books#waitlist">
+                            <span class="is-shown-when-default">Continue</span>
+                            <span class="is-shown-when-configured">Join the waitlist</span>
+                        </a>
                     </div>
                 </div>
             </div>
