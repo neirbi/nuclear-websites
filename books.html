@@ -1101,6 +1101,43 @@
             --pill-on-accent: var(--color-bg-primary);
         }
 
+        /* Apple-style call-to-action button — rectangular rounded, blue
+           accent. Same border-radius (--radius-lg) as the rounded cards
+           so cards and CTAs feel like one family.
+           .btn-cta--block fills its container (the 'Add to Bag' style). */
+        .btn-cta {
+            --cta-bg: var(--color-blue-link);
+            --cta-fg: var(--color-on-accent);
+            --cta-bg-hover: color-mix(in srgb, var(--cta-bg), white 10%);
+
+            display: inline-block;
+            padding: 0.875rem 1.75rem;
+            border: 0;
+            border-radius: var(--radius-lg);
+            background-color: var(--cta-bg);
+            color: var(--cta-fg);
+            font-family: inherit;
+            font-size: var(--text-base);
+            font-weight: var(--weight-medium);
+            line-height: var(--line-height-base);
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color var(--transition-base);
+        }
+        .btn-cta:hover,
+        .btn-cta:focus-visible {
+            background-color: var(--cta-bg-hover);
+            color: var(--cta-fg);
+        }
+        :root[data-theme="dark"] .btn-cta {
+            --cta-bg: var(--color-blue-link-bright);
+        }
+        .btn-cta--block {
+            display: block;
+            width: 100%;
+        }
+
         /* ===========================================
            BEFORE / AFTER COMPARE — draggable slider
            Two stacked images. The "after" is clipped from the left by
@@ -1753,7 +1790,7 @@
         }
         .features-grid__panel {
             background-color: var(--color-bg-surface);
-            border-radius: 1.5rem;
+            border-radius: var(--radius-xl);
             padding: var(--space-xl);
         }
         .features-grid__head {
@@ -1773,7 +1810,7 @@
         }
         .features-grid__tile {
             background-color: var(--color-bg-primary);
-            border-radius: 1.25rem;
+            border-radius: var(--radius-lg);
             padding: var(--space-lg);
             display: flex;
             flex-direction: column;
@@ -1821,7 +1858,7 @@
         @media (max-width: 47.99em) {
             .features-grid__panel {
                 padding: var(--space-lg);
-                border-radius: 1.25rem;
+                border-radius: var(--radius-lg);
             }
             .features-grid__tiles {
                 grid-template-columns: 1fr;
@@ -1877,7 +1914,7 @@
         }
         .buy__media {
             background-color: var(--color-bg-surface);
-            border-radius: 1.5rem;
+            border-radius: var(--radius-xl);
             padding: var(--space-xl);
             display: flex;
             align-items: center;
@@ -1930,7 +1967,9 @@
             gap: var(--space-md);
             padding: var(--space-md) var(--space-lg);
             border: 1px solid var(--color-border-subtle);
-            border-radius: 1rem;
+            /* Same radius as .btn-cta so the selectors and the CTA
+               below look like one family. */
+            border-radius: var(--radius-lg);
             background-color: var(--color-bg-primary);
             transition: border-color var(--transition-base);
         }
@@ -2057,13 +2096,9 @@
         .order-summary__shipping-text span {
             color: var(--color-text-secondary);
         }
-        .order-summary__cta {
-            /* Full-width filled pill so it reads as the primary action,
-               matches Apple's blue 'Add to Bag' anchor. */
-            display: block;
-            width: 100%;
-            text-align: center;
-        }
+        /* CTA itself uses .btn-cta .btn-cta--block — no extra layout
+           override needed here. Kept the selector empty as an anchor
+           for future order-summary-specific tweaks. */
 
         @media (max-width: 47.99em) {
             .order-summary__grid {
@@ -2540,7 +2575,7 @@
                                 </span>
                             </div>
                         </div>
-                        <a class="btn-pill btn-pill--filled order-summary__cta" href="/books#waitlist">Join the waitlist</a>
+                        <a class="btn-cta btn-cta--block" href="/books#waitlist">Join the waitlist</a>
                     </div>
                 </div>
             </div>
