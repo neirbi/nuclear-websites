@@ -2090,30 +2090,29 @@
         body:not(:has(input[name="buy-cover"]:checked)) .is-shown-when-configured {
             display: none;
         }
-        /* Until something is picked, the waitlist CTA is muted but still
-           clickable — clear signal without locking the user out. */
+        /* Until something is picked, the CTA is visually muted *and*
+           non-clickable — Apple's 'Continue' disabled state. Keyboard
+           tabbing still reaches it; for full a11y disable add
+           aria-disabled via JS when you wire up the form. */
         body:not(:has(input[name="buy-cover"]:checked)) .order-summary__cta {
             opacity: 0.55;
+            pointer-events: none;
+            cursor: default;
         }
 
         /* Block-level main line + matching muted second line so both the
            default and configured titles stack as two lines. */
         .order-summary__title-line { display: block; }
 
-        /* Apple-style superscript footnote marker (think the ※ next to
-           price disclaimers). Inherits text color and stays small. */
+        /* Apple-style superscript footnote marker next to the price.
+           Plain text — Apple doesn't link theirs, just marks where the
+           legal copy belongs. */
         .order-summary__footnote {
             font-size: 0.55em;
             color: var(--color-text-secondary);
             margin-left: 0.15em;
             font-weight: var(--weight-regular);
         }
-        .order-summary__footnote a {
-            color: inherit;
-            text-decoration: none;
-            transition: color var(--transition-base);
-        }
-        .order-summary__footnote a:hover { color: var(--color-text-primary); }
         .order-summary__shipping {
             display: flex;
             flex-direction: column;
@@ -2609,7 +2608,7 @@
                     <div class="order-summary__column">
                         <p class="section__eyebrow">Review</p>
                         <h2 id="order-summary-title" class="order-summary__title">
-                            <span class="order-summary__title-line is-shown-when-default">Your new Nuclear Websites awaits.</span>
+                            <span class="order-summary__title-line is-shown-when-default">Your new Nuclear Website awaits.</span>
                             <span class="order-summary__title-line is-shown-when-configured">Your new Nuclear Websites<span class="order-summary__variant" data-variant="soft"> &mdash; Soft cover</span><span class="order-summary__variant" data-variant="hard"> &mdash; Hard cover</span>.</span>
                             <span class="order-summary__title-muted is-shown-when-default">Make it yours.</span>
                             <span class="order-summary__title-muted is-shown-when-configured">Just the way you want it.</span>
@@ -2629,7 +2628,7 @@
                             <span class="is-shown-when-default">From $20</span>
                             <span class="order-summary__variant" data-variant="soft">$20.00</span>
                             <span class="order-summary__variant" data-variant="hard">$30.00</span>
-                            <sup class="order-summary__footnote" aria-label="See pricing notes"><a href="#pricing-fineprint">&lowast;</a></sup>
+                            <sup class="order-summary__footnote">*</sup>
                         </p>
                         <p class="order-summary__payment-type">One-time payment</p>
                     </div>
@@ -2640,9 +2639,10 @@
                                     <path fill="currentColor" d="m23.482 12.847-2.92-3.209A1.95 1.95 0 0 0 18.986 9H17V6.495a2.5 2.5 0 0 0-2.5-2.5h-11a2.5 2.5 0 0 0-2.5 2.5v9.75a2.5 2.5 0 0 0 2.5 2.5h.548A2.746 2.746 0 0 0 6.75 21.02 2.62 2.62 0 0 0 9.422 19h6.681a2.745 2.745 0 0 0 5.347-.23h.735A1.656 1.656 0 0 0 24 16.98v-2.808a1.94 1.94 0 0 0-.518-1.325M8.426 18.745a1.74 1.74 0 0 1-3.352 0 1.58 1.58 0 0 1 .015-1 1.738 1.738 0 0 1 3.322 0 1.58 1.58 0 0 1 .015 1M9.447 18a2.726 2.726 0 0 0-5.394-.255H3.5a1.5 1.5 0 0 1-1.5-1.5v-9.75a1.5 1.5 0 0 1 1.5-1.5h11a1.5 1.5 0 0 1 1.5 1.5V18Zm10.972.77a1.739 1.739 0 0 1-3.337 0 1.57 1.57 0 0 1 0-1 1.742 1.742 0 1 1 3.337 1M23 16.98c0 .569-.228.79-.815.79h-.735A2.73 2.73 0 0 0 17 16.165V10h1.986a.98.98 0 0 1 .838.314l2.927 3.214a.95.95 0 0 1 .249.644Zm-1.324-3.36a.51.51 0 0 1 .174.38h-3.306a.5.5 0 0 1-.544-.528V11h1.073a.76.76 0 0 1 .594.268Z"/>
                                 </svg>
                                 <span class="order-summary__shipping-text">
-                                    <strong>Order today. Delivers to <a class="order-summary__zip" href="#zip">85281</a></strong>
-                                    <span><time data-shipping="paid-date">Tomorrow</time> 11:30 a.m. &ndash; 1:30 p.m. &mdash; $9.00</span>
-                                    <span><time data-shipping="free-date">Tue, Jun 2</time> &mdash; Free</span>
+                                    <strong class="is-shown-when-default">Free shipping</strong>
+                                    <strong class="is-shown-when-configured">Order today. Delivers to <a class="order-summary__zip" href="#zip">85281</a></strong>
+                                    <span class="is-shown-when-configured"><time data-shipping="paid-date">Tomorrow</time> 11:30 a.m. &ndash; 1:30 p.m. &mdash; $9.00</span>
+                                    <span class="is-shown-when-configured"><time data-shipping="free-date">Tue, Jun 2</time> &mdash; Free</span>
                                 </span>
                             </div>
                         </div>
