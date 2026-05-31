@@ -1976,6 +1976,111 @@
                 aspect-ratio: 1 / 1;
             }
         }
+
+        /* ===========================================
+           ORDER SUMMARY — Apple "Your new iPhone 17 Pro
+           Max. Just the way you want it." pattern.
+           3 columns: title+image / details / shipping+CTA.
+           Sits on --color-bg-surface to feel like a tray.
+           =========================================== */
+        .order-summary {
+            background-color: var(--color-bg-surface);
+            padding-block: var(--space-xl);
+        }
+        .order-summary__grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: var(--space-xl);
+            align-items: start;
+        }
+        .order-summary__title {
+            font-size: var(--text-xl);
+            font-weight: var(--weight-bold);
+            line-height: 1.15;
+            margin: 0 0 var(--space-lg);
+        }
+        .order-summary__title-muted {
+            display: block;
+            color: var(--color-text-secondary);
+        }
+        .order-summary__image {
+            display: block;
+            width: 100%;
+            max-width: 18rem;
+            height: auto;
+        }
+        .order-summary__product-name {
+            font-size: var(--text-lg);
+            font-weight: var(--weight-bold);
+            line-height: 1.2;
+            margin: 0 0 var(--space-sm);
+        }
+        .order-summary__price {
+            font-size: var(--text-md);
+            font-weight: var(--weight-semibold);
+            margin: 0;
+        }
+        .order-summary__payment-type {
+            font-size: var(--text-base);
+            color: var(--color-text-secondary);
+            margin: 0;
+        }
+        .order-summary__shipping {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+            font-size: var(--text-sm);
+            line-height: 1.4;
+        }
+        .order-summary__shipping-row {
+            display: flex;
+            gap: var(--space-sm);
+            align-items: flex-start;
+        }
+        .order-summary__shipping-icon {
+            flex-shrink: 0;
+            width: 1.25rem;
+            height: 1.25rem;
+            color: var(--color-text-secondary);
+            margin-top: 0.125rem;
+        }
+        .order-summary__shipping-text {
+            display: flex;
+            flex-direction: column;
+            gap: 0.125rem;
+        }
+        .order-summary__shipping-text strong {
+            color: var(--color-text-primary);
+            font-weight: var(--weight-bold);
+        }
+        .order-summary__shipping-text span {
+            color: var(--color-text-secondary);
+        }
+        .order-summary__cta {
+            /* Full-width filled pill so it reads as the primary action,
+               matches Apple's blue 'Add to Bag' anchor. */
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+
+        @media (max-width: 47.99em) {
+            .order-summary__grid {
+                grid-template-columns: 1fr;
+            }
+            .order-summary__image {
+                max-width: 14rem;
+            }
+        }
+        @media (min-width: 48em) and (max-width: 64em) {
+            .order-summary__grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .order-summary__column--cta {
+                grid-column: 1 / -1;
+            }
+        }
     </style>
 </head>
 <body>
@@ -2394,6 +2499,48 @@
                                 </span>
                             </label>
                         </fieldset>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="order-summary" aria-labelledby="order-summary-title">
+            <div class="container">
+                <div class="order-summary__grid">
+                    <div class="order-summary__column">
+                        <h2 id="order-summary-title" class="order-summary__title">
+                            Your new Nuclear Websites.
+                            <span class="order-summary__title-muted">Just the way you want it.</span>
+                        </h2>
+                        <img
+                            class="order-summary__image"
+                            src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/NUCLEAR%20WEBSITES%20by%20AGUSTIS%20WAYNE%20Transparent.png"
+                            alt="Nuclear Websites book, front cover"
+                            loading="lazy"
+                            decoding="async">
+                    </div>
+                    <div class="order-summary__column">
+                        <h3 class="order-summary__product-name">Nuclear Websites — Hard cover</h3>
+                        <p class="order-summary__price">$30.00</p>
+                        <p class="order-summary__payment-type">One-time payment</p>
+                    </div>
+                    <div class="order-summary__column order-summary__column--cta">
+                        <div class="order-summary__shipping">
+                            <div class="order-summary__shipping-row">
+                                <svg class="order-summary__shipping-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M3 7h13v10H3z"/>
+                                    <path d="M16 11h4l2 3v3h-6"/>
+                                    <circle cx="7" cy="18" r="2"/>
+                                    <circle cx="18" cy="18" r="2"/>
+                                </svg>
+                                <span class="order-summary__shipping-text">
+                                    <strong>Order today. Delivers to 85281 <a class="learn-more" href="#delivery">Get delivery dates</a></strong>
+                                    <span>Tomorrow 11:30 a.m. &ndash; 1:30 p.m. &mdash; $9.00</span>
+                                    <span>Tue, Jun 2 &mdash; Free</span>
+                                </span>
+                            </div>
+                        </div>
+                        <a class="btn-pill btn-pill--filled order-summary__cta" href="/books#waitlist">Join the waitlist</a>
                     </div>
                 </div>
             </div>
