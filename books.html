@@ -3053,15 +3053,17 @@
 
                 try {
                     // Step 2: validator worker confirms the email is real.
-                    const v = await fetch(VALIDATOR_URL, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ email: value }),
-                        signal,
-                    });
+                    // Worker is GET ?email=… → { status: ZeroBounce status }.
+                    // ZeroBounce statuses: valid | invalid | catch-all |
+                    // unknown | spamtrap | abuse | do_not_mail. Only
+                    // 'valid' passes — loosen if you want catch-all too.
+                    const v = await fetch(
+                        VALIDATOR_URL + '?email=' + encodeURIComponent(value),
+                        { signal }
+                    );
                     if (!v.ok) throw new Error('validator status ' + v.status);
-                    const { valid } = await v.json();
-                    if (!valid) {
+                    const { status } = await v.json();
+                    if (status !== 'valid') {
                         showStatus('error');
                         submit.disabled = false;
                         return;
