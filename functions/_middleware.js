@@ -29,7 +29,7 @@ export async function onRequest(context) {
     if (!zip || !ZIP_RE.test(zip)) return response;
 
     const transformed = new HTMLRewriter()
-        .on('.order-summary__zip', {
+        .on('.order-summary__zip-code', {
             element(el) { el.setInnerContent(zip); },
         })
         .transform(response);

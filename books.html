@@ -2228,9 +2228,19 @@
            .learn-more's color treatment but without the chevron. */
         .order-summary__zip {
             color: var(--color-blue-link);
+            text-decoration: none;
+            transition: opacity var(--transition-base);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3em;
+        }
+        .order-summary__zip-code {
             text-decoration: underline;
             text-underline-offset: 0.2em;
-            transition: opacity var(--transition-base);
+        }
+        .order-summary__zip-icon {
+            flex: none;
+            vertical-align: -0.125em;
         }
         :root[data-theme="dark"] .order-summary__zip {
             color: var(--color-blue-link-bright);
@@ -2873,7 +2883,7 @@
                                 </svg>
                                 <div class="order-summary__shipping-text">
                                     <strong class="is-shown-when-default">Free shipping</strong>
-                                    <strong class="is-shown-when-configured">Order today. Delivers to <a class="order-summary__zip" href="#zip">95014</a></strong>
+                                    <strong class="is-shown-when-configured">Order today. Delivers to <a class="order-summary__zip" href="#zip"><span class="order-summary__zip-code">95014</span><svg class="order-summary__zip-icon" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8" stroke-linecap="round"/></svg></a></strong>
                                     <span class="is-shown-when-configured"><time data-shipping="paid-date">Tomorrow</time> 11:30 a.m. &ndash; 1:30 p.m. &mdash; $9.00</span>
                                     <span class="is-shown-when-configured"><time data-shipping="free-date">Tue, Jun 2</time> &mdash; Free</span>
                                 </div>
@@ -3198,15 +3208,16 @@
             const clear = dialog?.querySelector('.zip-dialog__clear');
             const locate = dialog?.querySelector('.zip-dialog__locate');
             const zipLink = document.querySelector('.order-summary__zip');
-            if (!dialog || !input || !clear || !locate || !zipLink) return;
+            const zipCode = document.querySelector('.order-summary__zip-code');
+            if (!dialog || !input || !clear || !locate || !zipLink || !zipCode) return;
 
             // Snapshot of the edge-injected geo zip on page load — used
             // by the locate button to 'reset to detected location'.
-            const geoZip = zipLink.textContent.trim();
+            const geoZip = zipCode.textContent.trim();
 
             zipLink.addEventListener('click', (e) => {
                 e.preventDefault();
-                input.value = zipLink.textContent.trim();
+                input.value = zipCode.textContent.trim();
                 dialog.showModal();
                 input.select();
             });
@@ -3223,7 +3234,7 @@
 
             dialog.addEventListener('close', () => {
                 const next = input.value.trim();
-                if (/^\d{5}$/.test(next)) zipLink.textContent = next;
+                if (/^\d{5}$/.test(next)) zipCode.textContent = next;
             });
         })();
     </script>
