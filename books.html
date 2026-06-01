@@ -2101,6 +2101,15 @@
         body:has(input[name="buy-cover"][value="hard"]:checked) img.buy__media-image[data-variant="hard"] {
             display: block;
         }
+        /* Review section: default image covers both default + hardcover state.
+           Soft variant swaps to a dedicated softcover render. */
+        img.order-summary__image[data-variant="soft"] { display: none; }
+        body:has(input[name="buy-cover"][value="soft"]:checked) img.order-summary__image[data-variant="soft"] {
+            display: block;
+        }
+        body:has(input[name="buy-cover"][value="soft"]:checked) img.order-summary__image:not([data-variant]) {
+            display: none;
+        }
         /* Until something is picked, the CTA is visually muted *and*
            non-clickable — Apple's 'Continue' disabled state. Keyboard
            tabbing still reaches it; for full a11y disable add
@@ -2889,6 +2898,13 @@
                             class="order-summary__image"
                             src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/NUCLEAR%20WEBSITES%20by%20AGUSTIS%20WAYNE%20Transparent.png"
                             alt="Nuclear Websites book, front cover"
+                            loading="lazy"
+                            decoding="async">
+                        <img
+                            class="order-summary__image"
+                            data-variant="soft"
+                            src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/NUCLEAR%20WEBSITES%20by%20AGUSTIS%20WAYNE%20Soft%20Cover%20Transparent.png"
+                            alt="Nuclear Websites soft cover"
                             loading="lazy"
                             decoding="async">
                     </div>
