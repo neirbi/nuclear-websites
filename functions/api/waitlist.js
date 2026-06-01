@@ -29,6 +29,14 @@ export async function onRequestPost({ request, env }) {
         return json(400, { ok: false, error: 'bad_email' });
     }
 
+    // 0. Cloudflare's threat score for this IP (0=clean, 100=malicious).
+    // Silently drop high-threat traffic with a fake success response so
+    // bots don't realize they were filtered and retry from a new IP.
+    // Threshold 40 = Cloudflare's 'malicious' bucket; legit users score 0.
+    if ((request.cf?.threatScore ?? 0) >= 40) {
+        return json(200, { ok: true });
+    }
+
     // 1. Turnstile verification — only enforced if a secret is configured.
     if (env.TURNSTILE_SECRET) {
         if (!turnstile) return json(403, { ok: false, error: 'no_captcha' });
