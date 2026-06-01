@@ -2244,7 +2244,6 @@
            (X / ESC / backdrop click).
            =========================================== */
         .zip-dialog {
-            position: relative;
             border: 0;
             padding: calc(var(--space-xl) * 1.25) var(--space-xl) var(--space-xl);
             border-radius: var(--radius-xl);
@@ -2935,7 +2934,8 @@
                             autocomplete="postal-code"
                             pattern="\d{5}"
                             maxlength="5"
-                            placeholder="Zip Code">
+                            placeholder="Zip Code"
+                            autofocus>
                     </div>
                     <button type="button" class="zip-dialog__clear" aria-label="Clear zip code">
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true">
