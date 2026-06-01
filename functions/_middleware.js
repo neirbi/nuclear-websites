@@ -13,8 +13,8 @@ export async function onRequest(context) {
     const { request, next } = context;
     const url = new URL(request.url);
 
-    // Scope: just the books page (with or without .html).
-    if (url.pathname !== '/books' && url.pathname !== '/books.html') {
+    // Scope: just the our-book page (with or without .html).
+    if (url.pathname !== '/our-book' && url.pathname !== '/our-book.html') {
         return next();
     }
 
