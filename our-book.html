@@ -124,6 +124,7 @@
             /* --- GRADIENTS --- */
             --gradient-primary: linear-gradient(90deg, var(--color-teal-300) 0%, var(--color-teal-500) 100%);
             --gradient-success: linear-gradient(90deg, var(--color-green-300) 0%, var(--color-green-500) 100%);
+            --gradient-blue: linear-gradient(90deg, var(--color-blue-link-bright) 0%, var(--color-blue-link) 100%);
 
             /* --- FONTS ---
                System stack loads instantly; Inter swaps in on load */
@@ -299,6 +300,9 @@
         }
         .gradient-text--success {
             background-image: var(--gradient-success);
+        }
+        .gradient-text--blue {
+            background-image: var(--gradient-blue);
         }
 
         .visually-hidden {
@@ -2822,7 +2826,7 @@
             <div class="container">
                 <div class="praise__head">
                     <p class="section__eyebrow">Praise</p>
-                    <h2 id="praise-title" class="section__title">Loved by readers.</h2>
+                    <h2 id="praise-title" class="section__title gradient-text gradient-text--blue">Loved by readers.</h2>
                 </div>
                 <ul class="praise__quotes">
                     <li class="praise__quote">
@@ -2839,7 +2843,7 @@
                     </li>
                 </ul>
                 <div class="praise__rating">
-                    <div class="praise__stars" style="--praise-fill: 98%" aria-hidden="true">
+                    <div class="praise__stars" style="--praise-fill: 95%" aria-hidden="true">
                         <div class="praise__stars-track">
                             <span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span>
                         </div>
