@@ -2733,7 +2733,9 @@
                                 inputmode="email"
                                 spellcheck="false"
                                 autocapitalize="off"
-                                required>
+                                required
+                                pattern="[^\s@]+@[^\s@]+\.[^\s@]+"
+                                title="Enter an email like you@example.com">
                             <!-- Default state (no cover picked) — anchor to the buy
                                  section. Disabled via the existing :has(no-checked) CSS. -->
                             <a class="btn-cta btn-cta--block order-summary__cta is-shown-when-default" href="#buy-title">Continue</a>
