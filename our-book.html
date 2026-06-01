@@ -1975,6 +1975,26 @@
             font-weight: var(--weight-bold);
             line-height: 1.2;
             margin: 0;
+            color: var(--color-text-secondary);
+        }
+        /* Stat tile (Apple "Up to / 2x faster / GPU performance" pattern):
+           small prefix line, BIG primary-color stat in the middle, small
+           suffix line. Centered to draw the eye to the middle. */
+        .features-grid__tile--stat {
+            text-align: center;
+            justify-content: center;
+        }
+        .features-grid__tile-prefix,
+        .features-grid__tile-suffix {
+            font-size: var(--text-base);
+            font-weight: var(--weight-semibold);
+            color: var(--color-text-secondary);
+            line-height: 1.2;
+            margin: 0;
+        }
+        .features-grid__tile--stat .features-grid__tile-title {
+            font-size: var(--text-xl);
+            color: var(--color-text-primary);
         }
         .features-grid__footer {
             /* Sits below the tile grid — Apple's 'Trade In' block. */
@@ -2936,18 +2956,22 @@
             <div class="container">
                 <div class="features-grid__panel">
                     <div class="features-grid__head">
-                        <h2 id="features-grid-title" class="section__title">Worth the read? Every chapter.</h2>
-                        <p class="section__body">A few ways Nuclear Websites gives you more.</p>
+                        <h2 id="features-grid-title" class="section__title"><span class="gradient-text">Worth the read?</span> Every chapter.</h2>
+                        <p class="section__body">A few ways <span class="section__body-emphasis">Nuclear Websites</span> gives you more.</p>
                     </div>
                     <ul class="features-grid__tiles">
-                        <li class="features-grid__tile">
-                            <h3 class="features-grid__tile-title">10 roles. One person.</h3>
+                        <li class="features-grid__tile features-grid__tile--stat">
+                            <p class="features-grid__tile-prefix">Up to</p>
+                            <h3 class="features-grid__tile-title">10 roles</h3>
+                            <p class="features-grid__tile-suffix">one person.</p>
                         </li>
                         <li class="features-grid__tile">
                             <h3 class="features-grid__tile-title">Design without a designer.</h3>
                         </li>
-                        <li class="features-grid__tile">
-                            <h3 class="features-grid__tile-title">Ship without waiting on engineers.</h3>
+                        <li class="features-grid__tile features-grid__tile--stat">
+                            <p class="features-grid__tile-prefix">Ship in</p>
+                            <h3 class="features-grid__tile-title">a weekend</h3>
+                            <p class="features-grid__tile-suffix">not a quarter.</p>
                         </li>
                         <li class="features-grid__tile">
                             <h3 class="features-grid__tile-title">Copy that pays its bills.</h3>
@@ -2960,7 +2984,7 @@
                         </li>
                     </ul>
                     <div class="features-grid__footer">
-                        <a class="learn-more" href="#preview">Read the first chapter, free</a>
+                        <a class="learn-more" href="#preview">Read the first chapter</a>
                     </div>
                 </div>
             </div>
