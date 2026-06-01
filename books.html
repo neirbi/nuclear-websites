@@ -2131,24 +2131,17 @@
         .order-summary__shipping-row {
             display: flex;
             gap: var(--space-sm);
-            /* Center-align the icon with the text by default (single
-               line in unconfigured state). When configured the text
-               becomes multi-line — switch to top-aligned so the icon
-               sits with the first line, not the middle of the block. */
+            /* Center-align the icon with the text in every state.
+               Consistent alignment across default (single-line) and
+               configured (multi-line) — icon's vertical center always
+               lines up with the text block's vertical center. */
             align-items: center;
-        }
-        body:has(input[name="buy-cover"]:checked) .order-summary__shipping-row {
-            align-items: flex-start;
         }
         .order-summary__shipping-icon {
             flex-shrink: 0;
             width: 1.5rem;
             height: 1.5rem;
             color: var(--color-text-primary);
-        }
-        /* Optical adjust only in the multi-line configured state. */
-        body:has(input[name="buy-cover"]:checked) .order-summary__shipping-icon {
-            margin-top: 0.1em;
         }
         .order-summary__shipping-text {
             display: flex;
