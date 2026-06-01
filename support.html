@@ -119,6 +119,8 @@
             /* --- GRADIENTS --- */
             --gradient-primary: linear-gradient(90deg, var(--color-teal-300) 0%, var(--color-teal-500) 100%);
             --gradient-success: linear-gradient(90deg, var(--color-green-300) 0%, var(--color-green-500) 100%);
+            /* AI gradient - for Artificial Intelligence mentions */
+            --gradient-ai: linear-gradient(108deg, #0894FF, #C959DD 34%, #FF2E54 68%, #FF9004);
 
             /* --- FONTS ---
                System stack loads instantly; Inter swaps in on load */
@@ -294,6 +296,9 @@
         }
         .gradient-text--success {
             background-image: var(--gradient-success);
+        }
+        .gradient-text--ai {
+            background-image: var(--gradient-ai);
         }
 
         .visually-hidden {
