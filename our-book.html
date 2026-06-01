@@ -3060,8 +3060,8 @@
                 <div>
                     <p class="site-footer__heading">Books</p>
                     <ul class="site-footer__list">
-                        <li><a class="site-footer__link" href="/our-book#soft-cover">Soft Cover</a></li>
-                        <li><a class="site-footer__link" href="/our-book#hard-cover">Hard Cover</a></li>
+                        <li><a class="site-footer__link" href="/our-book?cover=soft#order">Soft Cover</a></li>
+                        <li><a class="site-footer__link" href="/our-book?cover=hard#order">Hard Cover</a></li>
                     </ul>
                 </div>
                 <div>
@@ -3235,30 +3235,38 @@
 
         // Cover variant persistence — remembers soft/hard choice for 14h.
         // Long enough to span a day's browsing session, short enough that
-        // a return visit tomorrow starts fresh.
+        // a return visit tomorrow starts fresh. Footer links to
+        // /our-book?cover=soft|hard#order pre-select via the URL param.
         (() => {
             const KEY = 'nw:cover';
             const TTL = 14 * 60 * 60 * 1000;
             const radios = document.querySelectorAll('input[name="buy-cover"]');
             if (!radios.length) return;
 
-            try {
-                const raw = localStorage.getItem(KEY);
-                if (raw) {
-                    const { value, ts } = JSON.parse(raw);
-                    if (Date.now() - ts < TTL && (value === 'soft' || value === 'hard')) {
-                        const match = document.querySelector(
-                            `input[name="buy-cover"][value="${value}"]`
-                        );
-                        if (match) {
-                            match.checked = true;
-                            match.dispatchEvent(new Event('change', { bubbles: true }));
-                        }
-                    } else {
-                        localStorage.removeItem(KEY);
+            const select = (value) => {
+                if (value !== 'soft' && value !== 'hard') return false;
+                const match = document.querySelector(
+                    `input[name="buy-cover"][value="${value}"]`
+                );
+                if (!match) return false;
+                match.checked = true;
+                match.dispatchEvent(new Event('change', { bubbles: true }));
+                return true;
+            };
+
+            // URL param wins over localStorage so a footer link always
+            // lands the user on the variant they clicked.
+            const fromUrl = new URLSearchParams(location.search).get('cover');
+            if (!select(fromUrl)) {
+                try {
+                    const raw = localStorage.getItem(KEY);
+                    if (raw) {
+                        const { value, ts } = JSON.parse(raw);
+                        if (Date.now() - ts < TTL) select(value);
+                        else localStorage.removeItem(KEY);
                     }
-                }
-            } catch {}
+                } catch {}
+            }
 
             radios.forEach(r => r.addEventListener('change', () => {
                 if (!r.checked) return;
