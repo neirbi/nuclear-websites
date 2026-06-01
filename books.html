@@ -2026,6 +2026,10 @@
             background-color: var(--color-bg-surface);
             padding-block: var(--space-xl);
         }
+        .order-summary__head {
+            margin-bottom: var(--space-xl);
+            max-width: 38rem;
+        }
         .order-summary__grid {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
@@ -2036,7 +2040,7 @@
             font-size: var(--text-display);
             font-weight: var(--weight-bold);
             line-height: 1.15;
-            margin: 0 0 var(--space-lg);
+            margin: 0;
         }
         .order-summary__title-muted {
             display: block;
@@ -2885,15 +2889,17 @@
 
         <section id="review" class="order-summary" aria-labelledby="order-summary-title">
             <div class="container">
+                <header class="order-summary__head">
+                    <p class="section__eyebrow">Review</p>
+                    <h2 id="order-summary-title" class="order-summary__title">
+                        <span class="order-summary__title-line gradient-text is-shown-when-default">Your new Website awaits.</span>
+                        <span class="order-summary__title-line gradient-text is-shown-when-configured">Your new <span class="order-summary__variant" data-variant="soft">Soft cover</span><span class="order-summary__variant" data-variant="hard">Hard cover</span>.</span>
+                        <span class="order-summary__title-line is-shown-when-default">Make it yours.</span>
+                        <span class="order-summary__title-line is-shown-when-configured">Just the way you want it.</span>
+                    </h2>
+                </header>
                 <div class="order-summary__grid">
                     <div class="order-summary__column">
-                        <p class="section__eyebrow">Review</p>
-                        <h2 id="order-summary-title" class="order-summary__title">
-                            <span class="order-summary__title-line gradient-text is-shown-when-default">Your new Website awaits.</span>
-                            <span class="order-summary__title-line gradient-text is-shown-when-configured">Your new <span class="order-summary__variant" data-variant="soft">Soft cover</span><span class="order-summary__variant" data-variant="hard">Hard cover</span>.</span>
-                            <span class="order-summary__title-line is-shown-when-default">Make it yours.</span>
-                            <span class="order-summary__title-line is-shown-when-configured">Just the way you want it.</span>
-                        </h2>
                         <img
                             class="order-summary__image"
                             src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/NUCLEAR%20WEBSITES%20by%20AGUSTIS%20WAYNE%20Transparent.png"
