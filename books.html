@@ -2107,6 +2107,44 @@
             cursor: default;
         }
 
+        /* Email input + CTA stack. Flex column with gap means when the
+           email input is display:none (default state) it drops out of
+           layout entirely — no extra space below the Continue button. */
+        .order-summary__actions {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+        }
+        /* Email input is shaped to match the .btn-cta below it exactly:
+           same padding, same --radius-md corners, same line-height. Sits
+           directly above the button as a paired input + action. */
+        .order-summary__email {
+            display: block;
+            width: 100%;
+            padding: 0.875rem 1.75rem;
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-md);
+            background-color: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            font-family: inherit;
+            font-size: var(--text-base);
+            font-weight: var(--weight-regular);
+            line-height: var(--line-height-base);
+            transition: border-color var(--transition-base);
+            -webkit-appearance: none;
+                    appearance: none;
+        }
+        .order-summary__email::placeholder {
+            color: var(--color-text-secondary);
+        }
+        .order-summary__email:focus {
+            outline: none;
+            border-color: var(--color-blue-link);
+        }
+        :root[data-theme="dark"] .order-summary__email:focus {
+            border-color: var(--color-blue-link-bright);
+        }
+
         /* Block-level main line + matching muted second line so both the
            default and configured titles stack as two lines. */
         .order-summary__title-line { display: block; }
@@ -2654,10 +2692,19 @@
                                 </div>
                             </div>
                         </div>
-                        <a class="btn-cta btn-cta--block order-summary__cta" href="/books#waitlist">
-                            <span class="is-shown-when-default">Continue</span>
-                            <span class="is-shown-when-configured">Join the waitlist</span>
-                        </a>
+                        <div class="order-summary__actions">
+                            <input
+                                type="email"
+                                class="order-summary__email is-shown-when-configured"
+                                placeholder="Enter your email"
+                                aria-label="Email address"
+                                autocomplete="email"
+                                inputmode="email">
+                            <a class="btn-cta btn-cta--block order-summary__cta" href="/books#waitlist">
+                                <span class="is-shown-when-default">Continue</span>
+                                <span class="is-shown-when-configured">Join the waitlist</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
