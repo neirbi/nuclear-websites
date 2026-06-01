@@ -2402,6 +2402,22 @@
         .zip-dialog__field:has(.zip-dialog__input:placeholder-shown) .zip-dialog__locate {
             display: flex;
         }
+        .zip-dialog__save {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            margin-top: var(--space-md);
+            font: var(--text-body);
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            user-select: none;
+        }
+        .zip-dialog__save input {
+            width: 1.1em;
+            height: 1.1em;
+            accent-color: var(--color-blue-link);
+            cursor: pointer;
+        }
         /* CTA itself uses .btn-cta .btn-cta--block — no extra layout
            override needed here. Kept the selector empty as an anchor
            for future order-summary-specific tweaks. */
@@ -2943,8 +2959,6 @@
                             type="text"
                             inputmode="numeric"
                             autocomplete="postal-code"
-                            pattern="\d{5}"
-                            maxlength="5"
                             placeholder="Zip Code"
                             autofocus>
                     </div>
@@ -2961,6 +2975,10 @@
                         </svg>
                     </button>
                 </div>
+                <label class="zip-dialog__save">
+                    <input type="checkbox" id="zip-dialog-save">
+                    <span>Save my location for future visits</span>
+                </label>
             </form>
         </dialog>
 
@@ -3207,20 +3225,48 @@
             const input = document.getElementById('zip-dialog-input');
             const clear = dialog?.querySelector('.zip-dialog__clear');
             const locate = dialog?.querySelector('.zip-dialog__locate');
+            const save = document.getElementById('zip-dialog-save');
             const zipLink = document.querySelector('.order-summary__zip');
             const zipCode = document.querySelector('.order-summary__zip-code');
-            if (!dialog || !input || !clear || !locate || !zipLink || !zipCode) return;
+            if (!dialog || !input || !clear || !locate || !save || !zipLink || !zipCode) return;
 
-            // Snapshot of the edge-injected geo zip on page load — used
-            // by the locate button to 'reset to detected location'.
+            const ZIP_KEY = 'nw:zip';
+            const PREFIX = 'Current Location - ';
+
+            // Edge injected the geo zip into the DOM. Capture it before any
+            // localStorage override below clobbers the visible value.
             const geoZip = zipCode.textContent.trim();
+
+            // Restore a previously saved override on page load. When present,
+            // the user has explicitly chosen a non-geo zip — display it and
+            // pre-check the save toggle so unchecking can clear it.
+            let savedZip = '';
+            try { savedZip = localStorage.getItem(ZIP_KEY) || ''; } catch {}
+            if (/^\d{5}$/.test(savedZip)) {
+                zipCode.textContent = savedZip;
+                save.checked = true;
+            }
+
+            // Strip "Current Location - " prefix the moment the input is
+            // edited; the prefix is purely a 'this is auto-detected' hint.
+            const stripPrefix = () => {
+                if (input.value.startsWith(PREFIX)) {
+                    input.value = input.value.slice(PREFIX.length);
+                }
+            };
 
             zipLink.addEventListener('click', (e) => {
                 e.preventDefault();
-                input.value = zipCode.textContent.trim();
+                const current = zipCode.textContent.trim();
+                input.value = (current === geoZip && /^\d{5}$/.test(geoZip))
+                    ? PREFIX + geoZip
+                    : current;
                 dialog.showModal();
                 input.select();
             });
+
+            input.addEventListener('focus', stripPrefix);
+            input.addEventListener('input', stripPrefix);
 
             clear.addEventListener('click', () => {
                 input.value = '';
@@ -3233,8 +3279,15 @@
             });
 
             dialog.addEventListener('close', () => {
-                const next = input.value.trim();
-                if (/^\d{5}$/.test(next)) zipCode.textContent = next;
+                const next = (input.value.startsWith(PREFIX)
+                    ? input.value.slice(PREFIX.length)
+                    : input.value).trim();
+                if (!/^\d{5}$/.test(next)) return;
+                zipCode.textContent = next;
+                try {
+                    if (save.checked) localStorage.setItem(ZIP_KEY, next);
+                    else localStorage.removeItem(ZIP_KEY);
+                } catch {}
             });
         })();
     </script>
