@@ -3004,6 +3004,11 @@
                 }
             };
 
+            // Statuses ZeroBounce returns that we accept as a real email.
+            // catch-all = domain accepts anything (lots of legit business
+            // emails sit on these); 'valid' = confirmed deliverable.
+            const ACCEPTED = new Set(['valid', 'catch-all']);
+
             let inFlight = null;
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
@@ -3014,24 +3019,39 @@
                 showStatus('validating');
                 const value = email.value.trim();
                 const cover = document.querySelector('input[name="buy-cover"]:checked')?.value;
+
+                // Step 1: validator worker (GET ?email=… → { status }).
+                // Network failure passes through — the validator is a
+                // trust signal, not a gate. If our worker is down we
+                // don't lose the signup.
+                let passed = true;
                 try {
-                    // Validator worker: GET ?email=… → { status: <ZeroBounce status> }
                     const v = await fetch(VALIDATOR_URL + '?email=' + encodeURIComponent(value), { signal: inFlight.signal });
-                    if (!v.ok) throw new Error(v.status);
-                    const { status } = await v.json();
-                    if (status !== 'valid') { showStatus('error'); submit.disabled = false; return; }
-                    fetch(WAITLIST_WEBHOOK, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ email: value, cover }),
-                    }).catch(() => {});
-                    showStatus('success');
-                    form.reset();
+                    if (v.ok) {
+                        const { status } = await v.json();
+                        passed = ACCEPTED.has(status);
+                    }
                 } catch (err) {
                     if (err.name === 'AbortError') return;
-                    showStatus('error');
-                    submit.disabled = false;
+                    /* network error → allow through */
                 }
+                if (!passed) { showStatus('error'); submit.disabled = false; return; }
+
+                // Step 2: Zapier webhook. URLSearchParams body sets
+                // Content-Type to application/x-www-form-urlencoded
+                // (a 'simple' CORS request → no preflight). mode:'no-cors'
+                // belt-and-suspenders so the response is opaque and we
+                // don't even try to read it. Battle-tested Zapier pattern.
+                try {
+                    await fetch(WAITLIST_WEBHOOK, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        body: new URLSearchParams({ email: value, cover: cover || '' }),
+                    });
+                } catch {}
+
+                showStatus('success');
+                form.reset();
             });
         })();
     </script>
