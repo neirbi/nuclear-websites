@@ -2985,6 +2985,45 @@
     </script>
 
     <script>
+        // User zip detection. Layered fallback:
+        //   1. localStorage cache (returning visitor — instant)
+        //   2. URL ?zip= query param (shared-link case)
+        //   3. /api/geo (Cloudflare Pages Function reads request.cf)
+        // If none of the above succeed, the hardcoded fallback in the
+        // markup stays put.
+        (() => {
+            const zipEl = document.querySelector('.order-summary__zip');
+            if (!zipEl) return;
+
+            const KEY = 'nuclear:user-zip';
+            const isUsZip = (z) => /^\d{5}$/.test(z);
+
+            const setZip = (zip) => {
+                if (!zip) return;
+                zipEl.textContent = zip;
+                try { localStorage.setItem(KEY, zip); } catch {}
+            };
+
+            // 2. URL param wins over cache — shared links should override.
+            const urlZip = new URLSearchParams(location.search).get('zip');
+            if (urlZip && isUsZip(urlZip)) { setZip(urlZip); return; }
+
+            // 1. Cached.
+            let cached = null;
+            try { cached = localStorage.getItem(KEY); } catch {}
+            if (cached && isUsZip(cached)) zipEl.textContent = cached;
+
+            // 3. Pages Function — only fires if we don't already have a cache hit.
+            if (!cached) {
+                fetch('/api/geo')
+                    .then((r) => (r.ok ? r.json() : null))
+                    .then((geo) => { if (geo?.postal && isUsZip(geo.postal)) setZip(geo.postal); })
+                    .catch(() => {});
+            }
+        })();
+    </script>
+
+    <script>
         (() => {
             const VALIDATOR_URL = 'https://nuclear-websites-email-validator.throbbing-sun-378c.workers.dev/';
             const WAITLIST_WEBHOOK = 'https://hooks.zapier.com/hooks/catch/27288191/4bmwix9/';
