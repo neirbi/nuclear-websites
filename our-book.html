@@ -314,6 +314,10 @@
             display: inline-block;
             position: relative;
             vertical-align: baseline;
+            /* The sizer ("does it all.") has no descenders so its line box
+               doesn't reserve space for them. Padding gives words like
+               "designs." and "ships." room for their g/p to render fully. */
+            padding-bottom: 0.15em;
         }
         .rotator__sizer {
             visibility: hidden;
@@ -324,6 +328,14 @@
             text-align: left;
             opacity: 0;
             animation: rotate-word 12s infinite;
+        }
+        /* On mobile the rotator typically wraps onto its own line, so
+           anchor the visible word to the center of the reserved width
+           instead of the (now meaningless) left edge. */
+        @media (max-width: 47.99em) {
+            .rotator > span:not(.rotator__sizer) {
+                text-align: center;
+            }
         }
         .rotator > span:not(.rotator__sizer):nth-child(2) { animation-delay: 0s; }
         .rotator > span:not(.rotator__sizer):nth-child(3) { animation-delay: 2s; }
