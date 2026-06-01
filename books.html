@@ -83,6 +83,9 @@
            DESIGN TOKENS — :root
            All tokens defined here for global access
            =========================================== */
+        :root[data-theme="light"] { color-scheme: light; }
+        :root[data-theme="dark"]  { color-scheme: dark; }
+
         :root {
             /* --- BRAND COLORS --- */
             --color-teal-300: #6FE0EA;       /* Bright cyan — gradient light stop */
@@ -2406,6 +2409,7 @@
         .zip-dialog__save {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: var(--space-sm);
             margin-top: var(--space-md);
             font: var(--text-body);
