@@ -3009,6 +3009,18 @@
             // emails sit on these); 'valid' = confirmed deliverable.
             const ACCEPTED = new Set(['valid', 'catch-all']);
 
+            // Persist the typed email across page loads — if they bounce
+            // mid-fill and come back, the field is still populated.
+            // Cleared after a successful submit.
+            const DRAFT_KEY = 'nuclear:waitlist-email-draft';
+            try {
+                const saved = localStorage.getItem(DRAFT_KEY);
+                if (saved) email.value = saved;
+            } catch {}
+            email.addEventListener('input', () => {
+                try { localStorage.setItem(DRAFT_KEY, email.value); } catch {}
+            });
+
             let inFlight = null;
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
@@ -3050,6 +3062,7 @@
                     });
                 } catch {}
 
+                try { localStorage.removeItem(DRAFT_KEY); } catch {}
                 showStatus('success');
                 form.reset();
             });
