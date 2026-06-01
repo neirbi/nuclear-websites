@@ -2323,10 +2323,16 @@
             flex-direction: column;
             gap: 0.1rem;
         }
+        /* Floating label — hidden when the input is empty (placeholder
+           is doing the labeling), revealed when there's a value. */
         .zip-dialog__label {
             font-size: var(--text-sm);
             font-weight: var(--weight-regular);
             color: var(--color-text-secondary);
+            display: none;
+        }
+        .zip-dialog__field:has(.zip-dialog__input:not(:placeholder-shown)) .zip-dialog__label {
+            display: block;
         }
         .zip-dialog__input {
             border: 0;
@@ -2341,8 +2347,17 @@
         :root[data-theme="dark"] .zip-dialog__input {
             color: var(--color-blue-link-bright);
         }
+        .zip-dialog__input::placeholder {
+            color: var(--color-text-secondary);
+            font-weight: var(--weight-regular);
+            opacity: 1;
+        }
         .zip-dialog__input:focus { outline: none; }
-        .zip-dialog__clear {
+        /* Trailing icon: 'clear' (X) when the field has a value,
+           'locate' (paper-plane arrow) when the field is empty.
+           Toggled via :has(:placeholder-shown) — pure CSS. */
+        .zip-dialog__clear,
+        .zip-dialog__locate {
             flex-shrink: 0;
             width: 1.5rem;
             height: 1.5rem;
@@ -2351,14 +2366,31 @@
             justify-content: center;
             border: 0;
             border-radius: 50%;
-            background-color: var(--color-fill-subtle);
-            color: var(--color-text-secondary);
             cursor: pointer;
             transition: background-color var(--transition-base), color var(--transition-base);
+        }
+        .zip-dialog__clear {
+            background-color: var(--color-fill-subtle);
+            color: var(--color-text-secondary);
         }
         .zip-dialog__clear:hover {
             background-color: var(--color-border-subtle);
             color: var(--color-text-primary);
+        }
+        .zip-dialog__locate {
+            background: transparent;
+            color: var(--color-blue-link);
+            display: none;
+        }
+        :root[data-theme="dark"] .zip-dialog__locate {
+            color: var(--color-blue-link-bright);
+        }
+        .zip-dialog__locate:hover { opacity: 0.7; }
+        .zip-dialog__field:has(.zip-dialog__input:placeholder-shown) .zip-dialog__clear {
+            display: none;
+        }
+        .zip-dialog__field:has(.zip-dialog__input:placeholder-shown) .zip-dialog__locate {
+            display: flex;
         }
         /* CTA itself uses .btn-cta .btn-cta--block — no extra layout
            override needed here. Kept the selector empty as an anchor
@@ -2902,12 +2934,19 @@
                             inputmode="numeric"
                             autocomplete="postal-code"
                             pattern="\d{5}"
-                            maxlength="5">
+                            maxlength="5"
+                            placeholder="Zip Code">
                     </div>
                     <button type="button" class="zip-dialog__clear" aria-label="Clear zip code">
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true">
                             <line x1="6" y1="6" x2="18" y2="18"/>
                             <line x1="18" y1="6" x2="6" y2="18"/>
+                        </svg>
+                    </button>
+                    <button type="button" class="zip-dialog__locate" aria-label="Use my detected location">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <line x1="22" y1="2" x2="11" y2="13"/>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
                         </svg>
                     </button>
                 </div>
@@ -3156,8 +3195,13 @@
             const dialog = document.getElementById('zip-dialog');
             const input = document.getElementById('zip-dialog-input');
             const clear = dialog?.querySelector('.zip-dialog__clear');
+            const locate = dialog?.querySelector('.zip-dialog__locate');
             const zipLink = document.querySelector('.order-summary__zip');
-            if (!dialog || !input || !clear || !zipLink) return;
+            if (!dialog || !input || !clear || !locate || !zipLink) return;
+
+            // Snapshot of the edge-injected geo zip on page load — used
+            // by the locate button to 'reset to detected location'.
+            const geoZip = zipLink.textContent.trim();
 
             zipLink.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -3168,6 +3212,11 @@
 
             clear.addEventListener('click', () => {
                 input.value = '';
+                input.focus();
+            });
+
+            locate.addEventListener('click', () => {
+                if (/^\d{5}$/.test(geoZip)) input.value = geoZip;
                 input.focus();
             });
 
