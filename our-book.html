@@ -771,6 +771,11 @@
         .section__body + .section__body {
             margin-top: var(--space-lg);
         }
+        /* Author section: body text left-aligned, but the body block
+           itself stays centered inside the section wrapper. */
+        #author .section__body {
+            text-align: left;
+        }
         /* Book-style drop-cap on the first paragraph of stacked-body
            sections. Floats large, line-height collapsed so the rest of
            the paragraph wraps next to it cleanly. */
@@ -3085,7 +3090,7 @@
             </div>
         </section>
 
-        <section class="section section--reading section--left" id="author" aria-labelledby="author-title">
+        <section class="section section--reading" id="author" aria-labelledby="author-title">
             <div class="container">
                 <div class="section__inner">
                     <p class="section__eyebrow">Author</p>
