@@ -1,11 +1,11 @@
-// Edge HTML rewrite — injects the user's zip into the books page
+// Edge HTML rewrite — injects the user's zip into the our-book page
 // before the response leaves Cloudflare's edge, so the page arrives
 // with the real value already in place (no client-side flash from
 // the hardcoded fallback to the detected zip).
 //
 // Runs for every request. Cheap if it doesn't match (just a path
 // check + content-type check). Only rewrites HTML, only touches
-// the books page, only acts when request.cf has a US-shaped zip.
+// the our-book page, only acts when request.cf has a US-shaped zip.
 
 const ZIP_RE = /^\d{5}$/;
 
