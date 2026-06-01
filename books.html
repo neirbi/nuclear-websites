@@ -2216,17 +2216,20 @@
         .order-summary__shipping-row {
             display: flex;
             gap: var(--space-sm);
-            /* Center-align the icon with the text in every state.
-               Consistent alignment across default (single-line) and
-               configured (multi-line) — icon's vertical center always
-               lines up with the text block's vertical center. */
-            align-items: center;
+            /* Align icon with the FIRST text line (the bold lead). With
+               align-items: center the icon would drift to the middle of
+               the multi-line configured stack, missing the lead line. */
+            align-items: flex-start;
         }
         .order-summary__shipping-icon {
             flex-shrink: 0;
             width: 1.5rem;
             height: 1.5rem;
             color: var(--color-text-primary);
+            /* Nudge so the icon's visual center sits on the first line's
+               center: ((1em * line-height) - icon-height) / 2. With
+               --text-sm * 1.4 line-height vs 1.5rem icon this is ≈ -0.14rem. */
+            margin-top: calc((var(--text-sm) * 1.4 - 1.5rem) / 2);
         }
         .order-summary__shipping-text {
             display: flex;
