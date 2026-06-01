@@ -2985,24 +2985,9 @@
     </script>
 
     <script>
-        // Waitlist form — wires the order-summary email + submit button
-        // to two upstream workers (placeholders for now). Flow:
-        //   1. HTML5 :valid gates the button at the CSS layer (already
-        //      done) — JS handler only runs once format is valid.
-        //   2. submit → 'Validating' state + disable button + abortable
-        //      fetch to validator worker.
-        //   3. validator { valid: true } → POST to waitlist webhook
-        //      with { email, cover } → success state, reset form.
-        //   4. anything else (network, false, 4xx/5xx) → error state,
-        //      re-enable button so they can retry.
-        //   5. on success we cache { email } in localStorage so a
-        //      returning user sees the success state immediately
-        //      instead of double-submitting.
         (() => {
-            // --- Drop your worker URLs here when they're live. -------
             const VALIDATOR_URL = 'https://nuclear-websites-email-validator.throbbing-sun-378c.workers.dev/';
             const WAITLIST_WEBHOOK = 'https://hooks.zapier.com/hooks/catch/27288191/4bmwix9/';
-            // ---------------------------------------------------------
 
             const form = document.querySelector('.order-summary__actions');
             if (!form) return;
@@ -3013,74 +2998,33 @@
                 error: form.querySelector('[data-state="error"]'),
                 success: form.querySelector('[data-state="success"]'),
             };
-            const CACHE_KEY = 'nuclear:waitlist-joined';
-
             const showStatus = (key) => {
-                Object.entries(statuses).forEach(([k, el]) => {
-                    if (!el) return;
-                    if (k === key) el.setAttribute('data-visible', '');
-                    else el.removeAttribute('data-visible');
-                });
+                for (const [k, el] of Object.entries(statuses)) {
+                    el?.toggleAttribute('data-visible', k === key);
+                }
             };
 
-            // Already on the list? Land them in the success state.
-            try {
-                const cached = localStorage.getItem(CACHE_KEY);
-                if (cached && JSON.parse(cached).email) {
-                    statuses.success.textContent = 'You’re already on the list. Watch your inbox.';
-                    // Only show after configuration so it doesn't shout
-                    // at someone who hasn't picked a cover yet.
-                    form.addEventListener('change', () => showStatus('success'), { once: true });
-                }
-            } catch {}
-
-            let inFlight = null;  // AbortController for the active request
-
+            let inFlight = null;
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 if (submit.disabled) return;
-
-                // Cancel any prior request (rapid resubmit).
                 inFlight?.abort();
                 inFlight = new AbortController();
-                const { signal } = inFlight;
-
                 submit.disabled = true;
                 showStatus('validating');
-
                 const value = email.value.trim();
                 const cover = document.querySelector('input[name="buy-cover"]:checked')?.value;
-
                 try {
-                    // Step 2: validator worker confirms the email is real.
-                    // Worker is GET ?email=… → { status: ZeroBounce status }.
-                    // ZeroBounce statuses: valid | invalid | catch-all |
-                    // unknown | spamtrap | abuse | do_not_mail. Only
-                    // 'valid' passes — loosen if you want catch-all too.
-                    const v = await fetch(
-                        VALIDATOR_URL + '?email=' + encodeURIComponent(value),
-                        { signal }
-                    );
-                    if (!v.ok) throw new Error('validator status ' + v.status);
+                    // Validator worker: GET ?email=… → { status: <ZeroBounce status> }
+                    const v = await fetch(VALIDATOR_URL + '?email=' + encodeURIComponent(value), { signal: inFlight.signal });
+                    if (!v.ok) throw new Error(v.status);
                     const { status } = await v.json();
-                    if (status !== 'valid') {
-                        showStatus('error');
-                        submit.disabled = false;
-                        return;
-                    }
-
-                    // Validator passed → success is immediate, regardless
-                    // of whether the webhook step succeeds. Webhook fires
-                    // fire-and-forget in the background; whatever happens
-                    // to it (CORS preflight rejection, Zapier down, not
-                    // wired up yet) is silently ignored.
+                    if (status !== 'valid') { showStatus('error'); submit.disabled = false; return; }
                     fetch(WAITLIST_WEBHOOK, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ email: value, cover }),
                     }).catch(() => {});
-
-                    try { localStorage.setItem(CACHE_KEY, JSON.stringify({ email: value })); } catch {}
                     showStatus('success');
                     form.reset();
                 } catch (err) {
