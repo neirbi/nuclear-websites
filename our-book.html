@@ -306,6 +306,37 @@
             background-image: var(--gradient-ai);
         }
 
+        /* Rotating word — stacks N children absolutely, cycles each via
+           staggered animation-delay. min-width reserves room for the
+           longest word so the line above doesn't reflow as words swap. */
+        .rotator {
+            display: inline-block;
+            position: relative;
+            min-width: 11ch;
+            vertical-align: baseline;
+        }
+        .rotator > span {
+            position: absolute;
+            inset: 0;
+            text-align: center;
+            opacity: 0;
+            animation: rotate-word 12s infinite;
+        }
+        .rotator > span:nth-child(1) { animation-delay: 0s; }
+        .rotator > span:nth-child(2) { animation-delay: 2s; }
+        .rotator > span:nth-child(3) { animation-delay: 4s; }
+        .rotator > span:nth-child(4) { animation-delay: 6s; }
+        .rotator > span:nth-child(5) { animation-delay: 8s; }
+        .rotator > span:nth-child(6) { animation-delay: 10s; }
+        @keyframes rotate-word {
+            0%, 100% { opacity: 0; transform: translateY(0.15em); }
+            3%, 16% { opacity: 1; transform: translateY(0); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .rotator > span { animation: none; opacity: 1; }
+            .rotator > span:not(:last-child) { display: none; }
+        }
+
         .visually-hidden {
             position: absolute;
             width: 1px;
@@ -3099,7 +3130,7 @@
             <div class="container">
                 <div class="section__inner">
                     <p class="section__eyebrow">Author</p>
-                    <h2 id="author-title" class="section__title"><span class="gradient-text gradient-text--ai">Artificial Intelligence</span></h2>
+                    <h2 id="author-title" class="section__title">The one who <span class="rotator" aria-hidden="true"><span class="gradient-text">builds</span><span class="gradient-text">designs</span><span class="gradient-text">writes</span><span class="gradient-text">codes</span><span class="gradient-text">ships</span><span class="gradient-text">does it all</span></span><span class="visually-hidden">does it all.</span></h2>
                     <p class="section__body"><span class="author__dropcap gradient-text">A</span><span class="gradient-text" style="text-transform: uppercase;">gustis Wayne</span> is the author of <span class="gradient-text gradient-text--success"><i>Nuclear Websites</i></span>. A website used to take an entire team. Product managers, backend developers, frontend developers, UX/UI designers, DevOps engineers, sales specialists, digital marketers, copywriters, graphic designers, and QA testers. That team stood between your idea and a page that ships.</p>
                     <p class="section__body"><span class="section__body-emphasis">Now, with Artificial Intelligence, you can be all of them.</span> Beginner or expert, you build better websites faster. <span class="gradient-text gradient-text--success"><i>Nuclear Websites</i></span> is years of pre-AI experience at companies like Apple and Tesla. It&rsquo;s written for you to understand and AI to execute. You&rsquo;ll learn to think like a manager, a designer, and a developer.</p>
                     <p class="section__body">This book is for you. Beginner or senior. Solo or whole team. By the end, you&rsquo;ll be strong in every area you&rsquo;re short in now. And you&rsquo;ll ship websites like never before.</p>
