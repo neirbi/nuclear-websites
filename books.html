@@ -2742,6 +2742,13 @@
                             <!-- Configured state — real submit button. Stays disabled
                                  until email passes HTML5 :valid (see :has rule). -->
                             <button type="submit" class="btn-cta btn-cta--block order-summary__cta is-shown-when-configured">Join the waitlist</button>
+                            <!-- Invisible Turnstile widget. Auto-generates a token on
+                                 page load; we read it on submit and send to /api/waitlist
+                                 for server-side verification. The data-sitekey below is
+                                 Cloudflare's 'always-passes' test key — swap for the
+                                 real site key from the dashboard once Turnstile is set
+                                 up (TURNSTILE_SECRET env var on the Pages project). -->
+                            <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA" data-size="invisible"></div>
                             <p class="order-summary__form-status" data-state="validating" aria-live="polite">Validating your email&hellip;</p>
                             <p class="order-summary__form-status" data-state="error" aria-live="polite">That email doesn&rsquo;t look right. Try another?</p>
                             <p class="order-summary__form-status" data-state="success" aria-live="polite">You&rsquo;re on the list. Watch your inbox.</p>
@@ -2984,11 +2991,11 @@
         })();
     </script>
 
+    <!-- Cloudflare Turnstile — invisible bot check on the waitlist form -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
     <script>
         (() => {
-            const VALIDATOR_URL = 'https://nuclear-websites-email-validator.throbbing-sun-378c.workers.dev/';
-            const WAITLIST_WEBHOOK = 'https://hooks.zapier.com/hooks/catch/27288191/4bmwix9/';
-
             const form = document.querySelector('.order-summary__actions');
             if (!form) return;
             const email = form.querySelector('.order-summary__email');
@@ -3004,14 +3011,8 @@
                 }
             };
 
-            // Statuses ZeroBounce returns that we accept as a real email.
-            // catch-all = domain accepts anything (lots of legit business
-            // emails sit on these); 'valid' = confirmed deliverable.
-            const ACCEPTED = new Set(['valid', 'catch-all']);
-
             // Persist the typed email across page loads — if they bounce
             // mid-fill and come back, the field is still populated.
-            // Cleared after a successful submit.
             const DRAFT_KEY = 'nuclear:waitlist-email-draft';
             try {
                 const saved = localStorage.getItem(DRAFT_KEY);
@@ -3029,42 +3030,34 @@
                 inFlight = new AbortController();
                 submit.disabled = true;
                 showStatus('validating');
+
                 const value = email.value.trim();
                 const cover = document.querySelector('input[name="buy-cover"]:checked')?.value;
+                // Turnstile drops a hidden input named cf-turnstile-response
+                // inside the form once it's solved (or auto-passed). Read it
+                // via FormData and send to the server for verification.
+                const captcha = new FormData(form).get('cf-turnstile-response') || '';
 
-                // Step 1: validator worker (GET ?email=… → { status }).
-                // Network failure passes through — the validator is a
-                // trust signal, not a gate. If our worker is down we
-                // don't lose the signup.
-                let passed = true;
                 try {
-                    const v = await fetch(VALIDATOR_URL + '?email=' + encodeURIComponent(value), { signal: inFlight.signal });
-                    if (v.ok) {
-                        const { status } = await v.json();
-                        passed = ACCEPTED.has(status);
-                    }
+                    const res = await fetch('/api/waitlist', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: value, cover, turnstile: captcha }),
+                        signal: inFlight.signal,
+                    });
+                    if (!res.ok) throw new Error(res.status);
+
+                    try { localStorage.removeItem(DRAFT_KEY); } catch {}
+                    // Tokens are single-use — reset so a returning submit gets a fresh one.
+                    window.turnstile?.reset?.();
+                    showStatus('success');
+                    form.reset();
                 } catch (err) {
                     if (err.name === 'AbortError') return;
-                    /* network error → allow through */
+                    window.turnstile?.reset?.();
+                    showStatus('error');
+                    submit.disabled = false;
                 }
-                if (!passed) { showStatus('error'); submit.disabled = false; return; }
-
-                // Step 2: Zapier webhook. URLSearchParams body sets
-                // Content-Type to application/x-www-form-urlencoded
-                // (a 'simple' CORS request → no preflight). mode:'no-cors'
-                // belt-and-suspenders so the response is opaque and we
-                // don't even try to read it. Battle-tested Zapier pattern.
-                try {
-                    await fetch(WAITLIST_WEBHOOK, {
-                        method: 'POST',
-                        mode: 'no-cors',
-                        body: new URLSearchParams({ email: value, cover: cover || '' }),
-                    });
-                } catch {}
-
-                try { localStorage.removeItem(DRAFT_KEY); } catch {}
-                showStatus('success');
-                form.reset();
             });
         })();
     </script>
