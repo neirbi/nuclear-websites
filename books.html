@@ -2096,9 +2096,9 @@
         }
         /* Image variants — block (not inline) so the cover image keeps
            its sized layout. Default img hides via is-shown-when-default. */
-        img.order-summary__image[data-variant] { display: none; }
-        body:has(input[name="buy-cover"][value="soft"]:checked) img.order-summary__image[data-variant="soft"],
-        body:has(input[name="buy-cover"][value="hard"]:checked) img.order-summary__image[data-variant="hard"] {
+        img.buy__media-image[data-variant] { display: none; }
+        body:has(input[name="buy-cover"][value="soft"]:checked) img.buy__media-image[data-variant="soft"],
+        body:has(input[name="buy-cover"][value="hard"]:checked) img.buy__media-image[data-variant="hard"] {
             display: block;
         }
         /* Until something is picked, the CTA is visually muted *and*
@@ -2824,9 +2824,23 @@
                 <div class="buy__stage">
                     <div class="buy__media">
                         <img
-                            class="buy__media-image"
-                            src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/NUCLEAR%20WEBSITES%20by%20AGUSTIS%20WAYNE%20Hardcover%20Side%20Transparent.png"
+                            class="buy__media-image is-shown-when-default"
+                            src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/NUCLEAR%20WEBSITES%20by%20AGUSTIS%20WAYNE%20Transparent.png"
                             alt="Nuclear Websites book"
+                            loading="lazy"
+                            decoding="async">
+                        <img
+                            class="buy__media-image"
+                            data-variant="soft"
+                            src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/NUCLEAR%20WEBSITES%20by%20AGUSTIS%20WAYNE%20Softcover%20Side%20Transparent.png"
+                            alt="Nuclear Websites soft cover"
+                            loading="lazy"
+                            decoding="async">
+                        <img
+                            class="buy__media-image"
+                            data-variant="hard"
+                            src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/NUCLEAR%20WEBSITES%20by%20AGUSTIS%20WAYNE%20Hardcover%20Side%20Transparent.png"
+                            alt="Nuclear Websites hard cover"
                             loading="lazy"
                             decoding="async">
                     </div>
@@ -2872,23 +2886,9 @@
                             <span class="order-summary__title-line is-shown-when-configured">Just the way you want it.</span>
                         </h2>
                         <img
-                            class="order-summary__image is-shown-when-default"
+                            class="order-summary__image"
                             src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/NUCLEAR%20WEBSITES%20by%20AGUSTIS%20WAYNE%20Transparent.png"
                             alt="Nuclear Websites book, front cover"
-                            loading="lazy"
-                            decoding="async">
-                        <img
-                            class="order-summary__image"
-                            data-variant="soft"
-                            src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/NUCLEAR%20WEBSITES%20by%20AGUSTIS%20WAYNE%20Softcover%20Side%20Transparent.png"
-                            alt="Nuclear Websites book, soft cover"
-                            loading="lazy"
-                            decoding="async">
-                        <img
-                            class="order-summary__image"
-                            data-variant="hard"
-                            src="https://pub-318b2b3482ae4055a736805e9cbfc738.r2.dev/NUCLEAR%20WEBSITES%20by%20AGUSTIS%20WAYNE%20Hardcover%20Side%20Transparent.png"
-                            alt="Nuclear Websites book, hard cover"
                             loading="lazy"
                             decoding="async">
                     </div>
