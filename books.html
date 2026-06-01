@@ -2238,16 +2238,19 @@
         .order-summary__zip:hover { opacity: 0.7; }
 
         /* ===========================================
-           ZIP DIALOG — opens when user clicks the zip link.
-           Native <dialog> handles focus trap, ESC, ARIA.
+           ZIP DIALOG — Apple delivery-location pattern.
+           Native <dialog>; no submit button — typed value
+           is applied to the displayed zip on any close
+           (X / ESC / backdrop click).
            =========================================== */
         .zip-dialog {
+            position: relative;
             border: 0;
-            padding: var(--space-xl);
+            padding: calc(var(--space-xl) * 1.25) var(--space-xl) var(--space-xl);
             border-radius: var(--radius-xl);
             background-color: var(--color-bg-surface);
             color: var(--color-text-primary);
-            max-width: 24rem;
+            max-width: 32rem;
             width: 90vw;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         }
@@ -2265,66 +2268,97 @@
         @media (prefers-reduced-motion: reduce) {
             .zip-dialog[open] { animation: none; }
         }
+        .zip-dialog__close {
+            position: absolute;
+            top: var(--space-md);
+            right: var(--space-md);
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 0;
+            border-radius: 50%;
+            background-color: var(--color-fill-subtle);
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            transition: background-color var(--transition-base), color var(--transition-base);
+        }
+        .zip-dialog__close:hover {
+            background-color: var(--color-border-subtle);
+            color: var(--color-text-primary);
+        }
         .zip-dialog__title {
-            font-size: var(--text-lg);
+            font-size: var(--text-xl);
             font-weight: var(--weight-bold);
             line-height: 1.2;
-            margin: 0 0 var(--space-lg);
+            text-align: center;
+            margin: 0 0 var(--space-xs);
         }
-        .zip-dialog__label {
-            display: block;
-            font-size: var(--text-sm);
-            font-weight: var(--weight-semibold);
-            color: var(--color-text-secondary);
-            margin-bottom: var(--space-xs);
-        }
-        .zip-dialog__input {
-            display: block;
-            width: 100%;
-            padding: 0.875rem 1rem;
-            border: 1px solid var(--color-border-subtle);
-            border-radius: var(--radius-md);
-            background-color: var(--color-bg-primary);
-            color: var(--color-text-primary);
-            font-family: inherit;
+        .zip-dialog__subtitle {
             font-size: var(--text-md);
             font-weight: var(--weight-regular);
-            letter-spacing: 0.02em;
-            margin-bottom: var(--space-lg);
+            color: var(--color-text-secondary);
+            text-align: center;
+            margin: 0 0 var(--space-lg);
         }
-        .zip-dialog__input:focus {
-            outline: none;
+        .zip-dialog__field {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-sm) var(--space-md);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-md);
+            transition: border-color var(--transition-base);
+        }
+        .zip-dialog__field:focus-within {
             border-color: var(--color-blue-link);
         }
-        :root[data-theme="dark"] .zip-dialog__input:focus {
+        :root[data-theme="dark"] .zip-dialog__field:focus-within {
             border-color: var(--color-blue-link-bright);
         }
-        .zip-dialog__actions {
+        .zip-dialog__field-stack {
+            flex: 1;
             display: flex;
-            gap: var(--space-sm);
-            justify-content: flex-end;
+            flex-direction: column;
+            gap: 0.1rem;
         }
-        .zip-dialog__btn {
-            border: 0;
-            padding: 0.625rem 1.25rem;
-            border-radius: var(--radius-md);
-            font-family: inherit;
-            font-size: var(--text-base);
-            font-weight: var(--weight-medium);
-            cursor: pointer;
-            transition: background-color var(--transition-base);
-        }
-        .zip-dialog__btn--cancel {
-            background: transparent;
+        .zip-dialog__label {
+            font-size: var(--text-sm);
+            font-weight: var(--weight-regular);
             color: var(--color-text-secondary);
         }
-        .zip-dialog__btn--cancel:hover { color: var(--color-text-primary); }
-        .zip-dialog__btn--save {
-            background-color: var(--color-green-500);
-            color: var(--color-on-accent);
+        .zip-dialog__input {
+            border: 0;
+            padding: 0;
+            background: transparent;
+            color: var(--color-blue-link);
+            font-family: inherit;
+            font-size: var(--text-md);
+            font-weight: var(--weight-semibold);
+            letter-spacing: 0.01em;
         }
-        .zip-dialog__btn--save:hover {
-            background-color: color-mix(in srgb, var(--color-green-500), white 15%);
+        :root[data-theme="dark"] .zip-dialog__input {
+            color: var(--color-blue-link-bright);
+        }
+        .zip-dialog__input:focus { outline: none; }
+        .zip-dialog__clear {
+            flex-shrink: 0;
+            width: 1.5rem;
+            height: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 0;
+            border-radius: 50%;
+            background-color: var(--color-fill-subtle);
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            transition: background-color var(--transition-base), color var(--transition-base);
+        }
+        .zip-dialog__clear:hover {
+            background-color: var(--color-border-subtle);
+            color: var(--color-text-primary);
         }
         /* CTA itself uses .btn-cta .btn-cta--block — no extra layout
            override needed here. Kept the selector empty as an anchor
@@ -2850,21 +2884,32 @@
 
         <dialog id="zip-dialog" class="zip-dialog" aria-labelledby="zip-dialog-title">
             <form method="dialog">
-                <h2 id="zip-dialog-title" class="zip-dialog__title">Where are we shipping?</h2>
-                <label class="zip-dialog__label" for="zip-dialog-input">ZIP code</label>
-                <input
-                    id="zip-dialog-input"
-                    class="zip-dialog__input"
-                    type="text"
-                    inputmode="numeric"
-                    autocomplete="postal-code"
-                    pattern="\d{5}"
-                    maxlength="5"
-                    required
-                    placeholder="85001">
-                <div class="zip-dialog__actions">
-                    <button type="submit" value="cancel" class="zip-dialog__btn zip-dialog__btn--cancel" formnovalidate>Cancel</button>
-                    <button type="submit" value="save" class="zip-dialog__btn zip-dialog__btn--save">Update</button>
+                <button type="submit" class="zip-dialog__close" aria-label="Close" formnovalidate>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                    </svg>
+                </button>
+                <h2 id="zip-dialog-title" class="zip-dialog__title">Delivery Location</h2>
+                <p class="zip-dialog__subtitle">For <span class="order-summary__variant" data-variant="soft">Soft cover</span><span class="order-summary__variant" data-variant="hard">Hard cover</span></p>
+                <div class="zip-dialog__field">
+                    <div class="zip-dialog__field-stack">
+                        <label class="zip-dialog__label" for="zip-dialog-input">Zip Code</label>
+                        <input
+                            id="zip-dialog-input"
+                            class="zip-dialog__input"
+                            type="text"
+                            inputmode="numeric"
+                            autocomplete="postal-code"
+                            pattern="\d{5}"
+                            maxlength="5">
+                    </div>
+                    <button type="button" class="zip-dialog__clear" aria-label="Clear zip code">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true">
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                        </svg>
+                    </button>
                 </div>
             </form>
         </dialog>
@@ -3103,14 +3148,16 @@
     </script>
 
     <script>
-        // Zip dialog — opens when user clicks the zip link in the order
-        // summary. Native <dialog> handles focus trap, ESC, and focus
-        // restoration on close. We just open it and read the result.
+        // Zip dialog — Apple delivery-location pattern. No submit button:
+        // whatever the user has typed gets applied to the displayed zip
+        // when the dialog closes (X / ESC / backdrop / Enter). Empty or
+        // invalid input on close = no change.
         (() => {
             const dialog = document.getElementById('zip-dialog');
             const input = document.getElementById('zip-dialog-input');
+            const clear = dialog?.querySelector('.zip-dialog__clear');
             const zipLink = document.querySelector('.order-summary__zip');
-            if (!dialog || !input || !zipLink) return;
+            if (!dialog || !input || !clear || !zipLink) return;
 
             zipLink.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -3119,9 +3166,12 @@
                 input.select();
             });
 
-            dialog.querySelector('form').addEventListener('submit', (e) => {
-                // method='dialog' closes for us. We only act on save.
-                if (e.submitter?.value !== 'save') return;
+            clear.addEventListener('click', () => {
+                input.value = '';
+                input.focus();
+            });
+
+            dialog.addEventListener('close', () => {
                 const next = input.value.trim();
                 if (/^\d{5}$/.test(next)) zipLink.textContent = next;
             });
