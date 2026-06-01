@@ -1,17 +1,18 @@
-// Server-side waitlist signup. Consolidates the old client-side flow
-// (validator + Zapier) into one endpoint so the Turnstile secret can
-// stay on the server.
+// Server-side waitlist signup. Verifies Turnstile, validates the email
+// via the ZeroBounce-backed worker, persists the signup to D1.
 //
-// Env vars (set on the Pages project → Settings → Env Variables):
-//   TURNSTILE_SECRET  — required for spam protection. If absent, the
-//                       captcha step is skipped (graceful degradation
-//                       while you finish dashboard setup).
+// Env vars (set on the Pages project → Settings → Variables and Secrets):
+//   TURNSTILE_SECRET — required for spam protection. If absent, the
+//                      captcha step is skipped (graceful degradation
+//                      while dashboard setup is in progress).
+//
+// Bindings (Pages project → Settings → Bindings):
+//   DB — D1 database binding pointing at the nuclear-waitlist database.
 
-const TURNSTILE_VERIFY  = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
-const VALIDATOR_URL     = 'https://nuclear-websites-email-validator.throbbing-sun-378c.workers.dev/';
-const WAITLIST_WEBHOOK  = 'https://hooks.zapier.com/hooks/catch/27288191/4bmwix9/';
-const ACCEPTED          = new Set(['valid', 'catch-all']);
-const EMAIL_RE          = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const TURNSTILE_VERIFY = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
+const VALIDATOR_URL    = 'https://nuclear-websites-email-validator.throbbing-sun-378c.workers.dev/';
+const ACCEPTED         = new Set(['valid', 'catch-all']);
+const EMAIL_RE         = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const json = (status, body) =>
     new Response(JSON.stringify(body), {
@@ -59,13 +60,24 @@ export async function onRequestPost({ request, env }) {
     } catch {}
     if (!emailOk) return json(422, { ok: false, error: 'invalid_email' });
 
-    // 3. Forward to Zapier (fire-and-forget — never blocks the success response).
+    // 3. Persist to D1. created_at defaults to unixepoch() server-side.
+    // Allows duplicate emails on purpose — interesting signal (someone
+    // signed up twice = they care). Dedupe at query/export time if needed.
     try {
-        await fetch(WAITLIST_WEBHOOK, {
-            method: 'POST',
-            body: new URLSearchParams({ email, cover: cover || '' }),
-        });
-    } catch {}
+        await env.DB.prepare(
+            'INSERT INTO signups (email, cover, ip, country, user_agent) VALUES (?, ?, ?, ?, ?)'
+        ).bind(
+            email,
+            cover || '',
+            request.headers.get('CF-Connecting-IP') || '',
+            request.cf?.country || '',
+            request.headers.get('User-Agent') || '',
+        ).run();
+    } catch {
+        // Storage failure shouldn't surface to the user — they already
+        // passed Turnstile + validation. Quietly return ok and rely on
+        // dashboard logs to surface DB issues.
+    }
 
     return json(200, { ok: true });
 }
