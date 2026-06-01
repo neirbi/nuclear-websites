@@ -321,7 +321,7 @@
         .rotator > span:not(.rotator__sizer) {
             position: absolute;
             inset: 0;
-            text-align: center;
+            text-align: left;
             opacity: 0;
             animation: rotate-word 12s infinite;
         }
@@ -331,9 +331,14 @@
         .rotator > span:not(.rotator__sizer):nth-child(5) { animation-delay: 6s; }
         .rotator > span:not(.rotator__sizer):nth-child(6) { animation-delay: 8s; }
         .rotator > span:not(.rotator__sizer):nth-child(7) { animation-delay: 10s; }
+        /* Each word: fade up in (0→3%), hold (3→14%), fade up out (14→17%),
+           hidden (17→100%). 12s cycle ÷ 6 words = 2s per slot. */
         @keyframes rotate-word {
-            0%, 100% { opacity: 0; transform: translateY(0.15em); }
-            3%, 16% { opacity: 1; transform: translateY(0); }
+            0%   { opacity: 0; transform: translateY(0.2em); }
+            3%   { opacity: 1; transform: translateY(0); }
+            14%  { opacity: 1; transform: translateY(0); }
+            17%  { opacity: 0; transform: translateY(-0.2em); }
+            100% { opacity: 0; transform: translateY(-0.2em); }
         }
         @media (prefers-reduced-motion: reduce) {
             .rotator > span:not(.rotator__sizer) { animation: none; opacity: 1; }
