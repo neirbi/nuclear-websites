@@ -115,6 +115,7 @@
             --color-accent-primary: #12B8C9;
             --color-accent-strong: #0A5565;
             --color-success: #2FAE6F;
+            --color-error:   #D70015;   /* Apple system red (light) */
 
             /* --- GRADIENTS --- */
             --gradient-primary: linear-gradient(90deg, var(--color-teal-300) 0%, var(--color-teal-500) 100%);
@@ -633,6 +634,7 @@
             --color-bg-surface: #1D1D1F;
             --color-bg-surface-strong: #161618;
             --frost-bg: rgba(29, 29, 31, 0.72);
+            --color-error: #FF453A;  /* Apple system red (dark) */
         }
 
         /* ===========================================
@@ -2144,6 +2146,35 @@
         :root[data-theme="dark"] .order-summary__email:focus {
             border-color: var(--color-blue-link-bright);
         }
+        /* Submit button stays disabled until the email passes HTML5
+           format validation (:valid). Layered on top of the existing
+           'no cover picked' disable. Pure CSS — no JS for the gate. */
+        .order-summary__actions:has(.order-summary__email:invalid) .order-summary__cta {
+            opacity: 0.55;
+            pointer-events: none;
+            cursor: default;
+        }
+        /* Status messages below the submit. Hidden by default; the JS
+           toggles [data-visible] to reveal one at a time. aria-live
+           announces the change to screen readers. */
+        .order-summary__form-status {
+            margin: var(--space-xs) 0 0;
+            font-size: var(--text-sm);
+            line-height: 1.4;
+            display: none;
+        }
+        .order-summary__form-status[data-visible] {
+            display: block;
+        }
+        .order-summary__form-status[data-state="validating"] {
+            color: var(--color-text-secondary);
+        }
+        .order-summary__form-status[data-state="error"] {
+            color: var(--color-error);
+        }
+        .order-summary__form-status[data-state="success"] {
+            color: var(--color-success);
+        }
 
         /* Block-level main line + matching muted second line so both the
            default and configured titles stack as two lines. */
@@ -2692,19 +2723,27 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="order-summary__actions">
+                        <form class="order-summary__actions" novalidate>
                             <input
                                 type="email"
                                 class="order-summary__email is-shown-when-configured"
                                 placeholder="Enter your email"
                                 aria-label="Email address"
                                 autocomplete="email"
-                                inputmode="email">
-                            <a class="btn-cta btn-cta--block order-summary__cta" href="/books#waitlist">
-                                <span class="is-shown-when-default">Continue</span>
-                                <span class="is-shown-when-configured">Join the waitlist</span>
-                            </a>
-                        </div>
+                                inputmode="email"
+                                spellcheck="false"
+                                autocapitalize="off"
+                                required>
+                            <!-- Default state (no cover picked) — anchor to the buy
+                                 section. Disabled via the existing :has(no-checked) CSS. -->
+                            <a class="btn-cta btn-cta--block order-summary__cta is-shown-when-default" href="#buy-title">Continue</a>
+                            <!-- Configured state — real submit button. Stays disabled
+                                 until email passes HTML5 :valid (see :has rule). -->
+                            <button type="submit" class="btn-cta btn-cta--block order-summary__cta is-shown-when-configured">Join the waitlist</button>
+                            <p class="order-summary__form-status" data-state="validating" aria-live="polite">Validating your email&hellip;</p>
+                            <p class="order-summary__form-status" data-state="error" aria-live="polite">That email doesn&rsquo;t look right. Try another?</p>
+                            <p class="order-summary__form-status" data-state="success" aria-live="polite">You&rsquo;re on the list. Watch your inbox.</p>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -2940,6 +2979,111 @@
                 });
             }, { threshold: 0.5 });
             io.observe(status);
+        })();
+    </script>
+
+    <script>
+        // Waitlist form — wires the order-summary email + submit button
+        // to two upstream workers (placeholders for now). Flow:
+        //   1. HTML5 :valid gates the button at the CSS layer (already
+        //      done) — JS handler only runs once format is valid.
+        //   2. submit → 'Validating' state + disable button + abortable
+        //      fetch to validator worker.
+        //   3. validator { valid: true } → POST to waitlist webhook
+        //      with { email, cover } → success state, reset form.
+        //   4. anything else (network, false, 4xx/5xx) → error state,
+        //      re-enable button so they can retry.
+        //   5. on success we cache { email } in localStorage so a
+        //      returning user sees the success state immediately
+        //      instead of double-submitting.
+        (() => {
+            // --- Drop your worker URLs here when they're live. -------
+            const VALIDATOR_URL = 'https://YOUR-WORKER.workers.dev/validate-email';
+            const WAITLIST_WEBHOOK = 'https://YOUR-WORKER.workers.dev/waitlist';
+            // ---------------------------------------------------------
+
+            const form = document.querySelector('.order-summary__actions');
+            if (!form) return;
+            const email = form.querySelector('.order-summary__email');
+            const submit = form.querySelector('button[type="submit"]');
+            const statuses = {
+                validating: form.querySelector('[data-state="validating"]'),
+                error: form.querySelector('[data-state="error"]'),
+                success: form.querySelector('[data-state="success"]'),
+            };
+            const CACHE_KEY = 'nuclear:waitlist-joined';
+
+            const showStatus = (key) => {
+                Object.entries(statuses).forEach(([k, el]) => {
+                    if (!el) return;
+                    if (k === key) el.setAttribute('data-visible', '');
+                    else el.removeAttribute('data-visible');
+                });
+            };
+
+            // Already on the list? Land them in the success state.
+            try {
+                const cached = localStorage.getItem(CACHE_KEY);
+                if (cached && JSON.parse(cached).email) {
+                    statuses.success.textContent = 'You’re already on the list. Watch your inbox.';
+                    // Only show after configuration so it doesn't shout
+                    // at someone who hasn't picked a cover yet.
+                    form.addEventListener('change', () => showStatus('success'), { once: true });
+                }
+            } catch {}
+
+            let inFlight = null;  // AbortController for the active request
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                if (submit.disabled) return;
+
+                // Cancel any prior request (rapid resubmit).
+                inFlight?.abort();
+                inFlight = new AbortController();
+                const { signal } = inFlight;
+
+                submit.disabled = true;
+                showStatus('validating');
+
+                const value = email.value.trim();
+                const cover = document.querySelector('input[name="buy-cover"]:checked')?.value;
+
+                try {
+                    // Step 2: validator worker confirms the email is real.
+                    const v = await fetch(VALIDATOR_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: value }),
+                        signal,
+                    });
+                    if (!v.ok) throw new Error('validator status ' + v.status);
+                    const { valid } = await v.json();
+                    if (!valid) {
+                        showStatus('error');
+                        submit.disabled = false;
+                        return;
+                    }
+
+                    // Step 3: webhook records the signup (with the cover
+                    // they picked so you know which book they want).
+                    const w = await fetch(WAITLIST_WEBHOOK, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: value, cover }),
+                        signal,
+                    });
+                    if (!w.ok) throw new Error('webhook status ' + w.status);
+
+                    try { localStorage.setItem(CACHE_KEY, JSON.stringify({ email: value })); } catch {}
+                    showStatus('success');
+                    form.reset();
+                } catch (err) {
+                    if (err.name === 'AbortError') return;
+                    showStatus('error');
+                    submit.disabled = false;
+                }
+            });
         })();
     </script>
 
