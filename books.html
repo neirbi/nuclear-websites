@@ -137,6 +137,7 @@
             --text-lg:   1.563rem;   /* 25px — H3 */
             --text-xl:   1.953rem;   /* 31px — H2 */
             --text-xxl:  2.441rem;   /* 39px — H1 */
+            --text-nav:  1.0625rem;  /* 17px — nav + footer logo */
 
             /* Display type — large marketing headlines that scale with
                viewport. Apple-style range: ~40px mobile -> ~72px wide
@@ -147,8 +148,10 @@
             /* --- VERTICAL RHYTHM --- */
             --heading-margin-top: 2em;
             --heading-margin-bottom: 1em;
-            --line-height-base: 1.6;
-            --line-height-heading: 1.2;
+            --line-height-base: 1.6;        /* body running text */
+            --line-height-snug: 1.4;        /* dense body / small text */
+            --line-height-heading: 1.2;     /* section titles, mid headings */
+            --line-height-tight: 1.1;       /* display type, eyebrows */
 
             /* --- FONT WEIGHTS --- */
             --weight-regular: 400;
@@ -339,7 +342,7 @@
         .site-nav__logo {
             justify-self: start;
             color: var(--color-text-primary);
-            font-size: 1.0625rem;
+            font-size: var(--text-nav);
             font-weight: var(--weight-semibold);
         }
         .site-nav__logo:hover { color: var(--color-text-primary); }
@@ -601,7 +604,7 @@
             .site-nav__link {
                 display: block;
                 padding: var(--space-sm) var(--nav-height);
-                font-size: 1.5rem;
+                font-size: var(--text-lg);
                 font-weight: var(--weight-semibold);
                 opacity: 1;
             }
@@ -745,20 +748,20 @@
             font-size: var(--text-base);
             font-weight: var(--weight-bold);
             color: var(--color-text-secondary);
-            line-height: 1.15;
+            line-height: var(--line-height-tight);
             margin: 0 0 var(--space-md);
         }
         .section__title {
             font-size: var(--text-display);
             font-weight: var(--weight-bold);
-            line-height: 1.1;
+            line-height: var(--line-height-tight);
             margin: 0 0 var(--space-md);
         }
         .section__body {
             font-size: var(--text-md);
             font-weight: var(--weight-semibold);
             color: var(--color-text-secondary);
-            line-height: 1.2;
+            line-height: var(--line-height-heading);
             margin: 0 auto;
             max-width: 38rem;
         }
@@ -869,7 +872,7 @@
             font-size: var(--text-lg);
             font-weight: var(--weight-semibold);
             color: var(--color-text-secondary);
-            line-height: 1.4;
+            line-height: var(--line-height-snug);
         }
         .section__list li + li {
             margin-top: var(--space-xs);
@@ -896,7 +899,7 @@
         .reveal-sentences__text {
             font-size: var(--text-display);
             font-weight: var(--weight-bold);
-            line-height: 1.2;
+            line-height: var(--line-height-heading);
             margin: 0;
             max-width: var(--measure-wrapper);
             margin-inline: auto;
@@ -1043,7 +1046,7 @@
         .hero__title {
             font-size: var(--text-display);
             font-weight: var(--weight-bold);
-            line-height: 1.1;
+            line-height: var(--line-height-tight);
             margin: 0 0 var(--space-md);
         }
         .hero__title-or-die {
@@ -1054,7 +1057,7 @@
             font-size: var(--text-md);
             font-weight: var(--weight-semibold);
             color: var(--color-text-secondary);
-            line-height: 1.2;
+            line-height: var(--line-height-heading);
             margin: 0 auto var(--space-lg);
             max-width: 38rem;
         }
@@ -1254,7 +1257,7 @@
             align-items: center;
             justify-content: center;
             gap: 2px;
-            color: #333;
+            color: var(--color-text-primary);
         }
         .compare__circle svg {
             width: 14px;
@@ -1339,7 +1342,7 @@
             font-size: var(--text-md);
             font-weight: var(--weight-semibold);
             color: var(--color-text-secondary);
-            line-height: 1.2;
+            line-height: var(--line-height-heading);
             margin: 0;
         }
         .dialog__principles {
@@ -1352,14 +1355,14 @@
         .dialog__principle__title {
             font-size: var(--text-lg);
             font-weight: var(--weight-bold);
-            line-height: 1.2;
+            line-height: var(--line-height-heading);
             margin: 0 0 var(--space-xs);
         }
         .dialog__principle__body {
             font-size: var(--text-md);
             font-weight: var(--weight-semibold);
             color: var(--color-text-secondary);
-            line-height: 1.2;
+            line-height: var(--line-height-heading);
             margin: 0;
         }
 
@@ -1432,7 +1435,7 @@
         }
         .site-footer__logo {
             color: var(--color-text-primary);
-            font-size: 1.0625rem;
+            font-size: var(--text-nav);
             font-weight: var(--weight-semibold);
         }
         .site-footer__logo:hover { color: var(--color-text-primary); }
@@ -1667,7 +1670,7 @@
             font-size: var(--text-md);
             font-weight: var(--weight-semibold);
             color: var(--color-text-secondary);
-            line-height: 1.2;
+            line-height: var(--line-height-heading);
         }
 
         @keyframes books-hero-book-in {
@@ -1755,13 +1758,13 @@
             font-weight: var(--weight-bold);
             color: var(--color-text-primary);
             margin: 0 0 var(--space-xs);
-            line-height: 1.1;
+            line-height: var(--line-height-tight);
         }
         .book-features__spec-body {
             font-size: var(--text-base);
             color: var(--color-text-secondary);
             margin: 0;
-            line-height: 1.3;
+            line-height: var(--line-height-snug);
         }
         .book-features__caption {
             text-align: center;
@@ -1835,13 +1838,13 @@
         .features-grid__tile-title {
             font-size: var(--text-lg);
             font-weight: var(--weight-bold);
-            line-height: 1.2;
+            line-height: var(--line-height-heading);
             margin: 0;
         }
         .features-grid__tile-body {
             font-size: var(--text-base);
             color: var(--color-text-secondary);
-            line-height: 1.4;
+            line-height: var(--line-height-snug);
             margin: 0;
         }
         .features-grid__footer {
@@ -1852,13 +1855,13 @@
         .features-grid__footer-title {
             font-size: var(--text-xl);
             font-weight: var(--weight-bold);
-            line-height: 1.2;
+            line-height: var(--line-height-heading);
             margin: 0 0 var(--space-sm);
         }
         .features-grid__footer-body {
             font-size: var(--text-base);
             color: var(--color-text-secondary);
-            line-height: 1.4;
+            line-height: var(--line-height-snug);
             margin: 0 auto var(--space-sm);
             max-width: 32rem;
         }
@@ -1895,7 +1898,7 @@
         .buy__title {
             font-size: var(--text-xxl);
             font-weight: var(--weight-bold);
-            line-height: 1.1;
+            line-height: var(--line-height-tight);
             margin: 0 0 var(--space-sm);
         }
         .buy__price {
@@ -1938,7 +1941,7 @@
             font-size: var(--text-xl);
             font-weight: var(--weight-bold);
             color: var(--color-text-secondary);
-            line-height: 1.2;
+            line-height: var(--line-height-heading);
             margin: 0 0 var(--space-md);
         }
         .buy__options-title strong {
@@ -1998,14 +2001,14 @@
             display: block;
             font-size: var(--text-md);
             font-weight: var(--weight-bold);
-            line-height: 1.2;
+            line-height: var(--line-height-heading);
             margin-bottom: 0.2rem;
         }
         .buy__option-detail {
             display: block;
             font-size: var(--text-sm);
             color: var(--color-text-secondary);
-            line-height: 1.3;
+            line-height: var(--line-height-snug);
         }
         .buy__option-price {
             font-size: var(--text-md);
@@ -2043,7 +2046,7 @@
         .order-summary__title {
             font-size: var(--text-xl);
             font-weight: var(--weight-bold);
-            line-height: 1.15;
+            line-height: var(--line-height-tight);
             margin: 0 0 var(--space-lg);
         }
         .order-summary__title-muted {
@@ -2063,20 +2066,20 @@
         .order-summary__product-name {
             font-size: var(--text-md);
             font-weight: var(--weight-bold);
-            line-height: 1.2;
+            line-height: var(--line-height-heading);
             margin: 0 0 var(--space-xs);
         }
         .order-summary__price {
             font-size: var(--text-md);
             font-weight: var(--weight-regular);
-            line-height: 1.2;
+            line-height: var(--line-height-heading);
             margin: 0;
         }
         .order-summary__payment-type {
             font-size: var(--text-md);
             font-weight: var(--weight-regular);
             color: var(--color-text-secondary);
-            line-height: 1.2;
+            line-height: var(--line-height-heading);
             margin: 0;
         }
 
@@ -2163,7 +2166,7 @@
         .order-summary__form-status {
             margin: var(--space-xs) 0 0;
             font-size: var(--text-sm);
-            line-height: 1.4;
+            line-height: var(--line-height-snug);
             display: none;
         }
         .order-summary__form-status[data-visible] {
@@ -2198,7 +2201,7 @@
             gap: var(--space-md);
             margin-bottom: var(--space-lg);
             font-size: var(--text-sm);
-            line-height: 1.5;
+            line-height: var(--line-height-base);
         }
         .order-summary__shipping-row {
             display: flex;
@@ -2305,7 +2308,7 @@
         .zip-dialog__title {
             font-size: var(--text-xl);
             font-weight: var(--weight-bold);
-            line-height: 1.2;
+            line-height: var(--line-height-heading);
             text-align: center;
             margin: 0 0 var(--space-xs);
         }
