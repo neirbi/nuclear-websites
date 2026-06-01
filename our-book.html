@@ -1706,6 +1706,81 @@
            middle, three spec callouts on the right, body
            caption below. Stacks on mobile.
            =========================================== */
+        /* ===========================================
+           PRAISE — back-of-book testimonials + star rating.
+           Three quote tiles in a 3-col grid (single col under 48em),
+           rating row below centered. All sizes/colors use existing
+           tokens; the rating bar overlays a filled star strip on top
+           of a dimmed track, clipped to --praise-fill width.
+           =========================================== */
+        .praise {
+            padding-block: var(--space-xl);
+            background-color: var(--color-bg-primary);
+        }
+        .praise__head {
+            max-width: 56rem;
+            margin: 0 auto var(--space-xl);
+            text-align: center;
+        }
+        .praise__quotes {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-lg);
+        }
+        .praise__quote {
+            text-align: center;
+        }
+        .praise__quote-text {
+            font-size: var(--text-md);
+            font-weight: var(--weight-regular);
+            color: var(--color-text-primary);
+            line-height: 1.4;
+            margin: 0 0 var(--space-sm);
+        }
+        .praise__quote-author {
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+            margin: 0;
+        }
+        .praise__rating {
+            text-align: center;
+            margin-top: var(--space-xl);
+        }
+        .praise__stars {
+            position: relative;
+            display: inline-flex;
+            font-size: var(--text-lg);
+            line-height: 1;
+        }
+        .praise__stars-track,
+        .praise__stars-fill {
+            display: flex;
+            gap: var(--space-xs);
+        }
+        .praise__stars-track { color: var(--color-border-subtle); }
+        .praise__stars-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: var(--praise-fill, 100%);
+            overflow: hidden;
+            color: var(--color-text-primary);
+        }
+        .praise__stars-fill > span { flex-shrink: 0; }
+        .praise__rating-text {
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+            margin: var(--space-xs) 0 0;
+        }
+        @media (max-width: 47.99em) {
+            .praise__quotes {
+                grid-template-columns: 1fr;
+            }
+        }
+
         .book-features {
             /* Same off-grey strip as the support page (.support-cards) —
                --color-bg-surface separates this section from the dark
@@ -2738,6 +2813,40 @@
                 <div class="books-hero__cta">
                     <a class="btn-pill btn-pill--filled" href="/our-book#order">Buy</a>
                     <p class="books-hero__price">From $25 to $30</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="praise" class="praise" aria-labelledby="praise-title">
+            <div class="container">
+                <div class="praise__head">
+                    <p class="section__eyebrow">Praise</p>
+                    <h2 id="praise-title" class="section__title">Loved by readers.</h2>
+                </div>
+                <ul class="praise__quotes">
+                    <li class="praise__quote">
+                        <p class="praise__quote-text">&ldquo;Best book I&rsquo;ve read on web design in years. Required reading.&rdquo;</p>
+                        <p class="praise__quote-author">&mdash; Person A</p>
+                    </li>
+                    <li class="praise__quote">
+                        <p class="praise__quote-text">&ldquo;Doubled my landing page conversions in a week. Worth ten times the price.&rdquo;</p>
+                        <p class="praise__quote-author">&mdash; Person B</p>
+                    </li>
+                    <li class="praise__quote">
+                        <p class="praise__quote-text">&ldquo;Finally a book that treats design and revenue as the same conversation.&rdquo;</p>
+                        <p class="praise__quote-author">&mdash; Person C</p>
+                    </li>
+                </ul>
+                <div class="praise__rating">
+                    <div class="praise__stars" style="--praise-fill: 98%" aria-hidden="true">
+                        <div class="praise__stars-track">
+                            <span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span>
+                        </div>
+                        <div class="praise__stars-fill">
+                            <span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span>
+                        </div>
+                    </div>
+                    <p class="praise__rating-text">4.9 stars out of 2,623 reviews</p>
                 </div>
             </div>
         </section>
