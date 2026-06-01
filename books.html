@@ -3002,6 +3002,10 @@
             // --- Drop your worker URLs here when they're live. -------
             const VALIDATOR_URL = 'https://nuclear-websites-email-validator.throbbing-sun-378c.workers.dev/';
             const WAITLIST_WEBHOOK = 'https://hooks.zapier.com/hooks/catch/27288191/4bmwix9/';
+            // Flip to true once the webhook is wired up + CORS-tested.
+            // Until then, a 'valid' email from the validator goes
+            // straight to the success state and skips the POST.
+            const WEBHOOK_ENABLED = false;
             // ---------------------------------------------------------
 
             const form = document.querySelector('.order-summary__actions');
@@ -3071,13 +3075,17 @@
 
                     // Step 3: webhook records the signup (with the cover
                     // they picked so you know which book they want).
-                    const w = await fetch(WAITLIST_WEBHOOK, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ email: value, cover }),
-                        signal,
-                    });
-                    if (!w.ok) throw new Error('webhook status ' + w.status);
+                    // Gated by WEBHOOK_ENABLED so the success path works
+                    // before the webhook is wired up / CORS-confirmed.
+                    if (WEBHOOK_ENABLED) {
+                        const w = await fetch(WAITLIST_WEBHOOK, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ email: value, cover }),
+                            signal,
+                        });
+                        if (!w.ok) throw new Error('webhook status ' + w.status);
+                    }
 
                     try { localStorage.setItem(CACHE_KEY, JSON.stringify({ email: value })); } catch {}
                     showStatus('success');
